@@ -1,0 +1,5 @@
+<view class="occupy" style="height:calc( {{tabbarMargin + tabbarHeight + 'px'}} + 24rpx );background-color: {{backgroundColor}};">
+  <view class="header" style="padding-top: {{tabbarMargin + 'px'}};height: calc(100% - {{tabbarMargin + 'px'}});">
+    <slot></slot>
+  </view>
+</view>

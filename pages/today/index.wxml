@@ -1,0 +1,34 @@
+<!--pages/today/index.wxml-->
+<!-- <header classTitle="center" classColor="true" isBack="true" backgroundColor="#ragb(0,0,0,0)">今日</header> -->
+<customheader backgroundColor="ragb(0,0,0,0)">
+	<view class="tabs">
+		<view wx:for="{{tabsList}}" wx:key="index" bind:tap="changeTabs" data-id="{{item.id}}">
+			<view class="{{activeIndex == item.id ? 'activeTabs':''}}">{{item.title}}</view>
+		</view>
+	</view>
+</customheader>
+<!-- <swiper 
+  class="swiper-container" 
+  current="{{activeIndex}}" 
+  bindchange="handleSwiper">
+  
+  <swiper-item>
+    <view class="swiper-item">第一个组件内容</view>
+  </swiper-item>
+</swiper> -->
+<Almanac wx:if="{{activeIndex == 0}}" bind:switchTab="handleSwitchTab"></Almanac>
+<Todo wx:if="{{activeIndex == 1}}"></Todo>
+<Countdown wx:if="{{activeIndex == 2}}"></Countdown>
+
+<view class="login-mask" wx:if="{{LoginModal}}">
+	<view class="login-modal">
+		<view class="login-content">
+			<view class="title">登录提示</view>
+			<view class="desc">请登录后继续操作</view>
+			<view class="btn-group">
+				<view class="btn cancel" bind:tap="Notauthorized">取消</view>
+				<view class="btn confirm" bind:tap="toLogin">登录</view>
+			</view>
+		</view>
+	</view>
+</view>

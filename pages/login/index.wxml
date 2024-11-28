@@ -1,0 +1,28 @@
+<!--pages/login/index.wxml-->
+<view style="padding-top: {{tabbarRealHeight  + 'px'}}; max-height: calc(100vh - {{tabbarRealHeight  + 'px'}}); overflow-y: auto;padding-bottom: 20rpx;">
+	<view class="poetry-container">
+    <view class="line first {{line1Show ? 'show' : ''}}">
+      <view>{{text1}}</view>
+    </view>
+    <view class="line second {{line2Show ? 'show' : ''}}">
+      <view>{{text2}}</view>
+    </view>
+  </view>
+  <view class="loginBtnSum" wx:if="{{!isAccountLogin}}">
+    <view class="wx-login-btn" bind:tap="wxLogin">微信登录</view>
+		<view class="otherlogin" bind:tap="changeLogin">传统登录</view>
+  </view>
+  <view class="account" wx:if="{{isAccountLogin}}">
+    <view class="account-title">账号</view>
+    <view class="account-input">
+      <input type="text" value="{{phone}}" bindinput="phoneChange" placeholder-class="placeholderClass" placeholder="请输入账号" />
+    </view>
+    <view class="account-title" style="margin-top: 30rpx;">密码</view>
+    <view class="account-input">
+      <input type="text" value="{{password}}" bindinput="passwordChange" placeholder-class="placeholderClass" placeholder="请输入密码" />
+    </view>
+		<view class="otherlogin" bind:tap="changeLogin" wx:if="{{!isBindPhone}}">返回微信登录</view>
+    <view class="wx-login-btn" style="margin-top: 40rpx;" bind:tap="accountLogin">继续</view>
+
+  </view>
+</view>

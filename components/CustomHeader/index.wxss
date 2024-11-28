@@ -1,0 +1,7 @@
+.occupy {
+  width: 100%;
+  z-index: 999;
+  display: block;
+  position: fixed;
+  top: 0;
+}

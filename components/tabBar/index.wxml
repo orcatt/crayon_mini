@@ -1,0 +1,8 @@
+<view class="tabbar">
+  <view class="tabbarList" wx:for="{{list}}" wx:key="index" bindtap="currentClick" data-path="{{item.path}}" data-index="{{item.id}}">
+    <view class="{{current===item.id?'Tabberactive':''}}">
+      <image src="{{current===item.id?item.selectedIcon:item.icon}}" />
+      <!-- <view>{{item.title}}</view> -->
+    </view>
+  </view>
+</view>

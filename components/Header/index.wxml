@@ -1,0 +1,18 @@
+
+<view class="occupy" style="height:calc( {{tabbarMargin + tabbarHeight + 'px'}} + 24rpx );background-color: {{backgroundColor}};">
+  <view class="header" style="padding-top: {{tabbarMargin + 'px'}};">
+    <!-- 返回按钮 -->
+    <image src="/static/header/{{classColor?'backblack':'backwhite'}}.png" 
+      class="back" 
+      style="margin-top: calc({{(tabbarHeight - 28) + 'rpx'}});" 
+      wx:if="{{isBack}}" 
+      bindtap="back"
+    />
+    <!-- 文字标题 -->
+    <text class="{{ classTitle }}" 
+      style="height: calc( {{ tabbarHeight + 'px' }} + 24rpx );line-height: {{tabbarHeight + 'px'}};color: {{classColor?'#333':'#fff'}};"
+    >
+      <slot></slot>
+    </text>
+  </view>
+</view>

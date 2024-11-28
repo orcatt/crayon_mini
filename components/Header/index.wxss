@@ -1,0 +1,32 @@
+.occupy {
+  width: 100%;
+  z-index: 999;
+  display: block;
+  position: fixed;
+  top: 0;
+}
+
+.header .left{
+  display: block;
+  text-align: left;
+  font-size: 32rpx;
+  color: #fff;
+  margin-left: 80rpx;
+  font-weight: bold;
+}
+.header .center{
+  display: block;
+  text-align: center;
+  font-size: 32rpx;
+  color: #fff;
+  font-weight: bold;
+}
+
+.back{
+  width: 18rpx;
+  height: 34rpx;
+  position: absolute;
+  z-index: 2;
+  left: 12rpx;
+  padding: 12rpx 20rpx;
+}

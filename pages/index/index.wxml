@@ -1,0 +1,8 @@
+<view>
+	
+  <Today wx:if="{{current===1}}"></Today>
+	<Vip wx:if="{{current===2}}"></Vip>
+	<Shop wx:if="{{current===4}}"></Shop>
+  <My wx:if="{{current===5}}"></My>
+  <TabBar bindcurrentShow="currentClick"></TabBar>
+</view>
