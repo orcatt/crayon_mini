@@ -63,27 +63,22 @@
 				friction="5"
 				out-of-bounds="{{true}}"
 				inertia="{{false}}"
-				bindchange="handleMovableChange" 
+				bindchange="handleTodoMovableChange" 
 				data-index="{{index}}"
 			>
 				<view class="todoItem {{item.done == 1 ? 'done' : ''}}">
 					<view class="todoItemDone">
 						<view wx:if="{{item.done == 1}}"></view>
 					</view>
-					<view class="todoItemContent" bind:tap="closeDrawer" data-index="{{index}}">
+					<view class="todoItemContent" bind:tap="closeTodoMovable" data-index="{{index}}">
 						<view>{{item.title}}</view>
 						<view wx:if="{{item.description}}">{{item.description}}</view>
 					</view>
-					<view class="todoItemTime">
-						<view class="todoItemAlert" wx:if="{{item.alert == 1}}">
-							<image src="{{item.done == 1 ? '/static/image/noticedone.png' : '/static/image/notice.png'}}" ></image>
-						</view>
-						<view class="todoItemTimeText">{{item.time}}</view>
-					</view>
+					<view class="todoItemTime">{{item.time}}</view>
 				</view>
 				<view class="todoItem-buttons">
-					<view class="todoItem-done" bindtap="handleDone" data-id="{{item.id}}" data-done="{{item.done}}">完成</view>
-					<view class="todoItem-delete" bindtap="handleDelete" data-id="{{item.id}}">删除</view>
+					<view class="todoItem-done" bindtap="handleTodoDone" data-id="{{item.id}}" data-done="{{item.done}}">完成</view>
+					<view class="todoItem-delete" bindtap="handleTodoDelete" data-id="{{item.id}}">删除</view>
 				</view>
 			</movable-view>
 		</movable-area>

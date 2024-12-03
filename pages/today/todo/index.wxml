@@ -3,7 +3,7 @@
 	<view class="modetitle">
 		<view class="top">待办</view>
 		<view class="bottom">{{todoData.length > 0 ? '看看今天有啥要做的' : '看来今天并没有什么事儿做'}}</view>
-		<view class="opt" bind:tap="addTodo">
+		<view class="opt" bind:tap="prepareAddTodo">
 			<image src="/static/image/add.png"></image>
 		</view>
 	</view>
@@ -16,27 +16,22 @@
 				friction="5"
 				out-of-bounds="{{true}}"
 				inertia="{{false}}"
-				bindchange="handleMovableChange" 
+				bindchange="handleTodoMovableChange" 
 				data-index="{{index}}"
 			>
 				<view class="todoItem {{item.done == 1 ? 'done' : ''}}">
 					<view class="todoItemDone">
 						<view wx:if="{{item.done == 1}}"></view>
 					</view>
-					<view class="todoItemContent" bind:tap="closeDrawer" data-index="{{index}}">
+					<view class="todoItemContent" bind:tap="closeTodoMovable" data-index="{{index}}">
 						<view>{{item.title}}</view>
 						<view wx:if="{{item.description}}">{{item.description}}</view>
 					</view>
-					<view class="todoItemTime">
-						<view class="todoItemAlert" wx:if="{{item.alert == 1}}">
-							<image src="{{item.done == 1 ? '/static/image/noticedone.png' : '/static/image/notice.png'}}" ></image>
-						</view>
-						<view class="todoItemTimeText">{{item.time}}</view>
-					</view>
+					<view class="todoItemTime">{{item.time}}</view>
 				</view>
 				<view class="todoItem-buttons">
-					<view class="todoItem-done" bindtap="handleDone" data-id="{{item.id}}" data-done="{{item.done}}">完成</view>
-					<view class="todoItem-delete" bindtap="handleDelete" data-id="{{item.id}}">删除</view>
+					<view class="todoItem-done" bindtap="handleTodoDone" data-id="{{item.id}}" data-done="{{item.done}}">完成</view>
+					<view class="todoItem-delete" bindtap="handleTodoDelete" data-id="{{item.id}}">删除</view>
 				</view>
 			</movable-view>
 		</movable-area>
@@ -44,7 +39,7 @@
 	<view class="modetitle">
 		<view class="top">备忘</view>
 		<view class="bottom">{{todoData.length > 0 ? '看看之前记了哪些' : '记得随时记录'}}</view>
-		<view class="opt" bind:tap="addMemos">
+		<view class="opt" bind:tap="prepareAddMemos">
 			<image src="/static/image/add.png"></image>
 		</view>
 	</view>
@@ -57,25 +52,28 @@
 				friction="5"
 				out-of-bounds="{{true}}"
 				inertia="{{false}}"
-				bindchange="handleMovableChange" 
+				bindchange="handleMemosMovableChange" 
 				data-index="{{index}}"
 			>
-				<view class="todoItem">
-          {{item.title}}
+				<view class="todoItem" bindtap="closeMemosMovable">
+          <view class="memoItemContent" bind:tap="closeTodoMovable" data-index="{{index}}" style="width: 100%;">
+						<view>{{item.title}}</view>
+						<view>{{item.description || '无附加文本'}}</view>
+					</view>
 				</view>
 				<view class="todoItem-buttons">
-					<view class="todoItem-done" bindtap="handleDone" data-id="{{item.id}}" data-done="{{item.done}}">完成</view>
-					<view class="todoItem-delete" bindtap="handleDelete" data-id="{{item.id}}">删除</view>
+					<view class="todoItem-done" bindtap="handleMemosModify" data-index="{{index}}">修改</view>
+					<view class="todoItem-delete" bindtap="handleMemosDelete" data-id="{{item.id}}">删除</view>
 				</view>
 			</movable-view>
 		</movable-area>
 	</view>
 </view>
-<view class="drawer-mask" wx:if="{{showMaskDrawer}}" bindtap="closeMaskDrawer"></view>
+<view class="drawer-mask" wx:if="{{showMaskDrawer}}" bindtap="closeTodoMaskDrawer"></view>
 <view class="drawer {{showMaskDrawer ? 'drawer-show' : ''}}">
   <view class="drawer-header">
     <view class="drawer-title">新建待办</view>
-    <view class="drawer-close" bindtap="closeMaskDrawer">×</view>
+    <view class="drawer-close" bindtap="closeTodoMaskDrawer">×</view>
   </view>
   
   <view class="drawer-content">
@@ -124,8 +122,68 @@
     </view>
 
     <view class="btn-group">
-      <view class="wx-login-btn" bindtap="submitForm">保存</view>
-      <view class="otherlogin" bindtap="closeMaskDrawer">取消</view>
+      <view class="wx-login-btn" bindtap="submitTodoForm">保存</view>
+      <view class="otherlogin" bindtap="closeTodoMaskDrawer">取消</view>
+    </view>
+  </view>
+</view>
+<view class="drawer-mask" wx:if="{{showMemosMaskDrawer}}" bindtap="closeMemosMaskDrawer"></view>
+<view class="drawer {{showMemosMaskDrawer ? 'drawer-show' : ''}}">
+  <view class="drawer-header">
+    <view class="drawer-title">新建备忘</view>
+    <view class="drawer-close" bindtap="closeMemosMaskDrawer">×</view>
+  </view>
+  
+  <view class="drawer-content">
+    <view class="form-group">
+      <view class="account-title">标题<text class="required">*</text></view>
+      <view class="account-input">
+        <input type="text" value="{{memosFormData.title}}" bindinput="handleMemosTitleInput" placeholder-class="placeholderClass" placeholder="请输入备忘标题" />
+      </view>
+      <view class="date-time-group">
+        <view class="date-item">
+          <view class="account-title">日期<text class="required">*</text></view>
+          <view class="account-input">
+            <picker mode="date" value="{{memosFormData.date}}" bindchange="memosDateChange">
+              <view class="{{memosFormData.date ? '' : 'placeholderClass'}}">{{memosFormData.date || '请选择日期'}}</view>
+            </picker>
+          </view>
+        </view>
+        <view class="time-item">
+          <view class="account-title">时间<text class="required">*</text></view>
+          <view class="account-input">
+            <picker mode="time" value="{{memosFormData.time}}" bindchange="memosTimeChange">
+              <view class="{{memosFormData.time ? '' : 'placeholderClass'}}">{{memosFormData.time || '请选择时间'}}</view>
+            </picker>
+          </view>
+        </view>
+      </view>
+      <view class="account-title">内容<text class="required">*</text></view>
+      <view class="editor-container">
+        <view class='toolbar' bindtap="format">
+          <i class="iconfont icon-zitijiacu {{formats.bold ? 'ql-active' : ''}}" data-name="bold"></i>
+          <i class="iconfont icon-zitixieti {{formats.italic ? 'ql-active' : ''}}" data-name="italic"></i>
+          <i class="iconfont icon-zitixiahuaxian {{formats.underline ? 'ql-active' : ''}}" data-name="underline"></i>
+          <i class="iconfont icon-zitishanchuxian {{formats.strike ? 'ql-active' : ''}}" data-name="strike"></i>
+          <i class="iconfont icon-zuoduiqi {{formats.align === 'left' ? 'ql-active' : ''}}" data-name="align" data-value="left"></i>
+          <i class="iconfont icon-juzhongduiqi {{formats.align === 'center' ? 'ql-active' : ''}}" data-name="align" data-value="center"></i>
+          <i class="iconfont icon-youduiqi {{formats.align === 'right' ? 'ql-active' : ''}}" data-name="align" data-value="right"></i>
+          <i class="iconfont icon-zuoyouduiqi {{formats.align === 'justify' ? 'ql-active' : ''}}" data-name="align" data-value="justify"></i>
+          <i class="iconfont icon-youxupailie {{formats.list === 'ordered' ? 'ql-active' : ''}}" data-name="list" data-value="ordered"></i>
+          <i class="iconfont icon-wuxupailie {{formats.list === 'bullet' ? 'ql-active' : ''}}" data-name="list" data-value="bullet"></i>
+          <i class="iconfont icon-outdent" data-name="indent" data-value="-1"></i>
+          <i class="iconfont icon-indent" data-name="indent" data-value="+1"></i>
+          <i class="iconfont icon-format-header-1 {{formats.header === 1 ? 'ql-active' : ''}}" data-name="header" data-value="{{1}}"></i>
+          <i class="iconfont icon-format-header-2 {{formats.header === 2 ? 'ql-active' : ''}}" data-name="header" data-value="{{2}}"></i>
+          <i class="iconfont icon-format-header-3 {{formats.header === 3 ? 'ql-active' : ''}}" data-name="header" data-value="{{3}}"></i>
+        </view>
+        <editor id="editor" value="{{memosFormData.content}}" bindinput="handleMemosContentInput" placeholder="看看有什么值得记录的？" bindstatuschange="onStatusChange" bindready="onEditorReady"></editor>
+      </view>
+    </view>
+
+    <view class="btn-group">
+      <view class="wx-login-btn" bindtap="submitMemosForm">保存</view>
+      <view class="otherlogin" bindtap="closeMemosMaskDrawer">取消</view>
     </view>
   </view>
 </view>

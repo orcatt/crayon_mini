@@ -31,7 +31,6 @@ Component({
 				method: 'GET',
 				success: function (res) {
 					if (res.code == 200) {
-						console.log(res.data);
 						let listData = res.data;
 						listData.lunardate = listData.lunardate.split('-')
 						listData.lunardateMonth = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'][listData.lunardate[1]] + '月'
@@ -53,7 +52,6 @@ Component({
 						that.setData({
 							cardData: listData
 						})
-						console.log(that.data.cardData);
 
 					} else {
 						wx.showToast({
@@ -126,7 +124,7 @@ Component({
 				});
 			}
 		},
-		closeDrawer(e) {
+		closeTodoMovable(e) {
 			var that = this;	
 			let todoData = [...that.data.todoData];
 			todoData.forEach((item, idx) => {
@@ -136,10 +134,11 @@ Component({
 				todoData: todoData
 			});
 		},
-		handleDone(e) {
+		// 完成待办
+		handleTodoDone(e) {
 			const that = this;
 			if(e.currentTarget.dataset.done == 1){
-				that.closeDrawer()
+				that.closeTodoMovable()
 				return;
 			}
 
@@ -152,7 +151,13 @@ Component({
 				params: postData,
 				success: (res) => {
 					if (res.code === 200) {
-						that.getTodoData();
+						wx.showToast({
+							title: '完成',
+							icon: 'success'
+						});
+						setTimeout(() => {
+							that.getTodoData();
+						}, 1000);
 					} else {
 						wx.showToast({
 							title: res.message,
@@ -162,8 +167,8 @@ Component({
 				}
 			});
 		},
-		// 处理删除
-		handleDelete(e) {
+		// 删除待办
+		handleTodoDelete(e) {
 			const that = this;
 			const id = e.currentTarget.dataset.id;
 			let postData = {

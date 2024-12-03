@@ -335,19 +335,6 @@
 .todoItemTime{
   width: 140rpx;
   text-align: center;
-}
-
-.todoItemAlert{
-  width: 40rpx;
-  height: 40rpx;
-  margin: 0 auto 12rpx auto;
-}
-.todoItemAlert>image{
-  width: 100%;
-  height: 100%;
-}
-.todoItemTimeText{
-  text-align: center;
   font-size: 32rpx;
   font-family: 'DouyinSansBold';
 }
