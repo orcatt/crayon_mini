@@ -130,7 +130,7 @@
 <view class="drawer-mask" wx:if="{{showMemosMaskDrawer}}" bindtap="closeMemosMaskDrawer"></view>
 <view class="drawer {{showMemosMaskDrawer ? 'drawer-show' : ''}}">
   <view class="drawer-header">
-    <view class="drawer-title">新建备忘</view>
+    <view class="drawer-title">{{memosModifyStatus ? '修改备忘' : '新建备忘'}}</view>
     <view class="drawer-close" bindtap="closeMemosMaskDrawer">×</view>
   </view>
   

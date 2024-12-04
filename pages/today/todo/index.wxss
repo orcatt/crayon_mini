@@ -6,6 +6,7 @@
 	margin: auto;
 	padding: 10rpx 0;
 	overflow-y: auto;
+  overflow-x: hidden;
 }
 .modetitle{
   font-family: 'DouyinSansBold';

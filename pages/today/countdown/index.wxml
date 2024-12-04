@@ -1,97 +1,141 @@
 <!--pages/today/index.wxml-->
 <view class="mode" style="margin-top: {{tabbarRealHeight  + 'px'}}; height: calc(100vh - {{tabbarRealHeight +90 + 'px'}});">
-	<view class="modetitle">
+
+  <view class="modetitle">
 		<view class="top">倒数</view>
-		<view class="bottom">{{todoData.length > 0 ? '好事即将发生' : '还没有倒数日'}}</view>
-		<view class="opt" bind:tap="addTodo">
+		<view class="bottom">{{countdownData.length > 0 ? '好事即将发生' : '还没有倒数日'}}</view>
+		<view class="opt" bind:tap="addCountdown">
 			<image src="/static/image/add.png"></image>
 		</view>
 	</view>
 	<view class="todo">
-		<movable-area class="todoItem-wrapper" wx:for="{{todoData}}" wx:key="index">
-			<movable-view class="todoItem-content" 
-				direction="horizontal" 
-				x="{{item.x}}"
-				damping="20"
-				friction="5"
-				out-of-bounds="{{true}}"
-				inertia="{{false}}"
-				bindchange="handleMovableChange" 
-				data-index="{{index}}"
-			>
-				<view class="todoItem {{item.done == 1 ? 'done' : ''}}">
-					
-				</view>
-				<view class="todoItem-buttons">
-					<view class="todoItem-done" bindtap="handleDone" data-id="{{item.id}}" data-done="{{item.done}}">完成</view>
-					<view class="todoItem-delete" bindtap="handleDelete" data-id="{{item.id}}">删除</view>
-				</view>
-			</movable-view>
-		</movable-area>
-	</view>
-	<view class="modetitle">
-		<view class="top">持续</view>
-		<view class="bottom">{{todoData.length > 0 ? '我也曾进行时' : '还没有开始'}}</view>
-		<view class="opt" bind:tap="addTodo">
-			<image src="/static/image/add.png"></image>
-		</view>
+    <block wx:for="{{countdownData}}" wx:key="index">
+      <view class="pinned" wx:if="{{index === 0}}" bindtap="handleCdModify" data-index="{{index}}">
+        <view class="pinned-left">
+          <view class="pinned-title"> 
+            <text>{{item.title}}</text>
+            <text>{{item.timeInfo.des}}</text>
+          </view>
+          <view class="pinned-date">目标日：{{item.calendar_type === 'lunar' ? item.lunar_date : item.gregorian_date}}</view>
+        </view>
+        <view class="pinned-right">
+          <view>{{item.timeInfo.diffDays}}</view>
+          <view>Days</view>
+        </view>
+      </view>
+      <movable-area class="todoItem-wrapper" wx:if="{{index > 0}}">
+        <movable-view class="todoItem-content" 
+          direction="horizontal" 
+          x="{{item.x}}"
+          damping="20"
+          friction="5"
+          out-of-bounds="{{true}}"
+          inertia="{{false}}"
+          bindchange="handleCdMovableChange" 
+          data-index="{{index}}"
+        >
+          <view class="todoItem" bindtap="closeCdMovable">
+            <view class="todoItem-title">
+              <text>{{item.title}}</text>
+              <text>{{item.timeInfo.des}}</text>
+            </view>
+            <view class="todoItem-date"><text>{{item.timeInfo.diffDays}}</text>天</view>
+          </view>
+          <view class="todoItem-buttons">
+            <view class="todoItem-done" bindtap="handleCdModify" data-index="{{index}}">修改</view>
+            <view class="todoItem-delete" bindtap="handleCdDelete" data-id="{{item.id}}">删除</view>
+          </view>
+        </movable-view>
+      </movable-area>
+    </block>
+		
 	</view>
 </view>
-<view class="drawer-mask" wx:if="{{showMaskDrawer}}" bindtap="closeMaskDrawer"></view>
+<view class="drawer-mask" wx:if="{{showMaskDrawer}}" bindtap="closeCdMaskDrawer"></view>
 <view class="drawer {{showMaskDrawer ? 'drawer-show' : ''}}">
   <view class="drawer-header">
-    <view class="drawer-title">新建待办</view>
-    <view class="drawer-close" bindtap="closeDrawer">×</view>
+    <view class="drawer-title">{{countdownModifyStatus ? '修改倒数日' : '新建倒数日'}}</view>
+    <view class="drawer-close" bindtap="closeCdMaskDrawer">×</view>
   </view>
   
   <view class="drawer-content">
     <view class="form-group">
       <view class="account-title">标题<text class="required">*</text></view>
       <view class="account-input">
-        <input type="text" value="{{formData.title}}" bindinput="handleTitleInput" placeholder-class="placeholderClass" placeholder="请输入待办标题" />
+        <input type="text" value="{{formData.title}}" bindinput="handleTitleInput" placeholder-class="placeholderClass" placeholder="请输入倒数日标题" />
       </view>
+      <view class="option-item">
+        <text>日期类型</text>
+        <switch checked="{{formData.calendar_type === 'gregorian'}}" bindchange="handleCalendarTypeChange" color="#18181B"/>
+      </view>
+      <block wx:if="{{formData.calendar_type === 'gregorian'}}">
+        <view class="account-title">公历日期<text class="required">*</text></view>
+        <view class="account-input">
+          <picker mode="date" value="{{formData.gregorian_date}}" bindchange="handleGregorianDateChange">
+            <view class="{{formData.gregorian_date ? '' : 'placeholderClass'}}">
+              {{formData.gregorian_date || '请选择日期'}}
+            </view>
+          </picker>
+        </view>
+      </block>
 
-      <view class="date-time-group">
-        <view class="date-item">
-          <view class="account-title">日期<text class="required">*</text></view>
+      <block wx:else>
+        <view class="account-title">农历日期<text class="required">*</text></view>
+        <view class="account-input" bindtap="showLunarPicker">
+          <view class="{{formData.lunar_date ? '' : 'placeholderClass'}}">
+            {{formData.lunar_date || '请选择日期'}}
+          </view>
+          
+        </view>
+      </block>
+
+      <view class="options-group">
+        <view class="option-item">
+          <text>置顶</text>
+          <switch checked="{{formData.is_pinned}}" bindchange="handlePinnedChange" color="#18181B"/>
+        </view>
+
+        <view class="option-item">
+          <text>提醒</text>
+          <switch checked="{{formData.is_reminder}}" bindchange="handleReminderChange" color="#18181B"/>
+        </view>
+
+        <block wx:if="{{formData.is_reminder}}">
+          <view class="account-title">提醒频率</view>
           <view class="account-input">
-            <picker mode="date" value="{{formData.date}}" bindchange="dateChange">
-              <view class="{{formData.date ? '' : 'placeholderClass'}}">{{formData.date || '请选择日期'}}</view>
+            <picker mode="selector" range="{{frequency}}" range-key="title" value="{{formData.reminder_frequency}}" bindchange="handleReminderFrequencyChange">
+              <view class="{{formData.reminder_frequency ? '' : 'placeholderClass'}}">
+                {{formData.reminder_frequencyTitle || '请选择提醒频率'}}
+              </view>
             </picker>
           </view>
+        </block>
+
+        <view class="option-item">
+          <text>重复</text>
+          <switch checked="{{formData.is_repeating}}" bindchange="handleRepeatingChange" color="#18181B"/>
         </view>
 
-        <view class="time-item">
-          <view class="account-title">时间<text class="required">*</text></view>
+        <block wx:if="{{formData.is_repeating}}">
+          <view class="account-title">重复频率</view>
           <view class="account-input">
-            <picker mode="time" value="{{formData.time}}" bindchange="timeChange" fields="minute">
-              <view class="{{formData.time ? '' : 'placeholderClass'}}">{{formData.time ? formData.time + ':00' : '请选择时间'}}</view>
+            <picker mode="selector" range="{{frequency}}" range-key="title" value="{{formData.repeat_frequency}}" bindchange="handleRepeatFrequencyChange">
+              <view class="{{formData.repeat_frequency ? '' : 'placeholderClass'}}">
+                {{formData.repeat_frequencyTitle || '请选择重复频率'}}
+              </view>
             </picker>
           </view>
-        </view>
-
-        <view class="alert-item">
-          <view class="account-title">提醒<text class="required">*</text></view>
-          <view class="alert-switch">
-            <switch checked="{{formData.alert === 1}}" bindchange="alertChange" color="#18181B"/>
-          </view>
-        </view>
-      </view>
-
-      <view class="account-title">标签</view>
-      <view class="account-input">
-        <input type="text" value="{{formData.category}}" bindinput="handleCategoryInput" placeholder-class="placeholderClass" placeholder="请输入标签" />
-      </view>
-
-      <view class="account-title">描述</view>
-      <view class="account-input textarea-container">
-        <textarea value="{{formData.description}}" bindinput="handleDescriptionInput" placeholder-class="placeholderClass" placeholder="请输入待办描述" />
+        </block>
       </view>
     </view>
 
     <view class="btn-group">
       <view class="wx-login-btn" bindtap="submitForm">保存</view>
-      <view class="otherlogin" bindtap="closeDrawer">取消</view>
+      <view class="otherlogin" bindtap="handleCdDelete" data-id="{{formData.id}}">删除</view>
     </view>
   </view>
 </view>
+
+<lunar-picker show="{{lunarPickerStatus}}" bindconfirm="handleLunarDateChange" value="{{ pickedLunarDate }}">
+  <view>{{ pickedLunarDate }}</view>
+</lunar-picker>
