@@ -55,8 +55,8 @@
 				bindchange="handleMemosMovableChange" 
 				data-index="{{index}}"
 			>
-				<view class="todoItem" bindtap="closeMemosMovable">
-          <view class="memoItemContent" bind:tap="closeTodoMovable" data-index="{{index}}" style="width: 100%;">
+				<view class="todoItem" bindtap="closeMemosMovable" data-index="{{index}}">
+          <view class="memoItemContent"  style="width: 100%;">
 						<view>{{item.title}}</view>
 						<view>{{item.description || '无附加文本'}}</view>
 					</view>
