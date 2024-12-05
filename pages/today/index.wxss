@@ -11,7 +11,7 @@
 
 .tabs>view {
   color: #666;
-  font-size: 30rpx;
+  font-size: 32rpx;
   letter-spacing: 2rpx;
   width: fit-content;
   padding: 0 30rpx;

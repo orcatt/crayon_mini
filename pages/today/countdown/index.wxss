@@ -3,7 +3,7 @@
 .mode {
 	width: 90%;
 	margin: auto;
-	padding: 10rpx 0;
+	padding: 20rpx 0;
 	overflow-y: auto;
   overflow-x: hidden;
 }
