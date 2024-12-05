@@ -3,6 +3,9 @@
 	<view class="modetitle">
 		<view class="top">黄历</view>
 		<view class="bottom">今日定是个良辰吉日</view>
+		<view class="opt" bind:tap="explain">
+			<image src="/static/image/almanac.png"></image>
+		</view>
 	</view>
 	<view class="card">
 		<view class="cardTop">
@@ -20,7 +23,9 @@
 					<view>{{cardData.chongsha}}</view>
 				</view>
 				<view class="leftLine4">
-					<view>{{cardData.taishen}}</view>
+					<view>{{cardData.wuxingnayear}}</view>
+					<view>{{cardData.wuxingnamonth}}</view>
+					<view>{{cardData.suisha}}</view>
 				</view>
 			</view>
 			<view class="cardRight">
@@ -46,41 +51,8 @@
 				</view>
 			</view>
 		</view>
-	</view>
-	<view class="modetitle">
-		<view class="top">待办</view>
-		<view class="bottom">{{todoData.length > 0 ? '看看今天有啥要做的' : '看来今天并没有什么事儿做'}}</view>
-		<view class="opt" bind:tap="goTodo">
-			<image src="/static/image/todo.png"></image>
+		<view class="cardfooter">
+			<view>{{cardData.taishen}}</view>
 		</view>
-	</view>
-	<view class="todo">
-		<movable-area class="todoItem-wrapper" wx:for="{{todoData}}" wx:key="index">
-			<movable-view class="todoItem-content" 
-				direction="horizontal" 
-				x="{{item.x}}"
-				damping="20"
-				friction="5"
-				out-of-bounds="{{true}}"
-				inertia="{{false}}"
-				bindchange="handleTodoMovableChange" 
-				data-index="{{index}}"
-			>
-				<view class="todoItem {{item.done == 1 ? 'done' : ''}}">
-					<view class="todoItemDone">
-						<view wx:if="{{item.done == 1}}"></view>
-					</view>
-					<view class="todoItemContent" bind:tap="closeTodoMovable" data-index="{{index}}">
-						<view>{{item.title}}</view>
-						<view wx:if="{{item.description}}">{{item.description}}</view>
-					</view>
-					<view class="todoItemTime">{{item.time}}</view>
-				</view>
-				<view class="todoItem-buttons">
-					<view class="todoItem-done" bindtap="handleTodoDone" data-id="{{item.id}}" data-done="{{item.done}}">完成</view>
-					<view class="todoItem-delete" bindtap="handleTodoDelete" data-id="{{item.id}}">删除</view>
-				</view>
-			</movable-view>
-		</movable-area>
 	</view>
 </view>

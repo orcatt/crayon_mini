@@ -33,7 +33,7 @@
 
 .card {
   width: 100%;
-  height: 900rpx;
+  height: 1000rpx;
   border-radius: 24rpx;
   padding: 48rpx;
   box-sizing: border-box;
@@ -73,7 +73,8 @@
   display: flex;
   border: 4rpx solid #41454D;
   box-sizing: border-box;
-  border-radius: 10rpx;
+  border-top-left-radius: 10rpx;
+  border-top-right-radius: 10rpx;
 }
 
 .cardLeft {
@@ -82,7 +83,7 @@
   font-size: 28rpx;
   border-right: 4rpx solid #41454D;
 }
-.cardLeft>view:nth-child(1) {
+.leftLine1 {
   width: 100%;
   height: 74rpx;
   line-height: 70rpx;
@@ -97,7 +98,7 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
 }
-.cardLeft>view:nth-child(2) {
+.leftLine2 {
   width: 100%;
   height: 124rpx;
   line-height: 50rpx;
@@ -107,7 +108,7 @@
   border-bottom: 4rpx solid #41454D;
 
 }
-.cardLeft>view:nth-child(3){
+.leftLine3{
   width: 100%;
   height: 124rpx;
   line-height: 50rpx;
@@ -119,14 +120,14 @@
   justify-content: center;
   align-items: center;
 }
-.cardLeft>view:nth-child(3)>view{
+.leftLine3>view{
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
 }
-.cardLeft>view:nth-child(4){
+.leftLine4 {
   width: 100%;
   height: 234rpx;
   line-height: 50rpx;
@@ -134,15 +135,14 @@
   padding: 10rpx 20rpx;
   box-sizing: border-box;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  letter-spacing: 2rpx;
+  gap: 10rpx;
 }
-.cardLeft>view:nth-child(4)>view{
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
+.leftLine4>view:nth-child(1){
+  
 }
 
 .cardRight {
@@ -246,132 +246,21 @@
   justify-content: center;
 }
 
-
-.todo {
+.cardfooter{
   width: 100%;
-  box-sizing: border-box;
-}
-
-.todoItem-wrapper {
-  width: 100%;
-  height: 148rpx;
-  position: relative;
-  margin-bottom: 30rpx;
-}
-
-.todoItem-content {
-  /* 应该260,留出4rpx阴影面积 */
-  width: calc(100% + 256rpx);
-  height: 100%;
-  display: flex;
-  padding-right: 4rpx;
-}
-
-.todoItem {
-  width: 100%;
-  height: 148rpx;
-  color: #fff;
-  padding: 24rpx 40rpx;
-  border-radius: 24rpx;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  box-shadow: 0 0px 6rpx 0 rgba(0, 0, 0, .1), 
-  0 2rpx 2px -2rpx rgba(0, 0, 0, .3);
-  background-color: #18181B;
-}
-
-.todoItem .done{
-  color: #71717A !important;
-}
-.todoItemDone{
-  width: 50rpx;
-  height: 50rpx;
-  border-radius: 50%;
-  padding: 10rpx;
-  box-sizing: border-box;
-  background-color: #000;
-  position: relative;
-}
-.todoItemDone>view{
-  width: 30rpx;
-  height: 30rpx;
-  border-radius: 50%;
-  background-color: #71717A;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.todoItemContent{
-  margin-left: 40rpx;
-  width: calc(100% - 230rpx);
-}
-
-.todoItemContent>view:nth-child(1){
-  width: 100%;
-  height: 50rpx;
-  line-height: 50rpx;
-  font-size: 32rpx;
-  font-family: 'DouyinSansBold';
-
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-}
-.todoItemContent>view:nth-child(2){
-  width: 100%;
-  height: 40rpx;
+  height: 100rpx;
+  line-height: 40rpx;
   font-size: 28rpx;
-  text-indent: 2rpx;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-}
-.todoItemTime{
-  width: 140rpx;
-  text-align: center;
-  font-size: 32rpx;
-  font-family: 'DouyinSansBold';
-}
-
-.todoItem-buttons {
-  height: 100%;
+  border: 4rpx solid #41454D;
+  border-top: none;
   display: flex;
-  font-family: 'DouyinSansBold';
-}
-
-.todoItem-delete {
-  width: 120rpx;
-  height: 100%;
-  margin-left: 10rpx;
-  background: #f4f4f5;
-  color: #18181B;
-  font-size: 28rpx;
-  border-radius: 14rpx;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  box-shadow: 0 0px 6rpx 0 rgba(0, 0, 0, .2), 
-  0 2rpx 2px -2rpx rgba(0, 0, 0, .4);
-}
-
-.todoItem-done {
-  width: 120rpx;
-  height: 100%;
-  margin-left: 10rpx;
-
-  background: #18181B;
-  color: #fff;
-  font-size: 28rpx;
-  border-radius: 14rpx;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  box-shadow: 0 0px 6rpx 0 rgba(0, 0, 0, .1), 
-  0 2rpx 2px -2rpx rgba(0, 0, 0, .3);
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  text-align: justify;
+  border-bottom-left-radius: 10rpx;
+  border-bottom-right-radius: 10rpx;
+
 }
+
