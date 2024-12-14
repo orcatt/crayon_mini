@@ -93,35 +93,51 @@ Component({
 		
 
 		// 处理滑动变化
-		handleTodoMovableChange(e) {
+		// handleTodoMovableChange(e) {
+		// 	var that = this;
+		// 	if (e.detail.source === 'touch') {
+		// 		const moveX = e.detail.x;
+		// 		const index = e.currentTarget.dataset.index;
+		// 		let todoData = [...that.data.todoData];
+
+		// 		// 重置其他项的位置
+		// 		todoData.forEach((item, idx) => {
+		// 			if (idx !== index) {
+		// 				item.x = 0;
+		// 			}
+		// 		});
+
+		// 		// 自动展开逻辑
+		// 		if (moveX < -30) {  // 左滑超过一半，自动展开到-90
+		// 			todoData[index].x = -180;
+		// 		} else if (moveX > 30) {  // 右滑超过一半，自动展开到90
+		// 			todoData[index].x = 180;
+		// 		} else {
+		// 			todoData[index].x = moveX;
+		// 		}
+
+		// 		that.setData({
+		// 			todoData: todoData
+		// 		});
+		// 	}
+		// },
+		openCloseTodoMovable(e){
 			var that = this;
-			if (e.detail.source === 'touch') {
-				const moveX = e.detail.x;
-				const index = e.currentTarget.dataset.index;
-				let todoData = [...that.data.todoData];
-
-				// 重置其他项的位置
-				todoData.forEach((item, idx) => {
-					if (idx !== index) {
-						item.x = 0;
-					}
+			let index = e.currentTarget.dataset.index;
+			let todoData = [...that.data.todoData];
+			if (todoData[index].x == -180) {
+				todoData.forEach(item => {
+					item.x = 0;
 				});
-
-				// 自动展开逻辑
-				if (moveX < -30) {  // 左滑超过一半，自动展开到-90
-					todoData[index].x = -180;
-				} else if (moveX > 30) {  // 右滑超过一半，自动展开到90
-					todoData[index].x = 180;
-				} else {
-					todoData[index].x = moveX;
-				}
-
-				that.setData({
-					todoData: todoData
+			}else{
+				todoData.forEach((item, idx) => {
+					item.x = idx === index ? -180 : 0;
 				});
 			}
+			that.setData({
+				todoData: todoData
+			});
 		},
-
 		closeTodoMovable(e) {
 			var that = this;	
 			let todoData = [...that.data.todoData];
@@ -204,11 +220,12 @@ Component({
 		prepareAddTodo() {
 			var that = this;
 			that.closeTodoMovable()
-
+			// 触发事件隐藏 TabBar
+			this.triggerEvent('toggleTabBar', { show: false }, {});
 			const today = new Date();
 			const dateStr = today.toISOString().split('T')[0];
 			const timeStr = `${String(today.getHours()).padStart(2, '0')}:${String(today.getMinutes()).padStart(2, '0')}`;
-			
+		
 			that.setData({
 				showMaskDrawer: true,
 				formData: {
@@ -223,6 +240,9 @@ Component({
 		},
 		// 关闭待办添加
 		closeTodoMaskDrawer() {
+			// 触发事件显示 TabBar
+			this.triggerEvent('toggleTabBar', { show: true }, {});
+			
 			this.setData({
 				showMaskDrawer: false
 			});
@@ -301,33 +321,50 @@ Component({
 
 		// !------- 备忘模块 -------
 
-		handleMemosMovableChange(e) {
+		// handleMemosMovableChange(e) {
+		// 	var that = this;
+		// 	if (e.detail.source === 'touch') {
+		// 		const moveX = e.detail.x;
+		// 		const index = e.currentTarget.dataset.index;
+		// 		let memosData = [...that.data.memosData];
+	
+		// 		// 重置其他项的位置
+		// 		memosData.forEach((item, idx) => {
+		// 			if (idx !== index) {
+		// 				item.x = 0;
+		// 			}
+		// 		});
+	
+		// 		// 自动展开逻辑
+		// 		if (moveX < -30) {  // 左滑超过一半，自动展开到-90
+		// 			memosData[index].x = -180;
+		// 		} else if (moveX > 30) {  // 右滑超过一半，自动展开到90
+		// 			memosData[index].x = 180;
+		// 		} else {
+		// 			memosData[index].x = moveX;
+		// 		}
+	
+		// 		that.setData({
+		// 			memosData: memosData
+		// 		});
+		// 	}
+		// },
+		openCloseMemosMovable(e){
 			var that = this;
-			if (e.detail.source === 'touch') {
-				const moveX = e.detail.x;
-				const index = e.currentTarget.dataset.index;
-				let memosData = [...that.data.memosData];
-	
-				// 重置其他项的位置
-				memosData.forEach((item, idx) => {
-					if (idx !== index) {
-						item.x = 0;
-					}
+			let index = e.currentTarget.dataset.index;
+			let memosData = [...that.data.memosData];
+			if (memosData[index].x == -180) {
+				memosData.forEach(item => {
+					item.x = 0;
 				});
-	
-				// 自动展开逻辑
-				if (moveX < -30) {  // 左滑超过一半，自动展开到-90
-					memosData[index].x = -180;
-				} else if (moveX > 30) {  // 右滑超过一半，自动展开到90
-					memosData[index].x = 180;
-				} else {
-					memosData[index].x = moveX;
-				}
-	
-				that.setData({
-					memosData: memosData
+			}else{
+				memosData.forEach((item, idx) => {
+					item.x = idx === index ? -180 : 0;
 				});
 			}
+			that.setData({
+				memosData: memosData
+			});
 		},
 		closeMemosMovable(e) {
 			var that = this;	
@@ -402,6 +439,8 @@ Component({
 		prepareAddMemos() {
 			var that = this;
 			that.closeMemosMovable()
+			// 触发事件隐藏 TabBar
+			this.triggerEvent('toggleTabBar', { show: false }, {});
 
 			const today = new Date();
 			const dateStr = today.toISOString().split('T')[0];
@@ -419,6 +458,9 @@ Component({
 			});
 		},
 		closeMemosMaskDrawer() {
+			// 触发事件显示 TabBar
+			this.triggerEvent('toggleTabBar', { show: true }, {});
+			
 			this.setData({
 				showMemosMaskDrawer: false,
 				memosModifyStatus: false

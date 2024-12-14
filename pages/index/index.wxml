@@ -1,5 +1,0 @@
-<view>
-	
-  <Today wx:if="{{current===1}}"></Today>
-  <TabBar bindcurrentShow="currentClick"></TabBar>
-</view>

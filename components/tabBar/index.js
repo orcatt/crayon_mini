@@ -23,6 +23,8 @@ Component({
   },
   methods: {
     currentClick(e) {
+      console.log(e);
+      
 			var that = this;
       this.setData({
         current: e.currentTarget.dataset.index

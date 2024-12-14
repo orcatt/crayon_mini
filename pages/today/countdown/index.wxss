@@ -94,6 +94,8 @@
   height: 100rpx;
   position: relative;
   margin-bottom: 30rpx;
+  overflow-x: hidden;
+
 }
 
 .todoItem-content {

@@ -8,6 +8,7 @@
 		</view>
 	</view>
 	<view class="todo">
+    <!-- bindchange="handleTodoMovableChange" data-index="{{index}}" -->
 		<movable-area class="todoItem-wrapper" wx:for="{{todoData}}" wx:key="index">
 			<movable-view class="todoItem-content" 
 				direction="horizontal" 
@@ -16,14 +17,13 @@
 				friction="5"
 				out-of-bounds="{{true}}"
 				inertia="{{false}}"
-				bindchange="handleTodoMovableChange" 
-				data-index="{{index}}"
+				disabled="true"
 			>
-				<view class="todoItem {{item.done == 1 ? 'done' : ''}}">
+				<view class="todoItem {{item.done == 1 ? 'done' : ''}}" bind:tap="openCloseTodoMovable" data-index="{{index}}">
 					<view class="todoItemDone">
 						<view wx:if="{{item.done == 1}}"></view>
 					</view>
-					<view class="todoItemContent" bind:tap="closeTodoMovable" data-index="{{index}}">
+					<view class="todoItemContent">
 						<view>{{item.title}}</view>
 						<view wx:if="{{item.description}}">{{item.description}}</view>
 					</view>
@@ -44,6 +44,7 @@
 		</view>
 	</view>
 	<view class="todo">
+    <!-- bindchange="handleMemosMovableChange" data-index="{{index}}" -->
 		<movable-area class="todoItem-wrapper" wx:for="{{memosData}}" wx:key="index">
 			<movable-view class="todoItem-content" 
 				direction="horizontal" 
@@ -52,10 +53,9 @@
 				friction="5"
 				out-of-bounds="{{true}}"
 				inertia="{{false}}"
-				bindchange="handleMemosMovableChange" 
-				data-index="{{index}}"
+				disabled="true"
 			>
-				<view class="todoItem" bindtap="closeMemosMovable" data-index="{{index}}">
+				<view class="todoItem" bindtap="openCloseMemosMovable" data-index="{{index}}">
           <view class="memoItemContent"  style="width: 100%;">
 						<view>{{item.title}}</view>
 						<view>{{item.description || '无附加文本'}}</view>
@@ -72,7 +72,7 @@
 <view class="drawer-mask" wx:if="{{showMaskDrawer}}" bindtap="closeTodoMaskDrawer"></view>
 <view class="drawer {{showMaskDrawer ? 'drawer-show' : ''}}">
   <view class="drawer-header">
-    <view class="drawer-title">新建待办</view>
+    <view class="drawer-title" id="tabbarx">新建待办</view>
     <view class="drawer-close" bindtap="closeTodoMaskDrawer">×</view>
   </view>
   

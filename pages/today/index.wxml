@@ -7,18 +7,21 @@
 		</view>
 	</view>
 </customheader>
-<!-- <swiper 
+<swiper 
   class="swiper-container" 
   current="{{activeIndex}}" 
   bindchange="handleSwiper">
-  
   <swiper-item>
-    <view class="swiper-item">第一个组件内容</view>
+    <Almanac></Almanac>
   </swiper-item>
-</swiper> -->
-<Almanac wx:if="{{activeIndex == 0}}" bind:switchTab="handleSwitchTab"></Almanac>
-<Todo wx:if="{{activeIndex == 1}}"></Todo>
-<Countdown wx:if="{{activeIndex == 2}}"></Countdown>
+  <swiper-item>
+    <Todo bind:toggleTabBar="toggleTabBar"></Todo>
+  </swiper-item>
+  <swiper-item>
+    <Countdown bind:toggleTabBar="toggleTabBar"></Countdown>
+  </swiper-item>
+</swiper>
+<TabBar bindcurrentShow="currentClick" wx:if="{{showTabBar}}"></TabBar>
 
 <view class="login-mask" wx:if="{{LoginModal}}">
 	<view class="login-modal">

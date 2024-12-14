@@ -1,8 +1,0 @@
-{
-  "usingComponents": {
-		"TabBar": "/components/tabBar/index",
-    "Today": "/pages/today/index"
-		
-  },
-  "navigationStyle": "custom"
-}

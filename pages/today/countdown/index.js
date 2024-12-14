@@ -84,36 +84,53 @@ Component({
 		},
 		
 		// 处理滑动变化
-		handleCdMovableChange(e) {
+		// handleCdMovableChange(e) {
+		// 	var that = this;
+		// 	if (e.detail.source === 'touch') {
+		// 		const moveX = e.detail.x;
+		// 		const index = e.currentTarget.dataset.index;
+		// 		let countdownData = [...that.data.countdownData];
+
+		// 		// 重置其他项的位置
+		// 		countdownData.forEach((item, idx) => {
+		// 			if (idx !== index) {
+		// 				item.x = 0;
+		// 			}
+		// 		});
+
+		// 		// 自动展开逻辑
+		// 		if (moveX < -30) {  // 左滑超过一半，自动展开到-90
+		// 			countdownData[index].x = -180;
+		// 		} else if (moveX > 30) {  // 右滑超过一半，自动展开到90
+		// 			countdownData[index].x = 180;
+		// 		} else {
+		// 			countdownData[index].x = moveX;
+		// 		}
+
+		// 		that.setData({
+		// 			countdownData: countdownData
+		// 		});
+		// 	}
+		// },
+		openCloseCdMovable(e){
 			var that = this;
-			if (e.detail.source === 'touch') {
-				const moveX = e.detail.x;
-				const index = e.currentTarget.dataset.index;
-				let countdownData = [...that.data.countdownData];
-
-				// 重置其他项的位置
-				countdownData.forEach((item, idx) => {
-					if (idx !== index) {
-						item.x = 0;
-					}
+			let index = e.currentTarget.dataset.index;
+			let countdownData = [...that.data.countdownData];
+			if (countdownData[index].x == -180) {
+				countdownData.forEach(item => {
+					item.x = 0;
 				});
-
-				// 自动展开逻辑
-				if (moveX < -30) {  // 左滑超过一半，自动展开到-90
-					countdownData[index].x = -180;
-				} else if (moveX > 30) {  // 右滑超过一半，自动展开到90
-					countdownData[index].x = 180;
-				} else {
-					countdownData[index].x = moveX;
-				}
-
-				that.setData({
-					countdownData: countdownData
+			}else{
+				countdownData.forEach((item, idx) => {
+					item.x = idx === index ? -180 : 0;
 				});
 			}
+			that.setData({
+				countdownData: countdownData
+			});
 		},
 		closeCdMovable(e) {
-			var that = this;	
+			var that = this;
 			let countdownData = [...that.data.countdownData];
 			countdownData.forEach((item, idx) => {
 				item.x = 0
@@ -188,6 +205,7 @@ Component({
 			});
 		},
 		addCountdown() {
+			this.triggerEvent('toggleTabBar', { show: false }, {});
 			var that = this;
 			that.closeCdMovable();
 			
@@ -197,20 +215,23 @@ Component({
 				countdownModifyStatus: false,
 				formData: {
 					title: '',
-					calendar_type: 'gregorian', // 默认公历
-					gregorian_date: '', 
-					lunar_date: '',
-					is_pinned: false,
-					is_reminder: false,
-					reminder_frequency: 'daily',
-					reminder_frequencyTitle: '',
-					is_repeating: false,
-					repeat_frequency: 'daily',
-					repeat_frequencyTitle: ''
+							calendar_type: 'gregorian', // 默认公历
+							gregorian_date: '', 
+							lunar_date: '',
+							is_pinned: false,
+							is_reminder: false,
+							reminder_frequency: 'daily',
+							reminder_frequencyTitle: '',
+							is_repeating: false,
+							repeat_frequency: 'daily',
+							repeat_frequencyTitle: ''
 				}
 			});
 		},
 		closeCdMaskDrawer() {
+			// 触发事件显示 TabBar
+			this.triggerEvent('toggleTabBar', { show: true }, {});
+			
 			this.setData({
 				showMaskDrawer: false,
 				countdownModifyStatus: false

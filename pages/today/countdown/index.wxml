@@ -23,6 +23,7 @@
           <view>Days</view>
         </view>
       </view>
+      <!-- bindchange="handleCdMovableChange" data-index="{{index}}" -->
       <movable-area class="todoItem-wrapper" wx:if="{{index > 0}}">
         <movable-view class="todoItem-content" 
           direction="horizontal" 
@@ -31,10 +32,9 @@
           friction="5"
           out-of-bounds="{{true}}"
           inertia="{{false}}"
-          bindchange="handleCdMovableChange" 
-          data-index="{{index}}"
+          disabled="true"
         >
-          <view class="todoItem" bindtap="closeCdMovable">
+          <view class="todoItem" data-index="{{index}}" bindtap="openCloseCdMovable">
             <view class="todoItem-title">
               <text>{{item.title}}</text>
               <text>{{item.timeInfo.des}}</text>
