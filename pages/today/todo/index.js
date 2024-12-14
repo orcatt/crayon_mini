@@ -378,6 +378,8 @@ Component({
 		},
 		handleMemosModify(e) {
 			const that = this;
+			// 触发事件隐藏 TabBar
+			this.triggerEvent('toggleTabBar', { show: false }, {});
 			const index = e.currentTarget.dataset.index;
 			
 			// 打开备忘编辑页面
