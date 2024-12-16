@@ -36,7 +36,7 @@
 			</movable-view>
 		</movable-area>
 	</view>
-	<view class="modetitle">
+	<view class="modetitle" style="margin-top: 50rpx;">
 		<view class="top">备忘</view>
 		<view class="bottom">{{todoData.length > 0 ? '看看之前记了哪些' : '记得随时记录'}}</view>
 		<view class="opt" bind:tap="prepareAddMemos">
@@ -68,6 +68,7 @@
 			</movable-view>
 		</movable-area>
 	</view>
+  <view style="height: 100rpx;"></view>
 </view>
 <view class="drawer-mask" wx:if="{{showMaskDrawer}}" bindtap="closeTodoMaskDrawer"></view>
 <view class="drawer {{showMaskDrawer ? 'drawer-show' : ''}}">

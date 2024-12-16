@@ -1,0 +1,36 @@
+<!--pages/health/index.wxml-->
+<customheader backgroundColor="ragb(0,0,0,0)">
+	<view class="tabs">
+		<view wx:for="{{tabsList}}" wx:key="index" bind:tap="changeTabs" data-id="{{item.id}}">
+			<view class="{{activeIndex == item.id ? 'activeTabs':''}}">{{item.title}}</view>
+		</view>
+	</view>
+</customheader>
+<swiper 
+  class="swiper-container" 
+  current="{{activeIndex}}" 
+  bindchange="handleSwiper">
+  <swiper-item>
+		<Eating></Eating>
+  </swiper-item>
+  <swiper-item>
+		<Weight></Weight>
+  </swiper-item>
+  <swiper-item>
+		<Cookbook></Cookbook>
+  </swiper-item>
+</swiper>
+<TabBar bindcurrentShow="currentClick" wx:if="{{showTabBar}}"></TabBar>
+
+<view class="login-mask" wx:if="{{LoginModal}}">
+	<view class="login-modal">
+		<view class="login-content">
+			<view class="title">登录提示</view>
+			<view class="desc">请登录后继续操作</view>
+			<view class="btn-group">
+				<view class="btn cancel" bind:tap="Notauthorized">取消</view>
+				<view class="btn confirm" bind:tap="toLogin">登录</view>
+			</view>
+		</view>
+	</view>
+</view>

@@ -57,7 +57,7 @@ Page({
               wx.setStorageSync('userId', res.data.userInfo.id);
               wx.setStorageSync('token', res.data.token);
               wx.reLaunch({
-                url: '/pages/index/index',
+                url: '/pages/today/index',
               })
             }else if(res.code == 401){
               wx.showToast({

@@ -1,55 +1,68 @@
 <!--pages/today/index.wxml-->
 <view class="mode" style="margin-top: {{tabbarRealHeight  + 'px'}}; height: calc(100vh - {{tabbarRealHeight +90 + 'px'}});">
-
-  <view class="modetitle">
-		<view class="top">倒数</view>
-		<view class="bottom">{{countdownData.length > 0 ? '好事正在产生' : '还没有倒数日'}}</view>
-		<view class="opt" bind:tap="addCountdown">
-			<image src="/static/image/add.png"></image>
-		</view>
-	</view>
-	<view class="todo">
-    <block wx:for="{{countdownData}}" wx:key="index">
-      <view class="pinned" wx:if="{{index === 0}}" bindtap="handleCdModify" data-index="{{index}}">
-        <view class="pinned-left">
-          <view class="pinned-title"> 
-            <text>{{item.title}}</text>
-            <text>{{item.timeInfo.des}}</text>
+  <view class="date">
+    <view class="date-title">
+      <view>今天</view>
+      <view></view>
+    </view>
+    <view class="weekend">
+      <view 
+        wx:for="{{weekendData}}" wx:key="id" 
+        class="{{item.id === weekendActiveIndex ? 'active' : ''}}" 
+        bindtap="handleWeekendChange" data-id="{{item.id}}"
+      >
+        {{item.title}}
+      </view>
+    </view>
+  </view>
+  <view class="kcal">
+    <view class="top">
+      <view class="left">
+        <view>热量摄入</view>
+        <view>1273</view>
+      </view>
+      <view class="circle-box">
+        <view class="circle">
+          <view 
+            class="circle-background" 
+            style="background: {{circleBackground}};">
           </view>
-          <view class="pinned-date">目标日：{{item.calendar_type === 'lunar' ? item.lunar_date : item.gregorian_date}}</view>
         </view>
-        <view class="pinned-right">
-          <view>{{item.timeInfo.diffDays}}</view>
-          <view>Days</view>
+        <view class="circleinfo">
+          <view>还能吃</view>
+          <view>1273</view>
+          <view>建议 2238</view>
         </view>
       </view>
-      <!-- bindchange="handleCdMovableChange" data-index="{{index}}" -->
-      <movable-area class="todoItem-wrapper" wx:if="{{index > 0}}">
-        <movable-view class="todoItem-content" 
-          direction="horizontal" 
-          x="{{item.x}}"
-          damping="20"
-          friction="5"
-          out-of-bounds="{{true}}"
-          inertia="{{false}}"
-          disabled="true"
-        >
-          <view class="todoItem" data-index="{{index}}" bindtap="openCloseCdMovable">
-            <view class="todoItem-title">
-              <text>{{item.title}}</text>
-              <text>{{item.timeInfo.des}}</text>
-            </view>
-            <view class="todoItem-date"><text>{{item.timeInfo.diffDays}}</text>天</view>
-          </view>
-          <view class="todoItem-buttons">
-            <view class="todoItem-done" bindtap="handleCdModify" data-index="{{index}}">修改</view>
-            <view class="todoItem-delete" bindtap="handleCdDelete" data-id="{{item.id}}">删除</view>
-          </view>
-        </movable-view>
-      </movable-area>
-    </block>
-		
-	</view>
+      <view class="right">
+        <view>热量消耗</view>
+        <view>1672</view>
+      </view>
+    </view>
+    <view class="bottom">
+      <view>
+        <view>碳水化合物</view>
+        <view class="line">
+          <view style="width: 10%;"></view>
+        </view>
+        <view>31 / 313 克</view>
+      </view>
+      <view>
+        <view>蛋白质</view>
+        <view class="line">
+          <view></view>
+        </view>
+        <view>0 / 90 克</view>
+      </view>
+      <view>
+        <view>脂肪</view>
+        <view class="line">
+          <view></view>
+        </view>
+        <view>0 / 70 克</view>
+      </view>
+    </view>
+  </view>
 </view>
 <view class="drawer-mask" wx:if="{{showMaskDrawer}}" bindtap="closeCdMaskDrawer"></view>
 <view class="drawer {{showMaskDrawer ? 'drawer-show' : ''}}">

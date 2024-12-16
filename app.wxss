@@ -57,10 +57,10 @@
 
 .btn.cancel {
   background: #f4f4f5;
-  color: #080808;
+  color: #09090B;
 }
 
 .btn.confirm {
-  background: #080808;
+  background: #18181B;
   color: #fff;
 }

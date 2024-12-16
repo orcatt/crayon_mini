@@ -35,11 +35,7 @@
 	animation: pulse 5s infinite;
 
 }
-/* .tabbarList>view>view {
-  font-size: 24rpx;
-  color: #000;
-  margin-top: 2rpx;
-}  */
+
 @keyframes pulse {
 	0% {
 		transform: scale(1);

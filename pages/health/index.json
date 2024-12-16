@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+		"customheader":"/components/CustomHeader/index",
+		"TabBar": "/components/tabBar/index",
+		"Eating": "/pages/health/eating/index",
+		"Weight": "/pages/health/weight/index",
+		"Cookbook": "/pages/health/cookbook/index"
+  },
+  "navigationStyle": "custom"
+
+}
