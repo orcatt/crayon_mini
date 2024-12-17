@@ -43,7 +43,6 @@ Page({
     var that = this;
     wx.login({
       success: res => {
-        console.log(res);
         let postData = {
           code: res.code,
         }
@@ -51,7 +50,6 @@ Page({
           url: 'auth/wechat-login',
           params: postData,
           success: function (res) {
-            console.log(res);
             if (res.code == 200) {
               wx.setStorageSync('userInfo', res.data.userInfo);
               wx.setStorageSync('userId', res.data.userInfo.id);

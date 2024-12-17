@@ -1,6 +1,5 @@
 {
   "component": true,
   "usingComponents": {
-    "lunar-picker": "/components/LunarPicker/index"
   }
 }

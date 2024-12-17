@@ -93,7 +93,7 @@
 <view class="drawer-mask" wx:if="{{showMaskDrawer}}" bindtap="closeMaskDrawer"></view>
 <view class="drawer {{showMaskDrawer ? 'drawer-show' : ''}}">
   <view class="drawer-header">
-    <view class="drawer-title">欢迎使用健康，现在开始完善信息</view>
+    <view class="drawer-title">{{supplementStep === 1 ? '欢迎使用健康，现在开始完善信息' : '这些完成我们就开始'}}</view>
     <view class="drawer-close" bindtap="closeMaskDrawer">×</view>
   </view>
   <view class="drawer-content" wx:if="{{supplementStep === 1}}">

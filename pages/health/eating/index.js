@@ -71,7 +71,11 @@ Component({
 			value: '3'
 		}],
 
+		userInfo: {},
 		formData: {
+			height: "",
+			birthday: "2000-01-01",
+			age: "",
 			date: "",
 			weight: "",
 			target_weight: "",
@@ -96,6 +100,14 @@ Component({
         circleBackground: gradient,
       });
     },
+		
+		handleWeekendChange(e) {
+			var that = this;
+			that.setData({
+				weekendActiveIndex: e.currentTarget.dataset.id
+			})
+		},
+
 		getWeightData() {
 			var that = this;
 			let postData = {
@@ -113,10 +125,6 @@ Component({
 							return;
 						}
 						
-						that.setData({
-							countdownData
-						})
-						console.log(that.data.countdownData);
 						
           }else{
             wx.showToast({
@@ -130,15 +138,23 @@ Component({
 		addSupplementInfo() {
 			var that = this;
 			this.triggerEvent('toggleTabBar', { show: false }, {});
-			that.setData({
-				showMaskDrawer: true
-			})
-		},
-		handleWeekendChange(e) {
-			var that = this;
-			that.setData({
-				weekendActiveIndex: e.currentTarget.dataset.id
-			})
+			if (!that.data.userInfo.height) {
+				that.setData({
+					showMaskDrawer: true,
+					supplementStep: 1
+				})
+				return;
+
+			}else if (that.data.userInfo.height) {
+				let age = new Date().getFullYear() - that.data.userInfo.birthday.split('-')[0];
+				that.setData({
+					showMaskDrawer: true,
+					supplementStep: 2,
+					'formData.height': that.data.userInfo.height,
+					'formData.birthday': that.data.userInfo.birthday,
+					'formData.age': age,
+				})
+			}
 		},
 		handleHeightInput(e) {
 			const height = e.detail.value;
@@ -153,19 +169,46 @@ Component({
 			});
 		},
 		nextStep() {
-			console.log(this.data.formData);
-			this.setData({
-				supplementStep: 2
+			var that = this;
+			if (that.data.formData.height == "" || !/^\d+$/.test(that.data.formData.height)) {
+				wx.showToast({
+					title: '身高不能为空且是数字',
+					icon: 'none'
+				});
+				return;
+			}
+
+			// 完善个人信息接口
+			let postData = {
+				height: that.data.formData.height,
+				birthday: that.data.formData.birthday
+			}
+			utils.getData({
+				url: 'auth/updateUserInfo',
+				params: postData,
+				success: function (res) {
+					if (res.code == 200) {
+						wx.setStorageSync('userInfo', res.data.userInfo);
+						const age = new Date().getFullYear() - that.data.formData.birthday.split('-')[0];
+						that.setData({
+							'formData.age': age,
+							supplementStep: 2
+						})
+					}
+				}
 			})
+
 		},
+
 		// 处理体重输入
 		handleWeightInput(e) {
+			var that = this;
 			const weight = e.detail.value;
-			this.setData({
+			that.setData({
 				'formData.weight': weight
 			});
-			this.calculateBMI();
-			this.calculateBMR();
+			that.calculateBMI();
+			that.calculateBMR();
 		},
 
 		// 处理目标体重输入
@@ -186,12 +229,12 @@ Component({
 
 		// 计算BMI
 		calculateBMI() {
-			const weight = parseFloat(this.data.formData.weight);
-			// 假设身高为1.7米，实际应该从用户信息获取
-			const height = 1.7;
+			var that = this;
+			const weight = parseFloat(that.data.formData.weight);
+			const height = parseFloat(that.data.formData.height)/100;
 			if (weight && height) {
 				const bmi = (weight / (height * height)).toFixed(1);
-				this.setData({
+				that.setData({
 					'formData.bmi': bmi
 				});
 			}
@@ -199,19 +242,21 @@ Component({
 
 		// 计算基础代谢率
 		calculateBMR() {
-			const weight = parseFloat(this.data.formData.weight);
+			var that = this;
+			const weight = parseFloat(that.data.formData.weight);
 			// 假设年龄25岁，性别男，实际应该从用户信息获取
-			const age = 25;
-			const gender = 'male';
+			const age = that.data.formData.age;
+			const gender = that.data.userInfo.gender;
+		
 			if (weight && age) {
 				// BMR计算公式（仅供参考）
 				// 男性：BMR = 66 + (13.7 × 体重) + (5 × 身高) - (6.8 × 年龄)
 				// 女性：BMR = 655 + (9.6 × 体重) + (1.8 × 身高) - (4.7 × 年龄)
-				const height = 170; // 假设身高170cm
-				const bmr = gender === 'male' 
+				const height = parseFloat(that.data.formData.height); 
+				const bmr = gender === 1 
 					? (66 + (13.7 * weight) + (5 * height) - (6.8 * age)).toFixed(0)
 					: (655 + (9.6 * weight) + (1.8 * height) - (4.7 * age)).toFixed(0);
-				this.setData({
+				that.setData({
 					'formData.bmr': bmr
 				});
 			}
@@ -219,9 +264,21 @@ Component({
 
 		// 关闭抽屉
 		closeMaskDrawer() {
-			this.triggerEvent('toggleTabBar', { show: true }, {});
-			this.setData({
-				showMaskDrawer: false
+			var that = this;
+			wx.showModal({
+				title: '再等等，即刻完成',
+				content: '信息不完善将不能使用健康模块',
+				success: function (res) {
+					if (res.confirm) {
+						that.triggerEvent('toggleTabBar', { show: true }, {});
+						that.setData({
+							showMaskDrawer: false
+						});
+						wx.redirectTo({
+							url: '/pages/today/index'
+						});
+					}
+				}
 			});
 		},
 
@@ -241,21 +298,28 @@ Component({
 
 			// 获取当前日期
 			const currentDate = new Date().toISOString().split('T')[0];
-			let submitData = {
-				...that.data.formData,
-				date: currentDate
-			};
+			let postData = {
+				date: currentDate,
+				weight: that.data.formData.weight,
+				target_weight: that.data.formData.target_weight,
+				target_type: that.data.formData.target_type,
+				bmi: that.data.formData.bmi,
+				bmr: that.data.formData.bmr
+			}
 
 			utils.getData({
 				url: 'health/userWeight/add',
-				params: submitData,
+				params: postData,
 				success: (res) => {
 					if (res.code === 200) {
 						wx.showToast({
 							title: '保存成功',
 							icon: 'success'
 						});
-						that.closeMaskDrawer();
+						that.triggerEvent('toggleTabBar', { show: true }, {});
+						that.setData({
+							showMaskDrawer: false
+						});
 						that.getWeightData(); // 刷新列表
 					} else {
 						wx.showToast({
@@ -271,7 +335,8 @@ Component({
 		attached: function () {
 			var that = this;
 			that.setData({
-				tabbarRealHeight: wx.getStorageSync('tabbarRealHeight')
+				tabbarRealHeight: wx.getStorageSync('tabbarRealHeight'),
+				userInfo: wx.getStorageSync('userInfo')
 			})
 			that.updateCircle(that.data.percent)
 			that.getWeightData()
