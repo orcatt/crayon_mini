@@ -11,7 +11,7 @@
   current="{{activeIndex}}" 
   bindchange="handleSwiper">
   <swiper-item>
-		<Eating></Eating>
+		<Eating bindtoggleTabBar="toggleTabBar"></Eating>
   </swiper-item>
   <swiper-item>
 		<Weight></Weight>

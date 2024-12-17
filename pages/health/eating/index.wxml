@@ -14,6 +14,8 @@
         {{item.title}}
       </view>
     </view>
+    <image class="add" src="/static/image/add.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+
   </view>
   <view class="kcal">
     <view class="top">
@@ -63,92 +65,95 @@
       </view>
     </view>
   </view>
+
+  <view class="eatingList">
+    <view class="eatingTitle">
+      <view>
+        <view>早餐</view>
+        <view>建议 600-800 千卡</view>
+      </view>
+      <view>1273 千卡</view>
+    </view>
+    <view class="eatingItem">
+      <view>
+        <view class="eatingImg" >
+          <image src="/static/image/eating1.jpg" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+        </view>
+        <view class="eatingInfo">
+          <view>达美乐鸡蛋沙拉</view>
+          <view>250 克</view>
+        </view>
+      </view>
+      <view>100 千卡 ></view>
+    </view>
+      
+  </view>
+    
 </view>
-<view class="drawer-mask" wx:if="{{showMaskDrawer}}" bindtap="closeCdMaskDrawer"></view>
+<view class="drawer-mask" wx:if="{{showMaskDrawer}}" bindtap="closeMaskDrawer"></view>
 <view class="drawer {{showMaskDrawer ? 'drawer-show' : ''}}">
   <view class="drawer-header">
-    <view class="drawer-title">{{countdownModifyStatus ? '修改倒数日' : '新建倒数日'}}</view>
-    <view class="drawer-close" bindtap="closeCdMaskDrawer">×</view>
+    <view class="drawer-title">欢迎使用健康，现在开始完善信息</view>
+    <view class="drawer-close" bindtap="closeMaskDrawer">×</view>
   </view>
-  
-  <view class="drawer-content">
+  <view class="drawer-content" wx:if="{{supplementStep === 1}}">
     <view class="form-group">
-      <view class="account-title">标题<text class="required">*</text></view>
+      <view class="account-title">身高<text class="required">*</text></view>
       <view class="account-input">
-        <input type="text" value="{{formData.title}}" bindinput="handleTitleInput" placeholder-class="placeholderClass" placeholder="请输入倒数日标题" />
+        <input type="digit" value="{{formData.height}}" bindinput="handleHeightInput" placeholder-class="placeholderClass" placeholder="请输入身高(cm)" />  
       </view>
-      <view class="option-item">
-        <text>日期类型</text>
-        <switch checked="{{formData.calendar_type === 'gregorian'}}" bindchange="handleCalendarTypeChange" color="#18181B"/>
-      </view>
-      <block wx:if="{{formData.calendar_type === 'gregorian'}}">
-        <view class="account-title">公历日期<text class="required">*</text></view>
+      <view class="account-title">出生年月<text class="required">*</text></view>
+      <view class="account-input">
         <view class="account-input">
-          <picker mode="date" value="{{formData.gregorian_date}}" bindchange="handleGregorianDateChange">
-            <view class="{{formData.gregorian_date ? '' : 'placeholderClass'}}">
-              {{formData.gregorian_date || '请选择日期'}}
+          <picker mode="date" value="{{formData.birthday}}" bindchange="handleBirthdayChange">
+            <view class="{{formData.birthday ? '' : 'placeholderClass'}}">
+              {{formData.birthday || '请选择日期'}}
             </view>
           </picker>
         </view>
-      </block>
+      </view>
+    </view>
+    <view class="btn-group">
+      <view class="wx-login-btn" bindtap="nextStep">下一步</view>
+      <view class="otherlogin" bindtap="closeMaskDrawer">取消</view>
+    </view>
+  </view>
+  <view class="drawer-content" wx:if="{{supplementStep === 2}}">
+    <view class="form-group">
+      <view class="account-title">体重<text class="required">*</text></view>
+      <view class="account-input">
+        <input type="digit" value="{{formData.weight}}" bindinput="handleWeightInput" placeholder-class="placeholderClass" placeholder="请输入当前体重(kg)" />
+      </view>
 
-      <block wx:else>
-        <view class="account-title">农历日期<text class="required">*</text></view>
-        <view class="account-input" bindtap="showLunarPicker">
-          <view class="{{formData.lunar_date ? '' : 'placeholderClass'}}">
-            {{formData.lunar_date || '请选择日期'}}
+      <view class="account-title">目标体重<text class="required">*</text></view>
+      <view class="account-input">
+        <input type="digit" value="{{formData.target_weight}}" bindinput="handleTargetWeightInput" placeholder-class="placeholderClass" placeholder="请输入目标体重(kg)" />
+      </view>
+
+      <view class="account-title">目标类型<text class="required">*</text></view>
+      <view class="account-input">
+        <picker mode="selector" range="{{targetTypes}}" range-key="title" value="{{formData.target_type}}" bindchange="handleTargetTypeChange">
+          <view class="{{formData.target_type ? '' : 'placeholderClass'}}">
+            {{formData.target_typeTitle || '请选择目标类型'}}
           </view>
-          
-        </view>
-      </block>
+        </picker>
+      </view>
 
-      <view class="options-group">
-        <view class="option-item">
-          <text>置顶</text>
-          <switch checked="{{formData.is_pinned}}" bindchange="handlePinnedChange" color="#18181B"/>
-        </view>
+      <view class="account-title">BMI指数</view>
+      <view class="account-input">
+        <text>{{formData.bmi || '待计算'}}</text>
+      </view>
 
-        <view class="option-item">
-          <text>提醒</text>
-          <switch checked="{{formData.is_reminder}}" bindchange="handleReminderChange" color="#18181B"/>
-        </view>
-
-        <block wx:if="{{formData.is_reminder}}">
-          <view class="account-title">提醒频率</view>
-          <view class="account-input">
-            <picker mode="selector" range="{{frequency}}" range-key="title" value="{{formData.reminder_frequency}}" bindchange="handleReminderFrequencyChange">
-              <view class="{{formData.reminder_frequency ? '' : 'placeholderClass'}}">
-                {{formData.reminder_frequencyTitle || '请选择提醒频率'}}
-              </view>
-            </picker>
-          </view>
-        </block>
-
-        <view class="option-item">
-          <text>重复</text>
-          <switch checked="{{formData.is_repeating}}" bindchange="handleRepeatingChange" color="#18181B"/>
-        </view>
-
-        <block wx:if="{{formData.is_repeating}}">
-          <view class="account-title">重复频率</view>
-          <view class="account-input">
-            <picker mode="selector" range="{{frequency}}" range-key="title" value="{{formData.repeat_frequency}}" bindchange="handleRepeatFrequencyChange">
-              <view class="{{formData.repeat_frequency ? '' : 'placeholderClass'}}">
-                {{formData.repeat_frequencyTitle || '请选择重复频率'}}
-              </view>
-            </picker>
-          </view>
-        </block>
+      <view class="account-title">基础代谢率</view>
+      <view class="account-input">
+        <text>{{formData.bmr || '待计算'}}</text>
       </view>
     </view>
 
     <view class="btn-group">
       <view class="wx-login-btn" bindtap="submitForm">保存</view>
-      <view class="otherlogin" bindtap="handleCdDelete" data-id="{{formData.id}}">删除</view>
+      <view class="otherlogin" bindtap="closeMaskDrawer">取消</view>
     </view>
   </view>
 </view>
 
-<lunar-picker show="{{lunarPickerStatus}}" bindconfirm="handleLunarDateChange" value="{{ pickedLunarDate }}">
-  <view>{{ pickedLunarDate }}</view>
-</lunar-picker>

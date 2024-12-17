@@ -98,7 +98,7 @@ Page({
             wx.setStorageSync('userId', res.data.userInfo.id);
             wx.setStorageSync('token', res.data.token);
             wx.reLaunch({
-              url: '/pages/index/index',
+              url: '/pages/today/index',
             })
           }else{
             wx.showToast({

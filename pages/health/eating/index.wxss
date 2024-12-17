@@ -11,7 +11,16 @@
 .date{
   width: 100%;
   height: 180rpx;
+  position: relative;
   /* background-color: #606060; */
+}
+
+.date .add{
+  width: 60rpx;
+  height: 60rpx;
+  position: absolute;
+  right: 0;
+  top: 5rpx;
 }
 
 .date-title{
@@ -79,6 +88,7 @@
   color: #09090B;
   box-shadow: 0 0px 6rpx 0 rgba(0, 0, 0, .1), 0 2rpx 2px -2rpx rgba(0, 0, 0, .3);
   background-color: #F4F4F5;
+  margin-bottom: 50rpx;
 }
 .kcal .top{
   width: 100%;
@@ -203,180 +213,105 @@
 
 
 
-
-
-
-
-
-
-
-
-
-.modetitle{
-  font-family: 'DouyinSansBold';
-  position: relative;
-  margin-bottom: 10rpx;
-}
-.modetitle .top{
-  height: 65rpx;
-  font-size: 48rpx;
-  color: #09090B;
-}
-.modetitle .bottom{
-  height: 50rpx;
-  font-size: 32rpx;
-  color: #71717A;
-}
-.opt image{
-  width: 60rpx;
-  height: 60rpx;
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.todo {
+.eatingList{
   width: 100%;
-  box-sizing: border-box;
 }
 
-.pinned{
+.eatingTitle{
   width: 100%;
-  height: 240rpx;
-  margin-bottom: 30rpx;
-  color: #fff;
-  padding:  40rpx;
-  border-radius: 24rpx;
-  box-sizing: border-box;
-  background-color: #18181B;
-  box-shadow: 0 0px 6rpx 0 rgba(163, 70, 70, 0.1), 
-  0 2rpx 2px -2rpx rgba(0, 0, 0, .3);
-
+  height: 100rpx;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+} 
+.eatingTitle>view:nth-child(1){
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
 }
-.pinned-left{
+.eatingTitle>view:nth-child(1)>view:nth-child(1){
+  font-size: 36rpx;
+  font-family: 'DouyinSansBold';
+  color: #09090B;
+}
+.eatingTitle>view:nth-child(1)>view:nth-child(2){
+  font-size: 24rpx;
+  color: #71717A;
+}
+
+.eatingTitle>view:nth-child(2){
+  font-size: 28rpx;
+  font-family: 'DouyinSansBold';
+  color: #09090B;
+}
+
+.eatingItem{
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10rpx 0;
+  box-sizing: border-box;
+  border-bottom: 1rpx solid #CDCDD0;
+}
+
+.eatingItem>view:nth-child(1){
   width: 70%;
   height: 100%;
   display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+.eatingImg{
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 10rpx;
+}
+.eatingImg>image{
+  width: 100%;
+  height: 100%;
+  border-radius: 10rpx;
+}
+.eatingInfo{
+  width: 100%;
+  height: 100%;
+  display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
+  align-items: flex-start;
 }
-.pinned-title{
-  height: 50rpx;
-  line-height: 50rpx;
-  font-size: 36rpx;
-  font-family: 'DouyinSansBold';
-}
-.pinned-date{
-  height: 50rpx;
-  line-height: 50rpx;
+.eatingInfo>view:nth-child(1){
+  height: 40rpx;
   font-size: 28rpx;
-  color: #f4f4f5;
+  font-family: 'DouyinSansBold';
+  color: #09090B;
 }
-.pinned-right{
+.eatingInfo>view:nth-child(2){
+  height: 30rpx;
+  font-size: 24rpx;
+  color: #71717A;
+}
+
+.eatingItem>view:nth-child(2){
   width: 30%;
   height: 100%;
+  font-size: 24rpx;
+  color: #71717A;
   display: flex;
-  gap: 10rpx;
+  justify-content: flex-end;
   align-items: center;
-  justify-content: space-around;
-  font-family: 'DouyinSansBold';
-
-}
-.pinned-right>view:nth-child(1){
-  font-size: 120rpx;
-}
-.pinned-right>view:nth-child(2){
-  margin-top: 40rpx;
-  writing-mode: vertical-rl;
-
-}
-
-.todoItem-wrapper {
-  width: 100%;
-  height: 100rpx;
-  position: relative;
-  margin-bottom: 30rpx;
-  overflow-x: hidden;
-
-}
-
-.todoItem-content {
-  /* 应该260,留出4rpx阴影面积 */
-  width: calc(100% + 256rpx);
-  height: 100%;
-  display: flex;
-}
-
-.todoItem {
-  width: 100%;
-  height: 100rpx;
-  color: #fff;
-  padding: 24rpx 40rpx;
-  border-radius: 24rpx;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  background-color: #18181B;
-  box-shadow: 0 0px 6rpx 0 rgba(0, 0, 0, .1), 
-  0 2rpx 2px -2rpx rgba(0, 0, 0, .3);
-}
-.todoItem-title{
-  font-size: 28rpx;
-  font-family: 'DouyinSansBold';
-  letter-spacing: 2rpx;
-}
-.todoItem-date{
-  font-size: 28rpx;
-  letter-spacing: 2rpx;
-}
-.todoItem-date text{
-  font-size: 36rpx;
-  font-family: 'DouyinSansBold';
-  margin-right: 10rpx;
 }
 
 
-.todoItem-buttons {
-  height: 100%;
-  display: flex;
-  font-family: 'DouyinSansBold';
-}
 
-.todoItem-delete {
-  width: 120rpx;
-  height: 100%;
-  margin-left: 10rpx;
-  background: #f4f4f5;
-  color: #18181B;
-  font-size: 28rpx;
-  border-radius: 14rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0px 6rpx 0 rgba(0, 0, 0, .2), 
-  0 2rpx 2px -2rpx rgba(0, 0, 0, .4);
-}
 
-.todoItem-done {
-  width: 120rpx;
-  height: 100%;
-  margin-left: 10rpx;
 
-  background: #18181B;
-  color: #fff;
-  font-size: 28rpx;
-  border-radius: 14rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0px 6rpx 0 rgba(0, 0, 0, .1), 
-  0 2rpx 2px -2rpx rgba(0, 0, 0, .3);
-}
+
+
+
+
+
 
 
 
