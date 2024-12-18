@@ -253,7 +253,6 @@
   align-items: center;
   padding: 10rpx 0;
   box-sizing: border-box;
-  border-bottom: 1rpx solid #CDCDD0;
 }
 
 .eatingItem>view:nth-child(1){

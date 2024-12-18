@@ -1,6 +1,5 @@
 // pages/today/index.js
 var utils = require('../../../api/util.js');
-import { calendar } from '../../../utils/calendar'
 
 Component({
   properties: {
@@ -8,56 +7,39 @@ Component({
   },
   data: {
 		tabbarRealHeight: 0,
-		weekendActiveIndex: 1,
+		weekendActiveIndex: '',
 		weekendData: [{
-			id: 1,
 			title: '日',
 			name: '周日',
-			date: '2024-12-14',
+			date: '',
 		},{
-			id: 2,
 			title: '一',
 			name: '周一',
-			date: '2024-12-15',
+			date: '',
 		},{
-			id: 3,
 			title: '二',
 			name: '周二',
-			date: '2024-12-16',
+			date: '',
 		},{
-			id: 4,
 			title: '三',
 			name: '周三',
-			date: '2024-12-17',
+			date: '',
 		},{
-			id: 5,
 			title: '四',
 			name: '周四',
-			date: '2024-12-18',
+			date: '',
 		},{
-			id: 6,
 			title: '五',
 			name: '周五',
-			date: '2024-12-19',
+			date: '',
 		},{
-			id: 7,
 			title: '六',
 			name: '周六',
-			date: '2024-12-20',
+			date: '',
 		}],
-		percent: 60, // 这里设置初始百分比值
+
 		circleStyle: '', // 存放动态背景样式
-
 		supplementStep: 1, // 1: 身高、出生年月 2: 体重、目标体重、目标类型、体重指数、基础代谢率 3: 完成
-		supplementInfo: {
-			date: "", // yyyy-mm-dd
-			weight: "", // 体重
-			target_weight: "", // 目标体重 
-			target_type: "", // 目标类型 减重1 保持2 增肌3
-			bmi: "", // 体重指数
-			bmr: "" // 基础代谢率
-		},
-
 		showMaskDrawer: false,
 
 		targetTypes: [{
@@ -70,8 +52,22 @@ Component({
 			title: '增肌',
 			value: '3'
 		}],
+		activityCoefficientTypes: [{
+			title: '久坐不动',
+			value: '1.2'
+		}, {
+			title: '每周运动1-3次',
+			value: '1.375'
+		}, {
+			title: '每周运动3-5次',
+			value: '1.55'
+		}, {
+			title: '每周运动5-7次',
+			value: '1.725'
+		}],
 
 		userInfo: {},
+		weightRecently: {},
 		formData: {
 			height: "",
 			birthday: "2000-01-01",
@@ -81,33 +77,38 @@ Component({
 			target_weight: "",
 			target_type: "",
 			target_typeTitle: "",
-			bmi: "",
-			bmr: ""
+			bmi: "", // BMI指数
+			bmr: "", // 基础代谢率
+			tdee: "", // 总能量消耗
+			activityCoefficient: "", // 活动系数
+			activityCoefficientTitle: "",
+			recommended_carbs: "", // 推荐碳水
+			recommended_protein: "", // 推荐蛋白质
+			recommended_fat: "", // 推荐脂肪
 		},
+
+		intakeDailyData: {},
+		intake_id: '',
+		breakfastList: [],
+		lunchList: [],
+		dinnerList: [],
+		snackList: [],
+		breakfastCalories: {},
+		lunchCalories: {},
+		dinnerCalories: {},
+		snackCalories: {},
   },
   methods: {
-		updateCircle(percent) {
-      // 计算 conic-gradient 样式
-      const gradient = `conic-gradient(
-        #18181B 0%, 
-        #18181B ${percent}%, 
-        #CDCDD0 ${percent}%, 
-        #CDCDD0 100%
-      )`;
-
-      // 动态设置 circle-box 背景
-      this.setData({
-        circleBackground: gradient,
-      });
-    },
+		
 		
 		handleWeekendChange(e) {
 			var that = this;
 			that.setData({
-				weekendActiveIndex: e.currentTarget.dataset.id
+				weekendActiveIndex: e.currentTarget.dataset.title
 			})
+			that.getIntakeDailyData(e.currentTarget.dataset.date)
 		},
-
+		// 获取体重数据
 		getWeightData() {
 			var that = this;
 			let postData = {
@@ -119,13 +120,30 @@ Component({
         params: postData,
         success: function (res) {
           if (res.code == 200) {
-						console.log(res.data);
+
+						// 如果没数据，则跳转到完善信息页面
 						if (res.data.length == 0) {
 							that.addSupplementInfo()
 							return;
 						}
-						
-						
+
+						var age = new Date().getFullYear() - that.data.userInfo.birthday.split('-')[0]
+
+						let weightRecently = res.data[0]
+						weightRecently.recommended_carbs = parseInt(weightRecently.recommended_carbs).toFixed(0)
+						weightRecently.recommended_protein = parseInt(weightRecently.recommended_protein).toFixed(0)
+						weightRecently.recommended_fat = parseInt(weightRecently.recommended_fat).toFixed(0)
+						weightRecently.tdee = parseInt(weightRecently.tdee).toFixed(0)
+
+						console.log('身体信息',weightRecently);
+						that.setData({
+							weightRecently: weightRecently,
+							'userInfo.age': age
+						})
+						wx.setStorageSync('userInfo', that.data.userInfo)
+						// 获取当前日期
+						const currentDate = new Date().toISOString().split('T')[0];
+						that.getIntakeDailyData(currentDate)
           }else{
             wx.showToast({
               title: res.message,
@@ -135,6 +153,133 @@ Component({
         }
       })
 		},
+		getIntakeDailyData(date) {
+			var that = this;
+			let postData = {
+				date: date
+			}
+			utils.getData({
+				url: 'health/userIntake/daily',
+				params: postData,
+				success: function (res) {
+          if (res.code == 200) {
+						let availableCalories = that.data.weightRecently.tdee - res.data.calories
+						res.data.availableCalories = availableCalories < 0 ? 0 : availableCalories
+						res.data.percent = (res.data.calories / that.data.weightRecently.tdee * 100).toFixed(0)
+						
+						// 处理carbohydrate、protein、fat
+						res.data.calories = parseInt(res.data.calories).toFixed(0)
+						res.data.carbohydrate = parseInt(res.data.carbohydrate).toFixed(0)
+						res.data.protein = parseInt(res.data.protein).toFixed(0)
+						res.data.fat = parseInt(res.data.fat).toFixed(0)
+
+						that.setData({
+							intakeDailyData: res.data,
+							intake_id: res.data.id
+						})
+						that.updateCircle(that.data.intakeDailyData.percent)
+						that.getEatingList()
+						console.log('每日摄入数据',that.data.intakeDailyData);
+					}else{
+						wx.showToast({
+							title: res.message,
+							icon: 'none',
+						})
+					}
+				}
+			})
+		},
+		updateCircle(percent) {
+			var that = this;
+      // 计算 conic-gradient 样式
+      const gradient = `conic-gradient(
+        #18181B 0%, 
+        #18181B ${percent}%, 
+        #CDCDD0 ${percent}%, 
+        #CDCDD0 100%
+      )`;
+
+      // 动态设置 circle-box 背景
+      that.setData({
+        circleBackground: gradient,
+      });
+    },
+		getEatingList() {
+			var that = this;
+			let postData = {
+				user_intake_id: that.data.intake_id
+			}
+			utils.getData({
+				url: 'health/userIntakeFoods/list',
+				params: postData,
+				success: function (res) {
+					if (res.code == 200) {
+						console.log('饮食列表',res.data);
+						// eating_type 1:早餐 2:午餐 3:晚餐 4:加餐
+						let breakfastList = []
+						let lunchList = []
+						let dinnerList = []
+						let snackList = []
+						let breakfastCalories = {
+							suggested: 0,
+							actual: 0,
+						}
+						let lunchCalories = {
+							suggested: 0,
+							actual: 0,
+						}
+						let dinnerCalories = {
+							suggested: 0,
+							actual: 0,
+						}
+						let snackCalories = {
+							suggested: 0,
+							actual: 0,
+						}
+
+						res.data.forEach(item => {
+							item.calories = parseInt(item.calories).toFixed(0)
+							item.foods_weight = parseInt(item.foods_weight).toFixed(0)
+							if (item.eating_type == 1) {
+								breakfastList.push(item)
+								breakfastCalories.actual += parseInt(item.calories)
+							} else if (item.eating_type == 2) {
+								lunchList.push(item)
+								lunchCalories.actual += parseInt(item.calories)	
+							} else if (item.eating_type == 3) {
+								dinnerList.push(item)
+								dinnerCalories.actual += parseInt(item.calories)
+							} else if (item.eating_type == 4) {
+								snackList.push(item)
+								snackCalories.actual += parseInt(item.calories)
+							}
+						})
+						breakfastCalories.actual = breakfastCalories.actual.toFixed(0)
+						breakfastCalories.suggested = (that.data.weightRecently.tdee * 0.2).toFixed(0) + '-' + (that.data.weightRecently.tdee * 0.25).toFixed(0)
+						lunchCalories.actual = lunchCalories.actual.toFixed(0)
+						lunchCalories.suggested = (that.data.weightRecently.tdee * 0.35).toFixed(0) + '-' + (that.data.weightRecently.tdee * 0.4).toFixed(0)
+						dinnerCalories.actual = dinnerCalories.actual.toFixed(0)
+						dinnerCalories.suggested = (that.data.weightRecently.tdee * 0.3).toFixed(0) + '-' + (that.data.weightRecently.tdee * 0.35).toFixed(0)
+						snackCalories.actual = snackCalories.actual.toFixed(0)
+						snackCalories.suggested = 0
+
+						that.setData({
+							breakfastList: breakfastList,
+							lunchList: lunchList,
+							dinnerList: dinnerList,
+							snackList: snackList,
+							breakfastCalories: breakfastCalories,
+							lunchCalories: lunchCalories,
+							dinnerCalories: dinnerCalories,
+							snackCalories: snackCalories
+						})
+						
+					}
+				}
+			})
+		},
+
+
 		addSupplementInfo() {
 			var that = this;
 			this.triggerEvent('toggleTabBar', { show: false }, {});
@@ -145,7 +290,7 @@ Component({
 				})
 				return;
 
-			}else if (that.data.userInfo.height) {
+			} else if (that.data.userInfo.height) {
 				let age = new Date().getFullYear() - that.data.userInfo.birthday.split('-')[0];
 				that.setData({
 					showMaskDrawer: true,
@@ -227,6 +372,15 @@ Component({
 			});
 		},
 
+		// 处理活动系数选择
+		handleActivityTypeChange(e) {
+			const index = e.detail.value;
+			this.setData({
+				'formData.activityCoefficient': this.data.activityCoefficientTypes[index].value,
+				'formData.activityCoefficientTitle': this.data.activityCoefficientTypes[index].title,
+			});
+		},
+
 		// 计算BMI
 		calculateBMI() {
 			var that = this;
@@ -285,16 +439,26 @@ Component({
 		// 提交表单
 		submitForm() {
 			const that = this;
-			const { weight, target_weight, target_type } = that.data.formData;
+			const { weight, target_weight, target_type, activityCoefficient } = that.data.formData;
 			
 			// 验证必填字段
-			if (!weight || !target_weight || !target_type) {
+			if (!weight || !target_weight || !target_type || !activityCoefficient) {
 				wx.showToast({
 					title: '请填写必填项',
 					icon: 'none'
 				});
 				return;
 			}
+
+			var tdee = that.data.formData.bmr * that.data.formData.activityCoefficient
+			var intake_ratio = {
+				carbs: target_type == 1 ? 0.45 : target_type == 2 ? 0.50 : 0.55,
+				protein: target_type == 1 ? 0.25 : target_type == 2 ? 0.20 : 0.30,
+				fat: target_type == 1 ? 0.2 : target_type == 2 ? 0.25 : 0.2,
+			}
+			let recommended_carbs = (tdee * intake_ratio.carbs).toFixed(0)
+			let recommended_protein = (tdee * intake_ratio.protein).toFixed(0)
+			let recommended_fat = (tdee * intake_ratio.fat).toFixed(0)
 
 			// 获取当前日期
 			const currentDate = new Date().toISOString().split('T')[0];
@@ -304,9 +468,14 @@ Component({
 				target_weight: that.data.formData.target_weight,
 				target_type: that.data.formData.target_type,
 				bmi: that.data.formData.bmi,
-				bmr: that.data.formData.bmr
+				bmr: that.data.formData.bmr,
+				activityCoefficient: that.data.formData.activityCoefficient,
+				tdee: tdee,
+				recommended_carbs: recommended_carbs,
+				recommended_protein: recommended_protein,
+				recommended_fat: recommended_fat,
 			}
-
+			
 			utils.getData({
 				url: 'health/userWeight/add',
 				params: postData,
@@ -330,6 +499,35 @@ Component({
 				}
 			});
 		},
+		// 获取近一周的日期，并对应进weekendData
+		getWeekendData() {
+			var that = this;
+			
+			// 获取当前日期
+			let today = new Date();
+			let currentDay = today.getDay(); // 获取当前是星期几 (0-6)
+			
+			// 计算本周日的日期（向前偏移到最近的周日）
+			let sunday = new Date(today);
+			sunday.setDate(today.getDate() - currentDay);
+			
+			// 更新 weekendData
+			let updatedWeekendData = that.data.weekendData.map((item, index) => {
+				let date = new Date(sunday);
+				date.setDate(sunday.getDate() + index);
+				return {
+					...item,
+					date: date.toISOString().split('T')[0]
+				};
+			});
+
+			// 设置当前日期对应的 title 作为 activeIndex
+			that.setData({
+				weekendActiveIndex: that.data.weekendData[currentDay].title,
+				weekendData: updatedWeekendData
+			});
+			
+		}
   },
   lifetimes: {
 		attached: function () {
@@ -338,7 +536,7 @@ Component({
 				tabbarRealHeight: wx.getStorageSync('tabbarRealHeight'),
 				userInfo: wx.getStorageSync('userInfo')
 			})
-			that.updateCircle(that.data.percent)
+			that.getWeekendData()
 			that.getWeightData()
 		}
 	}

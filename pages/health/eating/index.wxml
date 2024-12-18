@@ -8,20 +8,20 @@
     <view class="weekend">
       <view 
         wx:for="{{weekendData}}" wx:key="id" 
-        class="{{item.id === weekendActiveIndex ? 'active' : ''}}" 
-        bindtap="handleWeekendChange" data-id="{{item.id}}"
+        class="{{item.title === weekendActiveIndex ? 'active' : ''}}" 
+        bindtap="handleWeekendChange" data-title="{{item.title}}" data-date="{{item.date}}"
       >
         {{item.title}}
       </view>
     </view>
     <image class="add" src="/static/image/add.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
-
   </view>
+
   <view class="kcal">
     <view class="top">
       <view class="left">
         <view>热量摄入</view>
-        <view>1273</view>
+        <view>{{intakeDailyData.calories}}</view>
       </view>
       <view class="circle-box">
         <view class="circle">
@@ -32,13 +32,13 @@
         </view>
         <view class="circleinfo">
           <view>还能吃</view>
-          <view>1273</view>
-          <view>建议 2238</view>
+          <view>{{intakeDailyData.availableCalories}}</view>
+          <view>建议 {{weightRecently.tdee}}</view>
         </view>
       </view>
       <view class="right">
         <view>热量消耗</view>
-        <view>1672</view>
+        <view>0</view>
       </view>
     </view>
     <view class="bottom">
@@ -47,47 +47,110 @@
         <view class="line">
           <view style="width: 10%;"></view>
         </view>
-        <view>31 / 313 克</view>
+        <view>{{intakeDailyData.carbohydrate}} / {{weightRecently.recommended_carbs}} 克</view>
       </view>
       <view>
         <view>蛋白质</view>
         <view class="line">
           <view></view>
         </view>
-        <view>0 / 90 克</view>
+        <view>{{intakeDailyData.protein}} / {{weightRecently.recommended_protein}} 克</view>
       </view>
       <view>
         <view>脂肪</view>
         <view class="line">
           <view></view>
         </view>
-        <view>0 / 70 克</view>
+        <view>{{intakeDailyData.fat}} / {{weightRecently.recommended_fat}} 克</view>
       </view>
     </view>
   </view>
 
-  <view class="eatingList">
+  <view class="eatingList" wx:if="{{breakfastList.length > 0}}">
     <view class="eatingTitle">
       <view>
         <view>早餐</view>
-        <view>建议 600-800 千卡</view>
+        <view>建议 {{breakfastCalories.suggested}} 千卡</view>
       </view>
-      <view>1273 千卡</view>
+      <view>{{breakfastCalories.actual}} 千卡</view>
     </view>
-    <view class="eatingItem">
+    <view class="eatingItem" wx:for="{{breakfastList}}" wx:key="id">
       <view>
         <view class="eatingImg" >
-          <image src="/static/image/eating1.jpg" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+          <image src="https://crayonapi.orcatt.one/{{item.image_path}}" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
         </view>
         <view class="eatingInfo">
-          <view>达美乐鸡蛋沙拉</view>
-          <view>250 克</view>
+          <view>{{item.food_name}}</view>
+          <view>{{item.foods_weight}} 克</view>
         </view>
       </view>
-      <view>100 千卡 ></view>
+      <view>{{item.calories}} 千卡 ></view>
     </view>
-      
   </view>
+  <view class="eatingList" wx:if="{{lunchList.length > 0}}">
+    <view class="eatingTitle">
+      <view>
+        <view>午餐</view>
+        <view>建议 {{lunchCalories.suggested}} 千卡</view>
+      </view>
+      <view>{{lunchCalories.actual}} 千卡</view>
+    </view>
+    <view class="eatingItem" wx:for="{{lunchList}}" wx:key="id">
+      <view>
+        <view class="eatingImg" >
+          <image src="https://crayonapi.orcatt.one/{{item.image_path}}" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+        </view>
+        <view class="eatingInfo">
+          <view>{{item.food_name}}</view>
+          <view>{{item.foods_weight}} 克</view>
+        </view>
+      </view>
+      <view>{{item.calories}} 千卡 ></view>
+    </view>
+  </view>
+  <view class="eatingList" wx:if="{{dinnerList.length > 0}}">
+    <view class="eatingTitle">
+      <view>
+        <view>晚餐</view>
+        <view>建议 {{dinnerCalories.suggested}} 千卡</view>
+      </view>
+      <view>{{dinnerCalories.actual}} 千卡</view>
+    </view>
+    <view class="eatingItem" wx:for="{{dinnerList}}" wx:key="id">
+      <view>
+        <view class="eatingImg" >
+          <image src="https://crayonapi.orcatt.one/{{item.image_path}}" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+        </view>
+        <view class="eatingInfo">
+          <view>{{item.food_name}}</view>
+          <view>{{item.foods_weight}} 克</view>
+        </view>
+      </view>
+      <view>{{item.calories}} 千卡 ></view>
+    </view>
+  </view>
+  <view class="eatingList" wx:if="{{snackList.length > 0}}">
+    <view class="eatingTitle">
+      <view>
+        <view>加餐</view>
+        <view>建议别吃</view>
+      </view>
+      <view>{{snackCalories.actual}} 千卡</view>
+    </view>
+    <view class="eatingItem" wx:for="{{snackList}}" wx:key="id">
+      <view>
+        <view class="eatingImg" >
+          <image src="https://crayonapi.orcatt.one/{{item.image_path}}" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+        </view>
+        <view class="eatingInfo">
+          <view>{{item.food_name}}</view>
+          <view>{{item.foods_weight}} 克</view>
+        </view>
+      </view>
+      <view>{{item.calories}} 千卡 ></view>
+    </view>
+  </view>
+  <view style="height: 100rpx;"></view>
     
 </view>
 <view class="drawer-mask" wx:if="{{showMaskDrawer}}" bindtap="closeMaskDrawer"></view>
@@ -135,6 +198,15 @@
         <picker mode="selector" range="{{targetTypes}}" range-key="title" value="{{formData.target_type}}" bindchange="handleTargetTypeChange">
           <view class="{{formData.target_type ? '' : 'placeholderClass'}}">
             {{formData.target_typeTitle || '请选择目标类型'}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="account-title">活动系数<text class="required">*</text></view>
+      <view class="account-input">
+        <picker mode="selector" range="{{activityCoefficientTypes}}" range-key="title" value="{{formData.activityCoefficient}}" bindchange="handleActivityTypeChange">
+          <view class="{{formData.activityCoefficient ? '' : 'placeholderClass'}}">
+            {{formData.activityCoefficientTitle || '请选择活动系数'}}
           </view>
         </picker>
       </view>
