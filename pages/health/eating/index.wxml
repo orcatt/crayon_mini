@@ -65,7 +65,13 @@
       </view>
     </view>
   </view>
-
+  <view class="foodTags" style="justify-content: flex-end;">
+    <view>热量</view>
+    <view>碳水</view>
+    <view>蛋白</view>
+    <view>脂肪</view>
+    <view>纤维</view>
+  </view>
   <view class="eatingList" wx:if="{{breakfastList.length > 0}}">
     <view class="eatingTitle">
       <view>
@@ -81,10 +87,17 @@
         </view>
         <view class="eatingInfo">
           <view>{{item.food_name}}</view>
-          <view>{{item.foods_weight}} 克</view>
+          <view class="foodTags">
+            <view>{{item.calories}} 千卡</view>
+            <view>{{item.carbohydrate}}</view>
+            <view>{{item.protein}}</view>
+            <view>{{item.fat}}</view>
+            <view>{{item.cellulose}}</view>
+          </view>
         </view>
       </view>
-      <view>{{item.calories}} 千卡 ></view>
+      <view>{{item.foods_weight}} 克 ></view>
+      <view></view>
     </view>
   </view>
   <view class="eatingList" wx:if="{{lunchList.length > 0}}">
@@ -98,14 +111,21 @@
     <view class="eatingItem" wx:for="{{lunchList}}" wx:key="id">
       <view>
         <view class="eatingImg" >
-          <image src="https://crayonapi.orcatt.one/{{item.image_path}}" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+          <image src="https://crayonapi.orcatt.one/{{item.image_path}}" mode="aspectFill" lazy-load="false" binderror="" bindload="" />
         </view>
         <view class="eatingInfo">
           <view>{{item.food_name}}</view>
-          <view>{{item.foods_weight}} 克</view>
+          <view class="foodTags">
+            <view>{{item.calories}} 千卡</view>
+            <view>{{item.carbohydrate}}</view>
+            <view>{{item.protein}}</view>
+            <view>{{item.fat}}</view>
+            <view>{{item.cellulose}}</view>
+          </view>
         </view>
-      </view>
-      <view>{{item.calories}} 千卡 ></view>
+      </view>      
+      <view>{{item.foods_weight}} 克 ></view>
+      <view></view>
     </view>
   </view>
   <view class="eatingList" wx:if="{{dinnerList.length > 0}}">
@@ -119,14 +139,21 @@
     <view class="eatingItem" wx:for="{{dinnerList}}" wx:key="id">
       <view>
         <view class="eatingImg" >
-          <image src="https://crayonapi.orcatt.one/{{item.image_path}}" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+          <image src="https://crayonapi.orcatt.one/{{item.image_path}}" mode="aspectFill" lazy-load="false" binderror="" bindload="" />
         </view>
         <view class="eatingInfo">
           <view>{{item.food_name}}</view>
-          <view>{{item.foods_weight}} 克</view>
+          <view class="foodTags">
+            <view>{{item.calories}} 千卡</view>
+            <view>{{item.carbohydrate}}</view>
+            <view>{{item.protein}}</view>
+            <view>{{item.fat}}</view>
+            <view>{{item.cellulose}}</view>
+          </view>
         </view>
       </view>
-      <view>{{item.calories}} 千卡 ></view>
+      <view>{{item.foods_weight}} 克 ></view>
+      <view></view>
     </view>
   </view>
   <view class="eatingList" wx:if="{{snackList.length > 0}}">
@@ -140,14 +167,21 @@
     <view class="eatingItem" wx:for="{{snackList}}" wx:key="id">
       <view>
         <view class="eatingImg" >
-          <image src="https://crayonapi.orcatt.one/{{item.image_path}}" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+          <image src="https://crayonapi.orcatt.one/{{item.image_path}}" mode="aspectFill" lazy-load="false" binderror="" bindload="" />
         </view>
         <view class="eatingInfo">
           <view>{{item.food_name}}</view>
-          <view>{{item.foods_weight}} 克</view>
+          <view class="foodTags">
+            <view>{{item.calories}} 千卡</view>
+            <view>{{item.carbohydrate}}</view>
+            <view>{{item.protein}}</view>
+            <view>{{item.fat}}</view>
+            <view>{{item.cellulose}}</view>
+          </view>
         </view>
       </view>
-      <view>{{item.calories}} 千卡 ></view>
+      <view>{{item.foods_weight}} 克 ></view>
+      <view></view>
     </view>
   </view>
   <view style="height: 100rpx;"></view>
@@ -260,7 +294,6 @@
         <view>脂肪</view>
         <view>纤维</view>
         <text>/百克</text>
-
       </view>
 
       <scroll-view 
@@ -288,7 +321,7 @@
             </view>
             <image class="addimg" src="/static/image/add.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
           </view>
-          <view ></view>
+          <view></view>
         </view>
         <view class="nodata" wx:if="{{notData}}">没有更多数据了</view>
       </scroll-view>

@@ -371,6 +371,10 @@ Component({
 						res.data.forEach(item => {
 							item.calories = parseInt(item.calories).toFixed(0)
 							item.foods_weight = parseInt(item.foods_weight).toFixed(0)
+							item.carbohydrate = parseInt(item.carbohydrate).toFixed(0)
+							item.protein = parseInt(item.protein).toFixed(0)
+							item.fat = parseInt(item.fat).toFixed(0)
+							item.cellulose = parseInt(item.cellulose).toFixed(0)
 							if (item.eating_type == 1) {
 								breakfastList.push(item)
 								breakfastCalories.actual += parseInt(item.calories)
@@ -671,7 +675,7 @@ Component({
 			that.getFoodList();
 		},
 
-		// 处理分��选择
+		// 处理分类选择
 		handleTypeSelect(e) {
 			var that = this;
 			const { id } = e.currentTarget.dataset;
@@ -752,7 +756,6 @@ Component({
 					image_path: food.image_path,
 				}
 			});
-			console.log(that.data.selectedFood);
 
 		},
 
