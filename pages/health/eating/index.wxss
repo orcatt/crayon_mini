@@ -1,21 +1,21 @@
 /* pages/today/index.wxss */
 
 .mode {
-	width: 90%;
-	margin: auto;
-	padding: 20rpx 0;
-	overflow-y: auto;
+  width: 90%;
+  margin: auto;
+  padding: 20rpx 0;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 
-.date{
+.date {
   width: 100%;
   height: 180rpx;
   position: relative;
   /* background-color: #606060; */
 }
 
-.date .add{
+.date .add {
   width: 60rpx;
   height: 60rpx;
   position: absolute;
@@ -23,7 +23,7 @@
   top: 5rpx;
 }
 
-.date-title{
+.date-title {
   margin: -10rpx auto 10rpx auto;
   width: 300rpx;
   height: 70rpx;
@@ -32,17 +32,17 @@
   box-sizing: border-box;
   border-radius: 20rpx;
   font-size: 32rpx;
-  font-family: 'DouyinSansBold';
+  font-family: "DouyinSansBold";
   text-align: center;
-  background-color: #F4F4F5;
-  box-shadow: 0 0px 6rpx 0 rgba(0, 0, 0, .1), 
-  0 2rpx 2px -2rpx rgba(0, 0, 0, .3);
+  background-color: #f4f4f5;
+  box-shadow: 0 0px 6rpx 0 rgba(0, 0, 0, 0.1),
+    0 2rpx 2px -2rpx rgba(0, 0, 0, 0.3);
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.date-title>view:nth-child(2){
+.date-title > view:nth-child(2) {
   width: 0;
   height: 0;
   border-left: 14rpx solid transparent;
@@ -54,43 +54,41 @@
   transform: translateY(-50%);
 }
 
-.weekend{
+.weekend {
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
 
-.weekend>view{
+.weekend > view {
   width: 60rpx;
   height: 60rpx;
   line-height: 60rpx;
   margin: 20rpx 0;
   text-align: center;
   font-size: 32rpx;
-  color: #71717A;
-
+  color: #71717a;
 }
-.active{
-  color: #09090B !important;
-  font-family: 'DouyinSansBold';
+.active {
+  color: #09090b !important;
+  font-family: "DouyinSansBold";
   border-radius: 10rpx;
-  background-color: #F4F4F5;
+  background-color: #f4f4f5;
 }
 
-
-
-.kcal{
+.kcal {
   width: 100%;
   height: 510rpx;
   border-radius: 24rpx;
   padding: 50rpx;
   box-sizing: border-box;
-  color: #09090B;
-  box-shadow: 0 0px 6rpx 0 rgba(0, 0, 0, .1), 0 2rpx 2px -2rpx rgba(0, 0, 0, .3);
-  background-color: #F4F4F5;
+  color: #09090b;
+  box-shadow: 0 0px 6rpx 0 rgba(0, 0, 0, 0.1),
+    0 2rpx 2px -2rpx rgba(0, 0, 0, 0.3);
+  background-color: #f4f4f5;
   margin-bottom: 50rpx;
 }
-.kcal .top{
+.kcal .top {
   width: 100%;
   height: 280rpx;
   margin-bottom: 30rpx;
@@ -99,7 +97,7 @@
   align-items: center;
 }
 .kcal .top .left,
-.kcal .top .right{
+.kcal .top .right {
   width: 20%;
   height: 100%;
   display: flex;
@@ -108,17 +106,16 @@
   align-items: center;
   gap: 8rpx;
 }
-.kcal .top .left>view:nth-child(1),
-.kcal .top .right>view:nth-child(1){
+.kcal .top .left > view:nth-child(1),
+.kcal .top .right > view:nth-child(1) {
   font-size: 24rpx;
-  color: #71717A;
+  color: #71717a;
 }
-.kcal .top .left>view:nth-child(2),
-.kcal .top .right>view:nth-child(2){
+.kcal .top .left > view:nth-child(2),
+.kcal .top .right > view:nth-child(2) {
   font-size: 36rpx;
-  font-family: 'DouyinSansBold';
+  font-family: "DouyinSansBold";
 }
-
 
 .circle-box {
   width: 60%;
@@ -143,109 +140,105 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
- }
+}
 
 .circleinfo {
   position: absolute;
   width: 224rpx;
   height: 224rpx;
   border-radius: 50%;
-  background-color: #F4F4F5;
+  background-color: #f4f4f5;
   z-index: 1;
-  
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.circleinfo>view:nth-child(1) {
+.circleinfo > view:nth-child(1) {
   font-size: 24rpx;
-  color: #71717A;
+  color: #71717a;
 }
 
-.circleinfo>view:nth-child(2) {
+.circleinfo > view:nth-child(2) {
   font-size: 48rpx;
-  font-family: 'DouyinSansBold';
+  font-family: "DouyinSansBold";
 }
 
-.circleinfo>view:nth-child(3) {
+.circleinfo > view:nth-child(3) {
   font-size: 24rpx;
-  color: #71717A;
+  color: #71717a;
 }
 
-
-
-.kcal .bottom{
+.kcal .bottom {
   width: 100%;
   height: 100rpx;
   display: flex;
   justify-content: space-between;
 }
-.kcal .bottom>view{
+.kcal .bottom > view {
   height: 100%;
   width: 25%;
 }
-.kcal .bottom>view>view:nth-child(1){
+.kcal .bottom > view > view:nth-child(1) {
   width: 100%;
   height: 40rpx;
   font-size: 24rpx;
-  color: #71717A;
+  color: #71717a;
 }
-.kcal .bottom .line{
+.kcal .bottom .line {
   width: 100%;
   height: 10rpx;
   border-radius: 10rpx;
-  background-color: #CDCDD0;
+  background-color: #cdcdd0;
   margin: 5rpx 0 10rpx 0;
 }
-.kcal .bottom .line>view{
+.kcal .bottom .line > view {
   height: 100%;
   width: 0;
-  background-color: #18181B;
+  background-color: #18181b;
   border-radius: 10rpx;
 }
 
-.kcal .bottom>view>view:nth-child(3){
+.kcal .bottom > view > view:nth-child(3) {
   font-size: 28rpx;
-  font-family: 'DouyinSansBold';
+  font-family: "DouyinSansBold";
 }
 
-
-
-.eatingList{
+.eatingList {
   width: 100%;
 }
 
-.eatingTitle{
+.eatingTitle {
   width: 100%;
   height: 100rpx;
   display: flex;
   justify-content: space-between;
   align-items: center;
-} 
-.eatingTitle>view:nth-child(1){
+}
+.eatingTitle > view:nth-child(1) {
   display: flex;
   align-items: center;
   gap: 20rpx;
 }
-.eatingTitle>view:nth-child(1)>view:nth-child(1){
+.eatingTitle > view:nth-child(1) > view:nth-child(1) {
   font-size: 36rpx;
-  font-family: 'DouyinSansBold';
-  color: #09090B;
+  font-family: "DouyinSansBold";
+  color: #09090b;
 }
-.eatingTitle>view:nth-child(1)>view:nth-child(2){
+.eatingTitle > view:nth-child(1) > view:nth-child(2) {
   font-size: 24rpx;
-  color: #71717A;
+  color: #71717a;
 }
 
-.eatingTitle>view:nth-child(2){
+.eatingTitle > view:nth-child(2) {
   font-size: 28rpx;
-  font-family: 'DouyinSansBold';
-  color: #09090B;
+  font-family: "DouyinSansBold";
+  color: #09090b;
 }
 
-.eatingItem{
+.eatingItem {
   width: 100%;
   height: 100rpx;
   display: flex;
@@ -255,24 +248,24 @@
   box-sizing: border-box;
 }
 
-.eatingItem>view:nth-child(1){
+.eatingItem > view:nth-child(1) {
   width: 70%;
   height: 100%;
   display: flex;
   align-items: center;
   gap: 20rpx;
 }
-.eatingImg{
+.eatingImg {
   width: 80rpx;
   height: 80rpx;
   border-radius: 10rpx;
 }
-.eatingImg>image{
+.eatingImg > image {
   width: 100%;
   height: 100%;
   border-radius: 10rpx;
 }
-.eatingInfo{
+.eatingInfo {
   width: 100%;
   height: 100%;
   display: flex;
@@ -280,39 +273,27 @@
   justify-content: center;
   align-items: flex-start;
 }
-.eatingInfo>view:nth-child(1){
+.eatingInfo > view:nth-child(1) {
   height: 40rpx;
   font-size: 28rpx;
-  font-family: 'DouyinSansBold';
-  color: #09090B;
+  font-family: "DouyinSansBold";
+  color: #09090b;
 }
-.eatingInfo>view:nth-child(2){
+.eatingInfo > view:nth-child(2) {
   height: 30rpx;
   font-size: 24rpx;
-  color: #71717A;
+  color: #71717a;
 }
 
-.eatingItem>view:nth-child(2){
+.eatingItem > view:nth-child(2) {
   width: 30%;
   height: 100%;
   font-size: 24rpx;
-  color: #71717A;
+  color: #71717a;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 .drawer-mask {
   position: fixed;
@@ -335,7 +316,7 @@
   transition: transform 0.3s ease;
   z-index: 501;
   max-height: 90vh;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 .drawer.drawer-show {
@@ -343,7 +324,8 @@
 }
 
 .drawer-header {
-  padding: 32rpx 40rpx;
+  height: 50rpx;
+  padding: 30rpx 40rpx;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -351,14 +333,14 @@
 }
 
 .drawer-title {
-  color: #09090B;
+  color: #09090b;
   font-size: 36rpx;
-  font-family: 'DouyinSansBold';
+  font-family: "DouyinSansBold";
 }
 
 .drawer-close {
   font-size: 36rpx;
-  color: #71717A;
+  color: #71717a;
   padding: 0 20rpx;
 }
 
@@ -372,7 +354,7 @@
 
 .account-title {
   font-size: 32rpx;
-  color: #09090B;
+  color: #09090b;
   margin-bottom: 12rpx;
   margin-top: 30rpx;
 }
@@ -389,7 +371,7 @@
 .account-input {
   height: 50rpx;
   line-height: 50rpx;
-  border-bottom: 1rpx solid #71717A;
+  border-bottom: 1rpx solid #71717a;
 }
 
 .account-input input,
@@ -413,7 +395,7 @@
 }
 
 .placeholderClass {
-  color: #71717A;
+  color: #71717a;
   font-size: 28rpx;
 }
 
@@ -425,15 +407,15 @@
   width: 100%;
   height: 80rpx;
   line-height: 80rpx;
-  text-align: center; 
+  text-align: center;
   border-radius: 12rpx;
-  background: #18181B;
+  background: #18181b;
   color: #fff;
   font-size: 28rpx;
 }
 
 .otherlogin {
-  color: #71717A;
+  color: #71717a;
   font-size: 28rpx;
   text-align: right;
   margin-top: 24rpx;
@@ -446,7 +428,8 @@
   margin-top: 30rpx;
 }
 
-.date-item, .time-item {
+.date-item,
+.time-item {
   flex: 1;
 }
 
@@ -476,7 +459,7 @@
 
 .calendar-type text {
   margin-left: 20rpx;
-  color: #71717A;
+  color: #71717a;
 }
 
 .options-group {
@@ -491,5 +474,321 @@
 }
 
 .option-item text {
-  color: #71717A;
+  color: #71717a;
 }
+
+.drawer-food {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 110rpx);
+
+}
+
+.search-box {
+  padding: 20rpx;
+}
+
+.search-box input {
+  background: #f5f5f5;
+  padding: 20rpx;
+  border-radius: 8rpx;
+}
+
+.food-container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.food-type {
+  width: 22%;
+  background: #f8f8f8;
+  overflow-y: auto;
+}
+
+.type-item {
+  padding: 30rpx 20rpx;
+  font-size: 24rpx;
+  text-align: center;
+}
+
+.type-item.active {
+  background: #fff;
+}
+
+.food-list {
+  width: 78%;
+  height: 100%;
+  padding: 60rpx 20rpx 0 20rpx;
+  box-sizing: border-box;
+}
+.identify{
+  width: fit-content !important;
+  position: absolute;
+  top: 0rpx;
+  right: 20rpx;
+  width: 100%;
+  height: 100rpx;
+  background-color: #fff;
+}
+
+.foodItem {
+  width: 100%;
+  height: 120rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  margin-bottom: 50rpx;
+  position: relative;
+  /* box-shadow: 0 0px 6rpx 0 rgba(0, 0, 0, 0.1),
+  0 2rpx 2px -2rpx rgba(0, 0, 0, 0.3);
+  background-color: #f4f4f5; */
+}
+
+.foodItem>view:nth-child(1) {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+.foodItem>view:nth-child(2){
+  width: calc(100% - 240rpx);
+  height: 2rpx;
+  background-color: #f4f4f5;
+  position: absolute;
+  bottom: -30rpx;
+  left: 120rpx;
+}
+.foodImg {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 10rpx;
+}
+
+.foodImg > image {
+  width: 100%;
+  height: 100%;
+  border-radius: 10rpx;
+}
+
+.foodInfo {
+  width: calc(100% - 140rpx);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.foodInfo>view:nth-child(1) {
+  width: 100%;
+  height: 40rpx;
+  line-height: 40rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  /* font-family: "DouyinSansBold"; */
+  color: #09090b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.foodTags {
+  width: 100%;
+  height: 40rpx;
+  line-height: 42rpx;
+  font-size: 24rpx;
+  font-family: "DouyinSansBold";
+  color: #71717a;
+  display: flex;
+}
+.foodTags>view {
+  width: fit-content;
+  padding: 0 12rpx;
+  box-sizing: border-box;
+  font-size: 24rpx;
+}
+
+.foodTags>view:nth-of-type(1) {
+  background-color: #FFA500;
+  color: #fff;
+  border-top-left-radius: 6rpx;
+  border-bottom-left-radius: 6rpx;
+}
+
+.foodTags>view:nth-of-type(2) {
+  background-color: #F0E68C;
+  color: #09090B;
+}
+
+
+.foodTags > view:nth-of-type(3) {
+  background-color: #D2B48C;
+  color: #fff;
+}
+
+.foodTags > view:nth-of-type(4) {
+  background-color: #FF69B4;
+  color: #fff;
+}
+
+.foodTags > view:nth-of-type(5) {
+  background-color: #008000;
+  color: #fff;
+
+}
+.foodTags>view:last-of-type {
+  border-top-right-radius: 6rpx;
+  border-bottom-right-radius: 6rpx;
+  margin-right: 10rpx;
+}
+.nodata {
+  width: 100%;
+  height: 120rpx;
+  line-height: 100rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: #71717a;
+}
+.foodItem .addimg{
+  width: 44rpx;
+  height: 44rpx;
+  position: absolute;
+  right: 20rpx;
+  bottom: 0;
+}
+
+
+
+/* 食物详情弹窗样式 */
+.food-detail-mask {
+  z-index: 600;
+}
+
+.food-detail-drawer {
+  z-index: 601;
+  max-height: 78vh;
+}
+
+
+.food-detail-header {
+  display: flex;
+  gap: 30rpx;
+  margin-bottom: 40rpx;
+}
+
+.food-detail-img {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+
+.food-detail-img image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.food-detail-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.food-name {
+  font-size: 32rpx;
+  font-family: 'DouyinSansBold';
+  margin-bottom: 20rpx;
+}
+
+
+.food-nutrition {
+  width: 100%;
+  height: 44rpx;
+  line-height: 46rpx;
+  font-size: 24rpx;
+  font-family: "DouyinSansBold";
+  color: #71717a;
+  display: flex;
+  margin-top: 2rpx;
+}
+.food-nutrition>view {
+  width: 100%;
+  padding: 0 12rpx;
+  box-sizing: border-box;
+  font-size: 24rpx;
+  text-align: center;
+}
+
+.food-nutrition>view:nth-of-type(1) {
+  background-color: #FFA500;
+  color: #fff;
+}
+
+.food-nutrition>view:nth-of-type(2) {
+  background-color: #F0E68C;
+  color: #09090B;
+}
+
+
+.food-nutrition > view:nth-of-type(3) {
+  background-color: #D2B48C;
+  color: #fff;
+}
+
+.food-nutrition > view:nth-of-type(4) {
+  background-color: #FF69B4;
+  color: #fff;
+}
+
+.food-nutrition > view:nth-of-type(5) {
+  background-color: #008000;
+  color: #fff;
+
+}
+
+.food-detail-measurement {
+  margin-top: 20rpx;
+}
+.food-detail-measurement>view:nth-child(1) {
+  font-size: 28rpx;
+  color: #09090B;
+  font-family: 'DouyinSansBold';
+  margin-bottom: 10rpx;
+}
+
+.food-detail-measurement>view:nth-child(2)>view {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50rpx;
+  line-height: 50rpx;
+  gap: 20rpx;
+  color: #71717a;
+  font-size: 24rpx;
+}
+
+.food-detail-form {
+  margin-top: 30rpx;
+}
+
+.food-detail-calories {
+  margin-top: 30rpx;
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+}
+
+.calories-value {
+  color: #FF4D4F;
+  font-family: 'DouyinSansBold';
+  margin-left: 10rpx;
+}
+
