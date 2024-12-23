@@ -45,6 +45,7 @@ Component({
 		showSelectFoodsDrawer: false,
 		showFoodDetailDrawer: false,
 		selectedFood: null,
+		modifyEatingFoodStatus: false, // 是否是修改食物
 		mealTimes: [{
 			title: '早餐',
 			value: '1'
@@ -112,7 +113,7 @@ Component({
 
 		intakeDailyData: {},
 		intake_id: '',
-
+		eatingList: [],
 		breakfastList: [],
 		lunchList: [],
 		dinnerList: [],
@@ -347,66 +348,57 @@ Component({
 					if (res.code == 200) {
 						console.log('饮食列表',res.data);
 						// eating_type 1:早餐 2:午餐 3:晚餐 4:加餐
-						let breakfastList = []
-						let lunchList = []
-						let dinnerList = []
-						let snackList = []
-						let breakfastCalories = {
-							suggested: 0,
-							actual: 0,
-						}
-						let lunchCalories = {
-							suggested: 0,
-							actual: 0,
-						}
-						let dinnerCalories = {
-							suggested: 0,
-							actual: 0,
-						}
-						let snackCalories = {
-							suggested: 0,
-							actual: 0,
-						}
+						let eatingList = [{
+							eating_type: 1,
+							eating_typeTitle: '早餐',
+							calories: 0,
+							suggested: (that.data.weightRecently.tdee * 0.2).toFixed(0) + '-' + (that.data.weightRecently.tdee * 0.25).toFixed(0),
+							list: []
+						},{
+							eating_type: 2,
+							eating_typeTitle: '午餐',
+							calories: 0,
+							suggested: (that.data.weightRecently.tdee * 0.35).toFixed(0) + '-' + (that.data.weightRecently.tdee * 0.4).toFixed(0),
+							list: []
+						},{
+							eating_type: 3,
+							eating_typeTitle: '晚餐',
+							calories: 0,
+							suggested: (that.data.weightRecently.tdee * 0.3).toFixed(0) + '-' + (that.data.weightRecently.tdee * 0.35).toFixed(0),
+							list: []
+						},{
+							eating_type: 4,
+							eating_typeTitle: '加餐',
+							calories: 0,
+							suggested: '0',
+							list: []
+						}]
 
+						// 处理每个食物项并分配到对应的餐次
 						res.data.forEach(item => {
+							// 处理数值格式
 							item.calories = parseInt(item.calories).toFixed(0)
 							item.foods_weight = parseInt(item.foods_weight).toFixed(0)
 							item.carbohydrate = parseInt(item.carbohydrate).toFixed(0)
 							item.protein = parseInt(item.protein).toFixed(0)
 							item.fat = parseInt(item.fat).toFixed(0)
 							item.cellulose = parseInt(item.cellulose).toFixed(0)
-							if (item.eating_type == 1) {
-								breakfastList.push(item)
-								breakfastCalories.actual += parseInt(item.calories)
-							} else if (item.eating_type == 2) {
-								lunchList.push(item)
-								lunchCalories.actual += parseInt(item.calories)	
-							} else if (item.eating_type == 3) {
-								dinnerList.push(item)
-								dinnerCalories.actual += parseInt(item.calories)
-							} else if (item.eating_type == 4) {
-								snackList.push(item)
-								snackCalories.actual += parseInt(item.calories)
+
+							// 找到对应的餐次并添加到列表中
+							const mealIndex = eatingList.findIndex(meal => meal.eating_type == item.eating_type)
+							if (mealIndex !== -1) {
+								eatingList[mealIndex].list.push(item)
+								eatingList[mealIndex].calories += parseInt(item.calories)
 							}
 						})
-						breakfastCalories.actual = breakfastCalories.actual.toFixed(0)
-						breakfastCalories.suggested = (that.data.weightRecently.tdee * 0.2).toFixed(0) + '-' + (that.data.weightRecently.tdee * 0.25).toFixed(0)
-						lunchCalories.actual = lunchCalories.actual.toFixed(0)
-						lunchCalories.suggested = (that.data.weightRecently.tdee * 0.35).toFixed(0) + '-' + (that.data.weightRecently.tdee * 0.4).toFixed(0)
-						dinnerCalories.actual = dinnerCalories.actual.toFixed(0)
-						dinnerCalories.suggested = (that.data.weightRecently.tdee * 0.3).toFixed(0) + '-' + (that.data.weightRecently.tdee * 0.35).toFixed(0)
-						snackCalories.actual = snackCalories.actual.toFixed(0)
-						snackCalories.suggested = 0
+
+						// 格式化每个餐次的总卡路里
+						eatingList.forEach(meal => {
+							meal.calories = meal.calories.toFixed(0)
+						})
 
 						that.setData({
-							breakfastList: breakfastList,
-							lunchList: lunchList,
-							dinnerList: dinnerList,
-							snackList: snackList,
-							breakfastCalories: breakfastCalories,
-							lunchCalories: lunchCalories,
-							dinnerCalories: dinnerCalories,
-							snackCalories: snackCalories
+							eatingList: eatingList
 						})
 						
 					}
@@ -414,7 +406,7 @@ Component({
 			})
 		},
 
-
+		// 添加补充身体信息
 		addSupplementInfo() {
 			var that = this;
 			this.triggerEvent('toggleTabBar', { show: false }, {});
@@ -571,7 +563,7 @@ Component({
 			});
 		},
 
-		// 提交表单
+		// 提交身体信息表单
 		submitForm() {
 			const that = this;
 			const { weight, target_weight, target_type, activityCoefficient } = that.data.formData;
@@ -655,7 +647,8 @@ Component({
 				page: 1,
 				notData: false,
 				foodList: [],
-				currentType: 1
+				currentType: 1,
+				modifyEatingFoodStatus: false,
 			})
 		},
 
@@ -746,21 +739,26 @@ Component({
 			// 初始化表单数据
 			that.setData({
 				selectedFood: food,
-				
 				showFoodDetailDrawer: true,
+				modifyEatingFoodStatus: false,
 				foodDetailForm: {
 					user_intake_id: that.data.intake_id,
 					food_id: food.id,
-					food_name: food.name,
-					food_category: food.category,
-					image_path: food.image_path,
 				}
 			});
-
+			console.log('选择食物',that.data.selectedFood);
+			
 		},
 
 		// 关闭食物详情弹窗
 		closeFoodDetailDrawer() {
+			var that = this;
+			if(that.data.modifyEatingFoodStatus) {
+				that.triggerEvent('toggleTabBar', { show: true }, {});
+				that.setData({
+					modifyEatingFoodStatus: false,
+				})
+			}
 			this.setData({
 				showFoodDetailDrawer: false,
 				selectedFood: null,
@@ -801,6 +799,33 @@ Component({
 			console.log('食物详情',that.data.foodDetailForm);
 		},
 
+		// ? ---修改 --- 
+		modifyEatingFood(e) {
+			var that = this;
+			let item = e.currentTarget.dataset.item;
+			that.triggerEvent('toggleTabBar', { show: false }, {});
+			
+			that.setData({
+				selectedFood: item.food_info,
+				foodDetailForm: {
+					id: item.id,
+					user_intake_id: item.user_intake_id,
+					food_id: item.food_id,
+					eating_type: item.eating_type,
+					eating_typeTitle: that.data.mealTimes.find(lis => lis.value == item.eating_type).title,
+					foods_weight: item.foods_weight,
+					calories: item.calories,
+					carbohydrate: item.carbohydrate,
+					protein: item.protein,
+					fat: item.fat,
+					cellulose: item.cellulose
+				},
+				modifyEatingFoodStatus: true,
+				showFoodDetailDrawer: true,
+			});
+			console.log('修改食物',that.data.foodDetailForm);
+			console.log('修改食物',item);
+		},
 		// 提交食物详情
 		submitFoodDetail() {
 			const that = this;
@@ -815,21 +840,21 @@ Component({
 				return;
 			}
 			
+		
+
 			let postData = {
 				eating_type: "",
-				eating_typeTitle: '',
-				foods_weight: "",
 				user_intake_id: "",
 				food_id: "",
-				food_name: "",
-				food_category: "",
-				image_path: "",
 				calories: "",
 				carbohydrate: "",
 				fat: "",
 				protein: "",
 				cellulose: "",
 			};
+			if(that.data.modifyEatingFoodStatus) {
+				postData.id = that.data.foodDetailForm.id
+			}
 			Object.keys(that.data.foodDetailForm).forEach(key => {
 				postData[key] = that.data.foodDetailForm[key];
 			});
@@ -837,12 +862,12 @@ Component({
 			
 
 			utils.getData({
-				url: 'health/userIntakeFoods/add',
+				url: that.data.modifyEatingFoodStatus ? 'health/userIntakeFoods/update' : 'health/userIntakeFoods/add',
 				params: postData,
 				success: (res) => {
 					if (res.code === 200) {
 						wx.showToast({
-							title: '添加成功',
+							title: that.data.modifyEatingFoodStatus ? '修改成功' : '添加成功',
 							icon: 'success'
 						});
 						that.closeFoodDetailDrawer();
@@ -856,7 +881,7 @@ Component({
 					}
 				}
 			});
-		}
+		},
   },
   lifetimes: {
 		attached: function () {

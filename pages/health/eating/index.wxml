@@ -65,128 +65,49 @@
       </view>
     </view>
   </view>
-  <view class="foodTags" style="justify-content: flex-end;">
-    <view>热量</view>
-    <view>碳水</view>
-    <view>蛋白</view>
-    <view>脂肪</view>
-    <view>纤维</view>
-  </view>
-  <view class="eatingList" wx:if="{{breakfastList.length > 0}}">
-    <view class="eatingTitle">
-      <view>
-        <view>早餐</view>
-        <view>建议 {{breakfastCalories.suggested}} 千卡</view>
-      </view>
-      <view>{{breakfastCalories.actual}} 千卡</view>
+  <block>
+    <view class="foodTags" style="justify-content: flex-end;">
+      <view>热量</view>
+      <view>碳水</view>
+      <view>蛋白</view>
+      <view>脂肪</view>
+      <view>纤维</view>
     </view>
-    <view class="eatingItem" wx:for="{{breakfastList}}" wx:key="id">
-      <view>
-        <view class="eatingImg" >
-          <image src="https://crayonapi.orcatt.one/{{item.image_path}}" mode="aspectFill" lazy-load="false" binderror="" bindload="" />
+    <view class="eatingList" wx:for="{{eatingList}}" wx:key="id">
+      <view class="eatingTitle">
+        <view>
+          <view>{{item.eating_typeTitle}}</view>
+          <view>建议 {{item.suggested}} 千卡</view>
         </view>
-        <view class="eatingInfo">
-          <view>{{item.food_name}}</view>
-          <view class="foodTags">
-            <view>{{item.calories}} 千卡</view>
-            <view>{{item.carbohydrate}}</view>
-            <view>{{item.protein}}</view>
-            <view>{{item.fat}}</view>
-            <view>{{item.cellulose}}</view>
+        <view>{{item.calories}} 千卡</view>
+      </view>
+      <block  wx:if="{{item.list.length > 0}}">
+        <view class="eatingItem" wx:for="{{item.list}}" wx:key="id" bindtap="modifyEatingFood" data-item="{{item}}">
+          <view>
+            <view class="eatingImg" >
+              <image src="https://crayonapi.orcatt.one/{{item.food_info.image_path}}" mode="aspectFill" lazy-load="false" binderror="" bindload="" />
+            </view>
+            <view class="eatingInfo">
+              <view>{{item.food_info.name}}</view>
+              <view class="foodTags">
+                <view>{{item.calories}} 千卡</view>
+                <view>{{item.carbohydrate}}</view>
+                <view>{{item.protein}}</view>
+                <view>{{item.fat}}</view>
+                <view>{{item.cellulose}}</view>
+              </view>
+            </view>
           </view>
+          <view>{{item.foods_weight}} 克 ></view>
+          <view></view>
         </view>
-      </view>
-      <view>{{item.foods_weight}} 克 ></view>
-      <view></view>
+      </block>
     </view>
-  </view>
-  <view class="eatingList" wx:if="{{lunchList.length > 0}}">
-    <view class="eatingTitle">
-      <view>
-        <view>午餐</view>
-        <view>建议 {{lunchCalories.suggested}} 千卡</view>
-      </view>
-      <view>{{lunchCalories.actual}} 千卡</view>
-    </view>
-    <view class="eatingItem" wx:for="{{lunchList}}" wx:key="id">
-      <view>
-        <view class="eatingImg" >
-          <image src="https://crayonapi.orcatt.one/{{item.image_path}}" mode="aspectFill" lazy-load="false" binderror="" bindload="" />
-        </view>
-        <view class="eatingInfo">
-          <view>{{item.food_name}}</view>
-          <view class="foodTags">
-            <view>{{item.calories}} 千卡</view>
-            <view>{{item.carbohydrate}}</view>
-            <view>{{item.protein}}</view>
-            <view>{{item.fat}}</view>
-            <view>{{item.cellulose}}</view>
-          </view>
-        </view>
-      </view>      
-      <view>{{item.foods_weight}} 克 ></view>
-      <view></view>
-    </view>
-  </view>
-  <view class="eatingList" wx:if="{{dinnerList.length > 0}}">
-    <view class="eatingTitle">
-      <view>
-        <view>晚餐</view>
-        <view>建议 {{dinnerCalories.suggested}} 千卡</view>
-      </view>
-      <view>{{dinnerCalories.actual}} 千卡</view>
-    </view>
-    <view class="eatingItem" wx:for="{{dinnerList}}" wx:key="id">
-      <view>
-        <view class="eatingImg" >
-          <image src="https://crayonapi.orcatt.one/{{item.image_path}}" mode="aspectFill" lazy-load="false" binderror="" bindload="" />
-        </view>
-        <view class="eatingInfo">
-          <view>{{item.food_name}}</view>
-          <view class="foodTags">
-            <view>{{item.calories}} 千卡</view>
-            <view>{{item.carbohydrate}}</view>
-            <view>{{item.protein}}</view>
-            <view>{{item.fat}}</view>
-            <view>{{item.cellulose}}</view>
-          </view>
-        </view>
-      </view>
-      <view>{{item.foods_weight}} 克 ></view>
-      <view></view>
-    </view>
-  </view>
-  <view class="eatingList" wx:if="{{snackList.length > 0}}">
-    <view class="eatingTitle">
-      <view>
-        <view>加餐</view>
-        <view>建议别吃</view>
-      </view>
-      <view>{{snackCalories.actual}} 千卡</view>
-    </view>
-    <view class="eatingItem" wx:for="{{snackList}}" wx:key="id">
-      <view>
-        <view class="eatingImg" >
-          <image src="https://crayonapi.orcatt.one/{{item.image_path}}" mode="aspectFill" lazy-load="false" binderror="" bindload="" />
-        </view>
-        <view class="eatingInfo">
-          <view>{{item.food_name}}</view>
-          <view class="foodTags">
-            <view>{{item.calories}} 千卡</view>
-            <view>{{item.carbohydrate}}</view>
-            <view>{{item.protein}}</view>
-            <view>{{item.fat}}</view>
-            <view>{{item.cellulose}}</view>
-          </view>
-        </view>
-      </view>
-      <view>{{item.foods_weight}} 克 ></view>
-      <view></view>
-    </view>
-  </view>
+  </block>
   <view style="height: 100rpx;"></view>
-    
 </view>
+
+<!-- 完善信息弹窗 -->
 <view class="drawer-mask" wx:if="{{showSupplementDrawer}}" bindtap="closeSupplementDrawer"></view>
 <view class="drawer {{showSupplementDrawer ? 'drawer-show' : ''}}">
   <view class="drawer-header">
@@ -333,7 +254,7 @@
 <view class="drawer-mask food-detail-mask" wx:if="{{showFoodDetailDrawer}}" bindtap="closeFoodDetailDrawer"></view>
 <view class="drawer food-detail-drawer {{showFoodDetailDrawer ? 'drawer-show' : ''}}">
   <view class="drawer-header">
-    <view class="drawer-title">添加到饮食记录</view>
+    <view class="drawer-title">{{modifyEatingFoodStatus ? '修改饮食记录' : '添加到饮食记录'}}</view>
     <view class="drawer-close" bindtap="closeFoodDetailDrawer">×</view>
   </view>
   <view class="drawer-content">
