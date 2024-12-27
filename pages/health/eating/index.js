@@ -37,34 +37,14 @@ Component({
 			name: '周六',
 			date: '',
 		}],
+		currentDate: '', // 当前日期
 
 		circleStyle: '', // 存放动态背景样式
-		supplementStep: 1, // 1: 身高、出生年月 2: 体重、目标体重、目标类型、体重指数、基础代谢率 3: 完成
 
-		showSupplementDrawer: false,
-		showSelectFoodsDrawer: false,
-		showFoodDetailDrawer: false,
-		selectedFood: null,
-		modifyEatingFoodStatus: false, // 是否是修改食物
-		mealTimes: [{
-			title: '早餐',
-			value: '1'
-		}, {
-			title: '午餐',
-			value: '2'
-		}, {
-			title: '晚餐',
-			value: '3'
-		}, {
-			title: '加餐',
-			value: '4'
-		}],
-		foodDetailForm: {
-			eating_type: '',
-			eating_typeTitle: '',
-			foods_weight: '',
-			calories: 0
-		},
+		showSupplementDrawer: false, // 是否显示完善信息弹窗
+		supplementStep: 1, // 1: 身高、出生年月 2: 体重、目标体重、目标类型、体重指数、基础代谢率 3: 完成
+		userInfo: {},
+		weightRecently: {},
 
 		targetTypes: [{
 			title: '减重',
@@ -89,9 +69,6 @@ Component({
 			title: '每周运动5-7次',
 			value: '1.725'
 		}],
-
-		userInfo: {},
-		weightRecently: {},
 		formData: {
 			height: "",
 			birthday: "2000-01-01",
@@ -111,18 +88,13 @@ Component({
 			recommended_fat: "", // 推荐脂肪
 		},
 
-		intakeDailyData: {},
-		intake_id: '',
-		eatingList: [],
-		breakfastList: [],
-		lunchList: [],
-		dinnerList: [],
-		snackList: [],
-		breakfastCalories: {},
-		lunchCalories: {},
-		dinnerCalories: {},
-		snackCalories: {},
 
+
+		intakeDailyData: {}, // 某日摄入数据
+		intake_id: '', // 某日摄入id
+		eatingList: [], // 某日摄入食物列表
+
+		// 食物类型
 		foodType: [{
 			id: 0,
 			name: '搜索结果'
@@ -163,8 +135,10 @@ Component({
 		page: 1, // 当前页码
 		notData: false, // 是否没有数据
 
-
+		showSelectFoodsDrawer: false,
+		showFoodDetailDrawer: false,
 		selectedFood: null,
+		modifyEatingFoodStatus: false, // 是否是修改食物
 		mealTimes: [{
 			title: '早餐',
 			value: '1'
@@ -178,7 +152,7 @@ Component({
 			title: '加餐',
 			value: '4'
 		}],
-
+		// 提交食物表单
 		foodDetailForm: {
 			// 用户输入/选择
 			eating_type: "",
@@ -199,14 +173,62 @@ Component({
 		}
   },
   methods: {
-		
-		
+		handleBackDate() {
+			var that = this;
+			let currentDate = new Date(that.data.currentDate);
+			// 向前移动7天
+			currentDate.setDate(currentDate.getDate() - 7);
+			
+			// 更新当前日期
+			that.setData({
+				currentDate: currentDate.toISOString().split('T')[0]
+			});
+
+			// 重新获取周数据
+			that.getWeekendData();
+			that.getWeightData(that.data.currentDate)
+		},
+		handleNextDate() {
+			var that = this;
+			// 获取当前日期
+			let currentDate = new Date(that.data.currentDate);
+			let today = new Date();
+			
+			// 如果当前日期已经是今天，则不执行
+			if (currentDate.toISOString().split('T')[0] === today.toISOString().split('T')[0]) {
+				wx.showToast({
+					title: '未来太远，再等等看',
+					icon: 'none'
+				});
+				return;
+			}
+			
+			// 如果当前日期加7天超过今天,则设置为今天
+			let nextDate = new Date(currentDate);
+			nextDate.setDate(nextDate.getDate() + 7);
+			
+			if (nextDate > today) {
+				that.setData({
+					currentDate: today.toISOString().split('T')[0]
+				});
+			} else {
+				// 向后移动7天
+				currentDate.setDate(currentDate.getDate() + 7);
+				that.setData({
+					currentDate: currentDate.toISOString().split('T')[0]
+				});
+			}
+
+			// 重新获取周数据
+			that.getWeekendData();
+			that.getWeightData(that.data.currentDate);
+		},
 		// 获取近一周的日期，并对应进weekendData
 		getWeekendData() {
 			var that = this;
 			
 			// 获取当前日期
-			let today = new Date();
+			let today = new Date(that.data.currentDate);
 			let currentDay = today.getDay(); // 获取当前是星期几 (0-6)
 			
 			// 计算本周日的日期（向前偏移到最近的周日）
@@ -233,47 +255,41 @@ Component({
 		handleWeekendChange(e) {
 			var that = this;
 			that.setData({
-				weekendActiveIndex: e.currentTarget.dataset.title
+				weekendActiveIndex: e.currentTarget.dataset.title,
+				currentDate: e.currentTarget.dataset.date
 			})
-			that.getIntakeDailyData(e.currentTarget.dataset.date)
+			that.getWeightData(e.currentTarget.dataset.date)
 		},
+
 		// 获取体重数据
-		getWeightData() {
+		getWeightData(date) {
 			var that = this;
 			let postData = {
-				start_date: "",
-				end_date: "",
+				date: date,
 			}
 			utils.getData({
-        url: 'health/userWeight/list',
+        url: 'health/userWeight/daily',
         params: postData,
         success: function (res) {
           if (res.code == 200) {
-
-						// 如果没数据，则跳转到完善信息页面
-						if (res.data.length == 0) {
-							that.addSupplementInfo()
-							return;
-						}
-
 						var age = new Date().getFullYear() - that.data.userInfo.birthday.split('-')[0]
 
-						let weightRecently = res.data[0]
+						let weightRecently = res.data
 						weightRecently.recommended_carbs = parseInt(weightRecently.recommended_carbs).toFixed(0)
 						weightRecently.recommended_protein = parseInt(weightRecently.recommended_protein).toFixed(0)
 						weightRecently.recommended_fat = parseInt(weightRecently.recommended_fat).toFixed(0)
 						weightRecently.tdee = parseInt(weightRecently.tdee).toFixed(0)
 
-						console.log('身体信息',weightRecently);
 						that.setData({
 							weightRecently: weightRecently,
 							'userInfo.age': age
 						})
 						wx.setStorageSync('userInfo', that.data.userInfo)
-						// 获取当前日期
-						const currentDate = new Date().toISOString().split('T')[0];
-						that.getIntakeDailyData(currentDate)
-          }else{
+						that.getIntakeDailyData(date)
+
+          } else if (res.code == 403) {
+						that.addSupplementInfo()
+					} else {
             wx.showToast({
               title: res.message,
               icon: 'none',
@@ -309,9 +325,10 @@ Component({
 							intakeDailyData: res.data,
 							intake_id: res.data.id
 						})
+
 						that.updateCircle(that.data.intakeDailyData.percent)
 						that.getEatingList()
-						console.log('每日摄入数据',that.data.intakeDailyData);
+						
 					}else{
 						wx.showToast({
 							title: res.message,
@@ -346,7 +363,7 @@ Component({
 				params: postData,
 				success: function (res) {
 					if (res.code == 200) {
-						console.log('饮食列表',res.data);
+						
 						// eating_type 1:早餐 2:午餐 3:晚餐 4:加餐
 						let eatingList = [{
 							eating_type: 1,
@@ -588,9 +605,8 @@ Component({
 			let recommended_fat = (tdee * intake_ratio.fat).toFixed(0)
 
 			// 获取当前日期
-			const currentDate = new Date().toISOString().split('T')[0];
 			let postData = {
-				date: currentDate,
+				date: that.data.currentDate,
 				weight: that.data.formData.weight,
 				target_weight: that.data.formData.target_weight,
 				target_type: that.data.formData.target_type,
@@ -616,7 +632,7 @@ Component({
 						that.setData({
 							showSupplementDrawer: false,
 						});
-						that.getWeightData(); // 刷新列表
+						that.getWeightData(that.data.currentDate); // 刷新列表
 					} else {
 						wx.showToast({
 							title: res.message,
@@ -663,7 +679,6 @@ Component({
 				foodList: [],
 				currentType: 0
 			});
-			console.log('搜索',that.data.foodList);
 			
 			that.getFoodList();
 		},
@@ -716,7 +731,6 @@ Component({
 						that.setData({
 							foodList: [...that.data.foodList, ...res.data.list]
 						});
-						console.log('食物列表',that.data.foodList);
 					}
 				}
 			});
@@ -746,7 +760,6 @@ Component({
 					food_id: food.id,
 				}
 			});
-			console.log('选择食物',that.data.selectedFood);
 			
 		},
 
@@ -768,12 +781,12 @@ Component({
 
 		// 处理用餐时间选择
 		handleMealTimeChange(e) {
+			var that = this;
 			const index = e.detail.value;
-			this.setData({
-				'foodDetailForm.eating_type': this.data.mealTimes[index].value,
-				'foodDetailForm.eating_typeTitle': this.data.mealTimes[index].title
+			that.setData({
+				'foodDetailForm.eating_type': that.data.mealTimes[index].value,
+				'foodDetailForm.eating_typeTitle': that.data.mealTimes[index].title
 			});
-			console.log('用餐时间',this.data.foodDetailForm.eating_type,this.data.foodDetailForm.eating_typeTitle);
 			
 		},
 
@@ -788,7 +801,7 @@ Component({
 			let protein = that.data.selectedFood.nutrition.find(item => item.nutrient_type == 3).amount_per_100g * weight / 100
 			let fat = that.data.selectedFood.nutrition.find(item => item.nutrient_type == 4).amount_per_100g * weight / 100
 			let cellulose = that.data.selectedFood.nutrition.find(item => item.nutrient_type == 5).amount_per_100g * weight / 100
-			this.setData({
+			that.setData({
 				'foodDetailForm.foods_weight': weight.toFixed(0),
 				'foodDetailForm.calories': calories.toFixed(0),
 				'foodDetailForm.carbohydrate': carbohydrate.toFixed(0),
@@ -796,13 +809,12 @@ Component({
 				'foodDetailForm.fat': fat.toFixed(0),
 				'foodDetailForm.cellulose': cellulose.toFixed(0)
 			});
-			console.log('食物详情',that.data.foodDetailForm);
 		},
 
 		// ? ---修改 --- 
-		modifyEatingFood(e) {
+		handleModify(e) {
 			var that = this;
-			let item = e.currentTarget.dataset.item;
+			let item = e.currentTarget.dataset.food;
 			that.triggerEvent('toggleTabBar', { show: false }, {});
 			
 			that.setData({
@@ -823,8 +835,73 @@ Component({
 				modifyEatingFoodStatus: true,
 				showFoodDetailDrawer: true,
 			});
-			console.log('修改食物',that.data.foodDetailForm);
-			console.log('修改食物',item);
+		},
+		handleDelete(e) {
+			var that = this;
+			let id = e.currentTarget.dataset.id;
+			let postData = {
+				id: id,
+				user_intake_id: that.data.intake_id,
+			}
+			utils.getData({
+				url: 'health/userIntakeFoods/delete',
+				params: postData,
+				success: (res) => {
+					if(res.code == 200) {
+						wx.showToast({
+							title: '删除成功',
+							icon: 'success'
+						});
+						that.getIntakeDailyData(that.data.intakeDailyData.date);
+
+					}
+				}
+			});
+		},
+		openCloseMovable(e) {
+			var that = this;
+			let mealIndex = e.currentTarget.dataset.mealindex; // 餐次索引
+			let foodIndex = e.currentTarget.dataset.foodindex; // 食物索引
+			
+			// 深拷贝 eatingList
+			let eatingList = JSON.parse(JSON.stringify(that.data.eatingList));
+			
+			// 为食物项添加 x 属性（如果不存在）
+			if (!eatingList[mealIndex].list[foodIndex].hasOwnProperty('x')) {
+				eatingList[mealIndex].list[foodIndex].x = 0;
+			}
+
+			// 关闭其他所有项的滑动状态
+			eatingList.forEach((meal, i) => {
+				meal.list.forEach((food, j) => {
+					if (i !== mealIndex || j !== foodIndex) {
+						food.x = 0;
+					}
+				});
+			});
+
+			// 切换当前项的滑动状态
+			eatingList[mealIndex].list[foodIndex].x = 
+				eatingList[mealIndex].list[foodIndex].x === -180 ? 0 : -180;
+
+			that.setData({
+				eatingList: eatingList
+			});
+		},
+		closeMovable() {
+			var that = this;
+			let eatingList = JSON.parse(JSON.stringify(that.data.eatingList));
+			
+			// 关闭所有项的滑动状态
+			eatingList.forEach(meal => {
+				meal.list.forEach(food => {
+					food.x = 0;
+				});
+			});
+
+			that.setData({
+				eatingList: eatingList
+			});
 		},
 		// 提交食物详情
 		submitFoodDetail() {
@@ -840,7 +917,6 @@ Component({
 				return;
 			}
 			
-		
 
 			let postData = {
 				eating_type: "",
@@ -858,7 +934,6 @@ Component({
 			Object.keys(that.data.foodDetailForm).forEach(key => {
 				postData[key] = that.data.foodDetailForm[key];
 			});
-			console.log('提交食物详情',postData);
 			
 
 			utils.getData({
@@ -888,10 +963,11 @@ Component({
 			var that = this;
 			that.setData({
 				tabbarRealHeight: wx.getStorageSync('tabbarRealHeight'),
-				userInfo: wx.getStorageSync('userInfo')
+				userInfo: wx.getStorageSync('userInfo'),
+				currentDate: new Date().toISOString().split('T')[0]
 			})
 			that.getWeekendData()
-			that.getWeightData()
+			that.getWeightData(that.data.currentDate)
 		}
 	}
 

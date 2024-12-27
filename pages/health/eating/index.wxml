@@ -2,8 +2,13 @@
 <view class="mode" style="margin-top: {{tabbarRealHeight  + 'px'}}; height: calc(100vh - {{tabbarRealHeight +90 + 'px'}});">
   <view class="date">
     <view class="date-title">
-      <view>今天</view>
-      <view></view>
+      <view bindtap="handleBackDate">
+        <image src="/static/image/left.png"/>
+      </view>
+      <view>{{currentDate}}</view>
+      <view bindtap="handleNextDate">
+        <image src="/static/image/right.png" />
+      </view>
     </view>
     <view class="weekend">
       <view 
@@ -81,26 +86,43 @@
         </view>
         <view>{{item.calories}} 千卡</view>
       </view>
-      <block  wx:if="{{item.list.length > 0}}">
-        <view class="eatingItem" wx:for="{{item.list}}" wx:key="id" bindtap="modifyEatingFood" data-item="{{item}}">
-          <view>
-            <view class="eatingImg" >
-              <image src="https://crayonapi.orcatt.one/{{item.food_info.image_path}}" mode="aspectFill" lazy-load="false" binderror="" bindload="" />
-            </view>
-            <view class="eatingInfo">
-              <view>{{item.food_info.name}}</view>
-              <view class="foodTags">
-                <view>{{item.calories}} 千卡</view>
-                <view>{{item.carbohydrate}}</view>
-                <view>{{item.protein}}</view>
-                <view>{{item.fat}}</view>
-                <view>{{item.cellulose}}</view>
+      <block wx:for="{{item.list}}" wx:key="id" wx:for-item="food" wx:for-index="foodIndex">
+        <movable-area class="todoItem-wrapper" wx:if="{{item.list.length > 0}}">
+          <movable-view 
+            class="todoItem-content" 
+            direction="horizontal" 
+            x="{{food.x || 0}}"
+            damping="20"
+            friction="5"
+            out-of-bounds="{{true}}"
+            inertia="{{false}}"
+            disabled="true"
+          >
+            <view class="eatingItem" data-mealindex="{{index}}" data-foodindex="{{foodIndex}}" bindtap="openCloseMovable">
+              <view>
+                <view class="eatingImg">
+                  <image src="https://crayonapi.orcatt.one/{{food.food_info.image_path}}" mode="aspectFill" />
+                </view>
+                <view class="eatingInfo">
+                  <view>{{food.food_info.name}}</view>
+                  <view class="foodTags">
+                    <view>{{food.calories}} 千卡</view>
+                    <view>{{food.carbohydrate}}</view>
+                    <view>{{food.protein}}</view>
+                    <view>{{food.fat}}</view>
+                    <view>{{food.cellulose}}</view>
+                  </view>
+                </view>
               </view>
+              <view>{{food.foods_weight}} 克 ></view>
+              <view></view>
             </view>
-          </view>
-          <view>{{item.foods_weight}} 克 ></view>
-          <view></view>
-        </view>
+            <view class="todoItem-buttons">
+              <view class="todoItem-done" bindtap="handleModify" data-food="{{food}}">修改</view>
+              <view class="todoItem-delete" bindtap="handleDelete" data-id="{{food.id}}">删除</view>
+            </view>
+          </movable-view>
+        </movable-area>
       </block>
     </view>
   </block>
@@ -318,4 +340,3 @@
     </view>
   </view>
 </view>
-

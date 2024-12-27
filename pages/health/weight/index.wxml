@@ -1,2 +1,59 @@
-<!--pages/health/weight/index.wxml-->
-<text>pages/health/weight/index.wxml</text>
+<view class="mode" style="margin-top: {{tabbarRealHeight  + 'px'}}; height: calc(100vh - {{tabbarRealHeight +90 + 'px'}});">
+  <view class="modetitle">
+		<view class="top">身体信息</view>
+		<view class="bottom">谁的骨盆最端正~</view>
+		<view class="opt" bind:tap="addCountdown">
+			<image src="/static/image/add.png"></image>
+		</view>
+	</view>
+	<view class="info">
+		<view class="infoItem">
+			<view class="title">身高</view>
+			<view><text>{{userInfo.height}}</text> cm</view>
+		</view>
+		<view class="infoItem">
+			<view class="title">体重</view>
+			<view><text>{{weightRecently.weight}}</text> kg</view>
+		</view>
+		<view class="infoItem">
+			<view class="title">基础代谢</view>
+			<view><text>{{weightRecently.bmr}}</text> kcal</view>
+		</view>
+		<view class="infoItem">
+			<view class="title">总能量消耗</view>
+			<view><text>{{weightRecently.tdee}}</text> kcal</view>
+		</view>
+	</view>
+	<view class="bmi">
+		<view class="title">
+			<view>当前BMI</view>
+			<view>{{weightRecently.bmi}}</view>
+		</view>
+		<view class="line">
+			<view>
+				<view></view>
+				<view>偏瘦</view>
+			</view>
+			<view>
+				<view></view>
+				<view>正常</view>
+			</view>
+			<view>
+				<view></view>
+				<view>偏胖</view>
+			</view>
+			<view>
+				<view></view>
+				<view>很胖</view>
+			</view>
+			<view class="triangle" style="left: {{weightRecently.bmiPosition}}%"></view>
+		</view>
+	</view>
+	<!-- <view class="weight">
+		<view class="title">
+			<view>体重趋势</view>
+			<view>{{weightRecently.bmi}}</view>
+		</view>
+	</view> -->
+		
+</view>

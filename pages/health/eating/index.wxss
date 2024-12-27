@@ -12,7 +12,6 @@
   width: 100%;
   height: 180rpx;
   position: relative;
-  /* background-color: #606060; */
 }
 
 .date .add {
@@ -25,13 +24,11 @@
 
 .date-title {
   margin: -10rpx auto 10rpx auto;
-  width: 300rpx;
+  width: 200rpx;
   height: 70rpx;
   line-height: 70rpx;
-  padding: 0 60rpx;
-  box-sizing: border-box;
   border-radius: 20rpx;
-  font-size: 32rpx;
+  font-size: 28rpx;
   font-family: "DouyinSansBold";
   text-align: center;
   background-color: #f4f4f5;
@@ -42,17 +39,28 @@
   justify-content: center;
   align-items: center;
 }
-.date-title > view:nth-child(2) {
-  width: 0;
-  height: 0;
-  border-left: 14rpx solid transparent;
-  border-right: 14rpx solid transparent;
-  border-top: 14rpx solid #606060;
+.date-title > view:nth-child(1){
+  width: 44rpx;
+  height: 44rpx;
   position: absolute;
-  right: 30rpx;
+  left: -50rpx;
   top: 50%;
   transform: translateY(-50%);
 }
+.date-title > view:nth-child(3) {
+  width: 44rpx;
+  height: 44rpx;
+  position: absolute;
+  right: -50rpx;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.date-title > view:nth-child(1) > image,
+.date-title > view:nth-child(3) > image {
+  width: 100%;
+  height: 100%;
+}
+
 
 .weekend {
   width: 100%;
@@ -206,6 +214,8 @@
   font-family: "DouyinSansBold";
 }
 
+
+
 .eatingList {
   width: 100%;
 }
@@ -238,15 +248,31 @@
   color: #09090b;
 }
 
-.eatingItem {
+
+
+.todoItem-wrapper {
   width: 100%;
   height: 120rpx;
+  position: relative;
+  margin-bottom: 30rpx;
+  overflow: hidden;
+}
+
+.todoItem-content {
+  width: calc(100% + 256rpx);
+  height: 100%;
+  display: flex;
+  position: relative !important;
+}
+
+.eatingItem {
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10rpx 0;
   box-sizing: border-box;
-  margin-bottom: 40rpx;
   position: relative;
 }
 
@@ -299,6 +325,44 @@
   position: absolute;
   bottom: -22rpx;
   left: 120rpx;
+}
+
+
+.todoItem-buttons {
+  height: 100%;
+  display: flex;
+  font-family: 'DouyinSansBold';
+}
+
+.todoItem-delete {
+  width: 120rpx;
+  height: 100%;
+  margin-left: 10rpx;
+  background: #f4f4f5;
+  color: #09090B;
+  font-size: 28rpx;
+  border-radius: 14rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0px 6rpx 0 rgba(0, 0, 0, .2), 
+  0 2rpx 2px -2rpx rgba(0, 0, 0, .4);
+}
+
+.todoItem-done {
+  width: 120rpx;
+  height: 100%;
+  margin-left: 10rpx;
+
+  background: #18181B;
+  color: #fff;
+  font-size: 28rpx;
+  border-radius: 14rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0px 6rpx 0 rgba(0, 0, 0, .1), 
+  0 2rpx 2px -2rpx rgba(0, 0, 0, .3);
 }
 
 .drawer-mask {
@@ -386,20 +450,6 @@
   width: 100%;
 }
 
-.switch-container {
-  padding: 10rpx 0;
-}
-
-.textarea-container {
-  height: 120rpx;
-  padding: 10rpx 0;
-}
-
-.textarea-container textarea {
-  width: 100%;
-  height: 100%;
-}
-
 .placeholderClass {
   color: #71717a;
   font-size: 28rpx;
@@ -427,61 +477,6 @@
   margin-top: 24rpx;
 }
 
-.date-time-group {
-  display: flex;
-  justify-content: space-between;
-  gap: 24rpx;
-  margin-top: 30rpx;
-}
-
-.date-item,
-.time-item {
-  flex: 1;
-}
-
-.alert-item {
-  width: 160rpx;
-}
-
-.alert-switch {
-  height: 50rpx;
-  display: flex;
-  align-items: center;
-}
-
-.date-time-group .account-title {
-  margin-top: 0;
-}
-
-.alert-switch {
-  border-bottom: none;
-}
-
-.calendar-type {
-  display: flex;
-  align-items: center;
-  margin: 20rpx 0;
-}
-
-.calendar-type text {
-  margin-left: 20rpx;
-  color: #71717a;
-}
-
-.options-group {
-  margin-top: 30rpx;
-}
-
-.option-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 20rpx 0;
-}
-
-.option-item text {
-  color: #71717a;
-}
 
 .drawer-food {
   display: flex;
@@ -548,9 +543,6 @@
   box-sizing: border-box;
   margin-bottom: 50rpx;
   position: relative;
-  /* box-shadow: 0 0px 6rpx 0 rgba(0, 0, 0, 0.1),
-  0 2rpx 2px -2rpx rgba(0, 0, 0, 0.3);
-  background-color: #f4f4f5; */
 }
 
 .foodItem>view:nth-child(1) {
@@ -797,4 +789,5 @@
   font-family: 'DouyinSansBold';
   margin-left: 10rpx;
 }
+
 

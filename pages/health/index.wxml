@@ -11,13 +11,13 @@
   current="{{activeIndex}}" 
   bindchange="handleSwiper">
   <swiper-item>
-		<Eating bindtoggleTabBar="toggleTabBar"></Eating>
+		<Eating wx:if="{{activeIndex == 0}}" bindtoggleTabBar="toggleTabBar"></Eating>
   </swiper-item>
   <swiper-item>
-		<Weight></Weight>
+		<Weight wx:if="{{activeIndex == 1}}"></Weight>
   </swiper-item>
   <swiper-item>
-		<Cookbook></Cookbook>
+		<Cookbook wx:if="{{activeIndex == 2}}"></Cookbook>
   </swiper-item>
 </swiper>
 <TabBar bindcurrentShow="currentClick" wx:if="{{showTabBar}}"></TabBar>
