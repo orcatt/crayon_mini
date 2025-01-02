@@ -33,7 +33,8 @@ Component({
 					if (res.code == 200) {
 						let listData = res.data;
 						listData.lunardate = listData.lunardate.split('-')
-						listData.lunardateMonth = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'][listData.lunardate[1]] + '月'
+						
+						listData.lunardateMonth = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'][listData.lunardate[1]-1] + '月'
 						listData.lunardateDay = listData.lunardate[2]
 						// 根据年月日取星期几
 						var date = new Date(listData.lunardate[0], listData.lunardate[1], listData.lunardate[2]);

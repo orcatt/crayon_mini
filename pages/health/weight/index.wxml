@@ -2,7 +2,7 @@
   <view class="modetitle">
 		<view class="top">身体信息</view>
 		<view class="bottom">谁的骨盆最端正~</view>
-		<view class="opt" bind:tap="addCountdown">
+		<view class="opt" bind:tap="addWeight">
 			<image src="/static/image/add.png"></image>
 		</view>
 	</view>
@@ -49,11 +49,109 @@
 			<view class="triangle" style="left: {{weightRecently.bmiPosition}}%"></view>
 		</view>
 	</view>
-	<!-- <view class="weight">
-		<view class="title">
-			<view>体重趋势</view>
-			<view>{{weightRecently.bmi}}</view>
+	<view class="weight">
+		<view class="title">目标趋势</view>
+		<view class="lineRule">
+			<view class="mark">
+				<view>
+					<view></view>
+					<view></view>
+				</view>
+			</view>
+			<view>{{weightRecently.target_type == 1 ? '减重' : weightRecently.target_type == 2 ? '保持' : '增重'}}</view>
+			<view class="mark">
+				<view>
+					<view></view>
+					<view></view>
+				</view>
+			</view>
 		</view>
-	</view> -->
+		<view class="trend">
+			<view>下限<text>{{minWeight}}</text></view>
+			<view>上限<text>{{maxWeight}}</text></view>
+		</view>
+		<view class="chart">
+			<canvas type="2d" id="weightChart" class="weight-chart" 
+				bindtouchstart="handleTouchStart"
+				bindtouchmove="handleTouchMove"
+				bindtouchend="handleTouchEnd">
+			</canvas>
+			<view class="tooltip" wx:if="{{showTooltip}}" style="left: {{tooltipX}}px; top: {{tooltipY}}px;">
+				<view class="tooltip-date">{{tooltipDate}}</view>
+				<view class="tooltip-weight">{{tooltipWeight}}kg</view>
+			</view>
+		</view>
+	</view>
+	<view style="height: 100rpx;"></view>
 		
+</view>
+<view class="drawer-mask" wx:if="{{showMaskDrawer}}" bindtap="closeMaskDrawer"></view>
+<view class="drawer {{showMaskDrawer ? 'drawer-show' : ''}}">
+  <view class="drawer-header">
+    <view class="drawer-title">记录体重</view>
+    <view class="drawer-close" bindtap="closeMaskDrawer">×</view>
+  </view>
+  
+  <view class="drawer-content">
+    <view class="form-group">
+			<view class="account-title">体重(kg)<text class="required">*</text></view>
+			<view class="account-input">
+				<input type="digit" value="{{formData.weight}}" bindinput="handleWeightInput" 
+				placeholder-class="placeholderClass" placeholder="请输入体重" />
+			</view>
+			<view class="account-group">
+				<view class="account-item">
+					<view class="account-title">目标体重(kg)<text class="required">*</text></view>
+					<view class="account-input">
+						<input type="digit" value="{{formData.target_weight}}" bindinput="handleTargetWeightInput" 
+						placeholder-class="placeholderClass" placeholder="请输入目标体重" />
+					</view>
+				</view>
+				<view class="account-item">
+					<view class="account-title">目标类型<text class="required">*</text></view>
+					<view class="account-input">
+						<picker bindchange="handleTargetTypeChange" value="{{formData.target_type}}" range="{{targetTypes}}" range-key="title">
+							<view class="{{formData.target_typeTitle ? '' : 'placeholderClass'}}">
+								{{formData.target_typeTitle || '请选择目标类型'}}
+							</view>
+						</picker>
+					</view>
+				</view>
+			</view>
+			<view class="account-title">活动系数<text class="required">*</text></view>
+      <view class="account-input">
+        <picker bindchange="handleActivityTypeChange" value="{{formData.activityCoefficient}}" range="{{activityCoefficientTypes}}" range-key="title">
+          <view class="{{formData.activityCoefficientTitle ? '' : 'placeholderClass'}}">
+            {{formData.activityCoefficientTitle || '请选择活动系数'}}
+          </view>
+        </picker>
+      </view>
+      <view class="account-title">日期<text class="required">*</text></view>
+      <view class="account-input">
+        <picker mode="date" value="{{formData.date}}" bindchange="handleDateChange">
+          <view class="{{formData.date ? '' : 'placeholderClass'}}">
+            {{formData.date || '选择日期'}}
+          </view>
+        </picker>
+      </view>
+			<view class="account-group">
+				<view class="account-item">	
+					<view class="account-title">BMI指数</view>
+					<view class="account-input">
+						<text>{{formData.bmi || '待计算'}}</text>
+					</view>
+				</view>
+				<view class="account-item">
+					<view class="account-title">基础代谢率</view>
+					<view class="account-input">
+						<text>{{formData.bmr || '待计算'}} kcal</text>
+					</view>
+				</view>
+			</view>
+    </view>
+    <view class="btn-group">
+      <view class="wx-login-btn" bindtap="submitForm">保存</view>
+      <view class="otherlogin" bindtap="closeMaskDrawer">取消</view>
+    </view>
+  </view>
 </view>
