@@ -25,7 +25,7 @@ Page({
 		const id = e.currentTarget.dataset.id;
 		// 先设置缩小动画
 		this.setData({
-			activeIndex: 0
+			activeIndex: -1
 		});
 		// 短暂延迟后设置新的选中状态，触发放大动画
 		setTimeout(() => {
