@@ -1,7 +1,7 @@
 <view style="height: 100%;">
 	<view class="tag">
 		<view>总笔画数</view>
-		<view>选择部首，或查询总笔画数为“{{bihuabushou[activeIndex].name}}”的全部字<text>></text> </view>
+		<view bindtap="toFontResultBs" data-item="{{bihuabushou[activeIndex].bihua}}">选择部首，或查询总笔画数为“{{bihuabushou[activeIndex].bihua}}”的全部字<text>></text> </view>
 	</view>
 	<view class="bihuabushou">
 		<view class="left">
