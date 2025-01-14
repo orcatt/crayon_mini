@@ -21,6 +21,12 @@ Component({
 					activeIndex: e.currentTarget.dataset.index
 				});
 			}, 50);
+		},
+		toFontResult(e){
+			var that = this;
+			wx.navigateTo({
+				url: `/pages/explore/tools/dict/fontResult/index?type=bhbs&bihua=${that.data.bihuabushou[that.data.activeIndex].bihua}&bushou=${e.currentTarget.dataset.item}`
+			})
 		}
 		
   },

@@ -4,7 +4,8 @@
     "pages/login/index",
     "pages/health/index",
     "pages/explore/index",
-    "pages/explore/tools/dict/index"
+    "pages/explore/tools/dict/index",
+    "pages/explore/tools/dict/fontResult/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

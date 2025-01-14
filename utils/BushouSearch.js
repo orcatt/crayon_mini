@@ -1,6 +1,6 @@
 var bushouData = [
     {
-        "name": "一",
+        "name": "1",
         "counts": 8,
         "child": [
             "一",
@@ -14,7 +14,7 @@ var bushouData = [
         ]
     },
     {
-        "name": "二",
+        "name": "2",
         "counts": 29,
         "child": [
             "丷",
@@ -49,7 +49,7 @@ var bushouData = [
         ]
     },
     {
-        "name": "三",
+        "name": "3",
         "counts": 44,
         "child": [
             "兀",
@@ -99,7 +99,7 @@ var bushouData = [
         ]
     },
     {
-        "name": "四",
+        "name": "4",
         "counts": 52,
         "child": [
             "卝",
@@ -157,7 +157,7 @@ var bushouData = [
         ]
     },
     {
-        "name": "五",
+        "name": "5",
         "counts": 29,
         "child": [
             "业",
@@ -192,7 +192,7 @@ var bushouData = [
         ]
     },
     {
-        "name": "六",
+        "name": "6",
         "counts": 30,
         "child": [
             "先",
@@ -228,7 +228,7 @@ var bushouData = [
         ]
     },
     {
-        "name": "七",
+        "name": "7",
         "counts": 24,
         "child": [
             "克",
@@ -258,7 +258,7 @@ var bushouData = [
         ]
     },
     {
-        "name": "八",
+        "name": "8",
         "counts": 15,
         "child": [
             "金",
@@ -279,7 +279,7 @@ var bushouData = [
         ]
     },
     {
-        "name": "九",
+        "name": "9",
         "counts": 11,
         "child": [
             "面",
@@ -296,7 +296,7 @@ var bushouData = [
         ]
     },
     {
-        "name": "十",
+        "name": "10",
         "counts": 6,
         "child": [
             "馬",
@@ -308,7 +308,7 @@ var bushouData = [
         ]
     },
     {
-        "name": "十一",
+        "name": "11",
         "counts": 7,
         "child": [
             "魚",
@@ -321,7 +321,7 @@ var bushouData = [
         ]
     },
     {
-        "name": "十二",
+        "name": "12",
         "counts": 5,
         "child": [
             "黍",
@@ -332,7 +332,7 @@ var bushouData = [
         ]
     },
     {
-        "name": "十三",
+        "name": "13",
         "counts": 2,
         "child": [
             "鼓",
@@ -340,7 +340,7 @@ var bushouData = [
         ]
     },
     {
-        "name": "十四",
+        "name": "14",
         "counts": 2,
         "child": [
             "鼻",
@@ -348,7 +348,7 @@ var bushouData = [
         ]
     },
     {
-        "name": "十五",
+        "name": "15",
         "counts": 3,
         "child": [
             "齒",

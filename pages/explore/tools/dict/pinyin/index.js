@@ -21,6 +21,11 @@ Component({
 					activeIndex: e.currentTarget.dataset.index
 				});
 			}, 50);
+		},
+		toFontResult(e){
+			wx.navigateTo({
+				url: `/pages/explore/tools/dict/fontResult/index?type=pinyin&pinyin=${e.currentTarget.dataset.item}`
+			})
 		}
 		
   },

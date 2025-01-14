@@ -13,7 +13,12 @@
 			</view>
 		</view>
 		<view class="right">
-			<view class="rightItem" wx:for="{{bushou[activeIndex].child}}" wx:key="index">
+			<view 
+				class="rightItem" 
+				wx:for="{{bushou[activeIndex].child}}" wx:key="index"
+				bindtap="toFontResult"
+				data-item="{{item}}"
+			>
 				<image src="/static/image/tian.png" mode="aspectFit"></image>
 				<view>{{item}}</view>
 			</view>

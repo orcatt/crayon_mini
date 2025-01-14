@@ -21,6 +21,11 @@ Component({
 					activeIndex: e.currentTarget.dataset.index
 				});
 			}, 50);
+		},
+		toFontResult(e){
+			wx.navigateTo({
+				url: `/pages/explore/tools/dict/fontResult/index?type=bushou&bushou=${e.currentTarget.dataset.item}`
+			})
 		}
 		
   },
