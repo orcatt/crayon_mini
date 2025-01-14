@@ -15,10 +15,10 @@ Component({
       path: "/pages/health/index"
     }, {
 			id: 3,
-      title: '箱子',
+      title: '探索',
       icon: '/static/image/tabber/tab2.png',
       selectedIcon: "/static/image/tabber/tab2active.png",
-      path: "/pages/home/index"
+      path: "/pages/explore/index"
     },  {
 			id: 4,
       title: '我的',

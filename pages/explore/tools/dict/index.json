@@ -1,0 +1,10 @@
+{
+	"usingComponents": {
+		"header":"/components/Header/index",
+		"Pinyin":"./pinyin/index",
+		"Bushou":"./bushou/index",
+		"Bihua": "./bihua/index"
+	},
+  "navigationStyle": "custom"
+	
+}

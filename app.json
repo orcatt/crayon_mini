@@ -2,7 +2,9 @@
   "pages": [
     "pages/today/index",
     "pages/login/index",
-    "pages/health/index"
+    "pages/health/index",
+    "pages/explore/index",
+    "pages/explore/tools/dict/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

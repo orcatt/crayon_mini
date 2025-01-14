@@ -1,0 +1,101 @@
+/* pages/explore/tools/dict/bushou/index.wxss */
+.tag{
+  width: 100rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  font-size: 24rpx;
+  color: #71717A;
+  text-align: center;
+  margin-bottom: 10rpx;
+}
+
+.bushou{
+  width: 100%;
+  height: 94%;
+  display: flex;
+  gap: 40rpx;
+}
+
+
+.left{
+  width: 100rpx;
+  height: 100%;
+  border-radius: 20rpx;
+  box-shadow: 0 0px 6rpx 0 rgba(0, 0, 0, 0.1), 0 2rpx 2px -2rpx rgba(0, 0, 0, 0.3);
+  background-color: #f4f4f5;
+  text-align: center;
+  padding: 6rpx 0;
+  overflow-y: auto;
+}
+.left>view{
+  width: 100%;
+  height: 90rpx;
+  line-height: 90rpx;
+  font-size: 32rpx;
+  font-family: "DouyinSansBold";
+  color: #71717A;
+  margin-bottom: 10rpx;
+  transition: all 0.3s ease;
+  transform: scale(1);
+  
+}
+.active{
+  background-color: #fff;
+  color: #000 !important;
+  border-radius: 20rpx;
+  font-size: 48rpx !important;
+  transform: scale(0.8) !important;
+  position: relative;
+
+}
+
+.active::after{
+  content: '';
+  display: block;
+  width: 10rpx;
+  height: 30rpx;
+  border-radius: 10rpx;
+  background-color: #9A1B1A;
+  position: absolute;
+  bottom: 6rpx;
+  right: 16rpx;
+  transform: rotate(50deg);
+}
+
+.right{
+  width: calc(100% - 140rpx);
+  min-height: 128rpx;
+  max-height: 100%;
+  height: fit-content;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 20rpx;
+
+}
+.rightItem{
+  width: calc((100% - 60rpx) / 4);
+  height: 128rpx;
+  flex-shrink: 0;
+  background-color: #fff;
+  position: relative;
+  text-align: center;
+}
+
+.rightItem>image{
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 4rpx;
+}
+
+.rightItem>view{
+  width: 120rpx;
+  height: 120rpx;
+  line-height: 120rpx;
+  font-size: 48rpx;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

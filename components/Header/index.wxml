@@ -2,7 +2,7 @@
 <view class="occupy" style="height:calc( {{tabbarMargin + tabbarHeight + 'px'}} + 24rpx );background-color: {{backgroundColor}};">
   <view class="header" style="padding-top: {{tabbarMargin + 'px'}};">
     <!-- 返回按钮 -->
-    <image src="/static/header/{{classColor?'backblack':'backwhite'}}.png" 
+    <image src="/static/image/header/{{classColor?'backblack':'backwhite'}}.png" 
       class="back" 
       style="margin-top: calc({{(tabbarHeight - 28) + 'rpx'}});" 
       wx:if="{{isBack}}" 

@@ -1,0 +1,25 @@
+<view style="height: 100%;">
+	<view class="tag">部首笔画</view>
+	<view class="bushou">
+		<view class="left">
+			<view 
+				wx:for="{{bushou}}" 
+				wx:key="index"
+				bindtap="handleBushou"
+				data-index="{{index}}" 
+				class="{{activeIndex == index ? 'active' : ''}}"
+			>
+				{{item.name}}
+			</view>
+		</view>
+		<view class="right">
+			<view class="rightItem" wx:for="{{bushou[activeIndex].child}}" wx:key="index">
+				<image src="/static/image/tian.png" mode="aspectFit"></image>
+				<view>{{item}}</view>
+			</view>
+		</view>
+			
+			
+	</view>
+</view>
+	

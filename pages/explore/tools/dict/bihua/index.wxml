@@ -1,0 +1,28 @@
+<view style="height: 100%;">
+	<view class="tag">
+		<view>总笔画数</view>
+		<view>选择部首，或查询总笔画数为“{{bihuabushou[activeIndex].name}}”的全部字<text>></text> </view>
+	</view>
+	<view class="bihuabushou">
+		<view class="left">
+			<view 
+				wx:for="{{bihuabushou}}" 
+				wx:key="index"
+				bindtap="handleBihuaBushou"
+				data-index="{{index}}" 
+				class="{{activeIndex == index ? 'active' : ''}}"
+			>
+				{{item.bihua}}
+			</view>
+		</view>
+		<view class="right">
+			<view class="rightItem" wx:for="{{bihuabushou[activeIndex].bushou}}" wx:key="index">
+				<image src="/static/image/tian.png" mode="aspectFit"></image>
+				<view>{{item}}</view>
+			</view>
+		</view>
+			
+			
+	</view>
+</view>
+	

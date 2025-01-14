@@ -8,8 +8,8 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/health/index",
-          "pathName": "pages/health/index",
+          "name": "pages/explore/index",
+          "pathName": "pages/explore/index",
           "query": "",
           "launchMode": "default",
           "scene": null

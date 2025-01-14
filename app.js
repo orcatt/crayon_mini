@@ -15,7 +15,7 @@ App({
 		});
 	},
 	getFonts(name){ //导入外部字体
-    let url = "https://m.idcpub.cn/zbjy/Upload/ServerResource/Applet/bsx/" //自己服务器的域名(或IP)
+    let url = "https://crayonapi.orcatt.one/static/fonts/" //自己服务器的域名(或IP)
     let source = 'url(' + url + name + ')'
     // console.log(source, name.substring(0, name.length - 4))
     wx.loadFontFace({

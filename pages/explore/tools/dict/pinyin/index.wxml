@@ -1,0 +1,26 @@
+<view class="pinyin">
+	<view class="left">
+		<view 
+			wx:for="{{pinyin}}" 
+			wx:key="index"
+			bindtap="handlePinyin"
+			data-index="{{index}}" 
+			class="{{activeIndex == index ? 'active' : ''}}"
+		>
+			{{item.name}}
+		</view>
+	</view>
+	<view class="right">
+		<view class="rightItem" wx:for="{{pinyin[activeIndex].child}}" wx:key="index">
+			<image src="/static/image/pinyin_mini.png" mode="aspectFit"></image>
+			<view>{{item}}</view>
+		</view>
+	</view>
+		
+	<!-- <view style="display: flex; flex-wrap: wrap; justify-content: space-between; height: 120rpx;width: 100%;">
+		<view style="width: 25%;" wx:for="{{pinyin[activeIndex].child}}" wx:key="index">{{item}}
+		</view>
+	</view> -->
+		
+		
+</view>

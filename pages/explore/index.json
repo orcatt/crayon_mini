@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+		"customheader":"/components/CustomHeader/index",
+		"TabBar": "/components/tabBar/index",
+    "Tools": "/pages/explore/tools/index"
+  },
+  "navigationStyle": "custom"
+
+}
