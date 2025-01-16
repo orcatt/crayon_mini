@@ -22,10 +22,4 @@
 		</view>
 	</view>
 		
-	<!-- <view style="display: flex; flex-wrap: wrap; justify-content: space-between; height: 120rpx;width: 100%;">
-		<view style="width: 25%;" wx:for="{{pinyin[activeIndex].child}}" wx:key="index">{{item}}
-		</view>
-	</view> -->
-		
-		
 </view>

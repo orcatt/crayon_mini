@@ -5,7 +5,9 @@
     "pages/health/index",
     "pages/explore/index",
     "pages/explore/tools/dict/index",
-    "pages/explore/tools/dict/fontResult/index"
+    "pages/explore/tools/dict/fontResult/index",
+    "pages/explore/tools/drug/index",
+    "pages/explore/tools/dateInterval/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

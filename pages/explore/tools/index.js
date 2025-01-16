@@ -22,27 +22,15 @@ Component({
 			},{
 				id: 3,
 				title: "间隔",
-				desc: "日期间隔",
+				desc: "日期时间",
 				url: "/pages/explore/tools/dateInterval/index",
 				icon: "/static/image/tools/4.png"
 			},{
-				id: 4,
-				title: "关系",
-				desc: "排资论辈",
-				url: "/pages/explore/tools/homeRelation/index",
-				icon: "/static/image/tools/9.png"
-			},{
 				id: 5,
-				title: "邮编",
-				desc: "邮编查询",
+				title: "属地",
+				desc: "邮编区号",
 				url: "/pages/explore/tools/postCode/index",
 				icon: "/static/image/tools/1.png"
-			},{
-				id: 6,
-				title: "区号",
-				desc: "属地区号",
-				url: "/pages/explore/tools/areaCode/index",
-				icon: "/static/image/tools/3.png"
 			},{
 				id: 7,
 				title: "车牌",
@@ -55,6 +43,12 @@ Component({
 				desc: "哪儿人",
 				url: "/pages/explore/tools/idCard/index",
 				icon: "/static/image/tools/8.png"
+			},{
+				id: 9,
+				title: "原研药",
+				desc: "信息查询",
+				url: "/pages/explore/tools/drug/index",
+				icon: "/static/image/tools/10.png"
 			}
 		]
   },

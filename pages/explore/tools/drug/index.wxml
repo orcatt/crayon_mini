@@ -1,0 +1,37 @@
+<!--pages/explore/tools/dict/index.wxml-->
+<header classTitle="center" classColor="true" isBack="true" backgroundColor="#f4f4f5">原研药</header>
+<view class="mode" style="padding-top: {{tabbarRealHeight + 'px'}}; max-height: calc(100vh - {{tabbarRealHeight + 'px'}});">
+  <view class="modetitle">
+		<view class="top">原研药列表</view>
+		<view class="bottom">这里收录了约400种原研药信息</view>
+	</view>
+  <view class="drugSearch">
+    <view class="drugSearch-input">
+      <image class="search-icon" src="/static/image/search.png"></image>
+      <input type="text" bindconfirm="handleDrugSearch" value="{{searchValue}}" placeholder="请输入药品名称" placeholder-class="placeholder-style"/>
+    </view>
+  </view>
+  <view class="pinyin">
+    <view class="left">
+      <view 
+        wx:for="{{lettersIndex}}" 
+        wx:key="index"
+        bindtap="handleDrugType"
+        data-index="{{index}}" 
+        class="{{activeIndex == index ? 'active' : ''}}"
+      >
+        {{item}}
+      </view>
+    </view>
+    <view class="right">
+      <view class="rightItem" wx:for="{{drugList}}" wx:key="index">
+        <view>{{item.name}}<text wx:if="{{item.brand_name}}">（{{item.brand_name}}）</text></view>
+        <view>{{item.manufacturer}}</view>
+        <view class="tags">
+          <view wx:for="{{item.tags}}" wx:key="index">{{item}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+	<view style="height: 100rpx;"></view>
+</view>
