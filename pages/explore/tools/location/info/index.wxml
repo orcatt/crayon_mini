@@ -1,0 +1,56 @@
+<view class="mode">
+  <view class="modetitle">
+    <view class="bottom">查询邮编、区号、车牌编码</view>
+  </view>
+
+  <view class="location-card">
+    <view class="location-row">
+      <view class="location-label">省份</view>
+      <picker mode="selector" range="{{provinces}}" range-key="name" bindchange="onProvinceChange">
+        <view class="location-picker {{selectedProvince ? '' : 'placeholder'}}">
+          {{selectedProvince.name || '请选择省份'}}
+        </view>
+      </picker>
+    </view>
+    <view class="location-row">
+      <view class="location-label">城市</view>
+      <picker mode="selector" range="{{cities}}" range-key="name" bindchange="onCityChange" disabled="{{!selectedProvince}}">
+        <view class="location-picker {{selectedCity ? '' : 'placeholder'}}">
+          {{selectedCity.name || '请选择城市'}}
+        </view>
+      </picker>
+    </view>
+    <view class="location-row">
+      <view class="location-label">区县</view>
+      <picker mode="selector" range="{{districts}}" range-key="name" bindchange="onDistrictChange" disabled="{{!selectedCity}}">
+        <view class="location-picker {{selectedDistrict ? '' : 'placeholder'}}">
+          {{selectedDistrict.name || '请选择区县'}}
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="result-card" wx:if="{{locationResult}}">
+		<view class="result-title">
+			<text class="result-value">{{locationResult.province}} {{locationResult.city}} {{locationResult.district}}</text>
+			<view class="resultTags">{{locationResult.province_char}}</view>
+		</view>
+		<view class="result-content">
+			<view>邮编：{{locationResult.zip_code}}</view>
+			<view>区号：{{locationResult.code}}</view>
+		</view>
+  </view>
+  
+  <view class="license-card" wx:if="{{licenseList && licenseList.length > 0}}">
+    <view class="license-title">车牌编码</view>
+    <view class="license-table">
+      <view class="license-row" wx:for="{{licenseList}}" wx:key="name">
+        <view class="license-code">{{item.name}}</view>
+        <view class="license-area">{{item.content}}</view>
+      </view>
+    </view>
+  </view>
+  <view style="height: 100rpx;"></view>
+    
+</view>
+	

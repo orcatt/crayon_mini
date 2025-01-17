@@ -1,0 +1,9 @@
+{
+	"usingComponents": {
+		"header":"/components/Header/index",
+		"info":"/pages/explore/tools/location/info/index",
+		"idcard":"/pages/explore/tools/location/idcard/index"
+	},
+  "navigationStyle": "custom"
+	
+}

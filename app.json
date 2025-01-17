@@ -7,7 +7,10 @@
     "pages/explore/tools/dict/index",
     "pages/explore/tools/dict/fontResult/index",
     "pages/explore/tools/drug/index",
-    "pages/explore/tools/dateInterval/index"
+    "pages/explore/tools/dateInterval/index",
+		"pages/explore/tools/location/index",
+    "pages/explore/tools/idcard/index"
+		
   ],
   "window": {
     "backgroundTextStyle": "light",

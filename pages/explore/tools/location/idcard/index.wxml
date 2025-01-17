@@ -1,0 +1,32 @@
+<view class="mode">
+  <view class="modetitle">
+    <view class="bottom">查询身份证归属地</view>
+  </view>
+  <view class="idcard-card">
+    <view class="idcard-title">
+      <text>身份证前六位</text>
+      <view class="clear-btn" bindtap="clearAll">清空</view>
+    </view>
+    <view class="input-group1">
+      <block wx:for="{{6}}" wx:key="index">
+        <input 
+          type="number" 
+          maxlength="1" 
+          value="{{codes[index]}}"
+          focus="{{focusIndex === index}}"
+          bindinput="onInput"
+          bindfocus="onFocus"
+          bindtap="onTap"
+          data-index="{{index}}"
+          class="code-input {{codes[index] ? 'active' : ''}}"
+        />
+      </block>
+    </view>
+    <view class="tips">请输入身份证号码前6位</view>
+  </view>
+
+  <view class="result-card" wx:if="{{locationResult}}">
+    <view class="result-title">{{locationResult.name}}</view>
+  </view>
+</view>
+	

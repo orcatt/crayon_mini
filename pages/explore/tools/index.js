@@ -29,20 +29,8 @@ Component({
 				id: 5,
 				title: "属地",
 				desc: "邮编区号",
-				url: "/pages/explore/tools/postCode/index",
+				url: "/pages/explore/tools/location/index",
 				icon: "/static/image/tools/1.png"
-			},{
-				id: 7,
-				title: "车牌",
-				desc: "哪来儿的",
-				url: "/pages/explore/tools/carCode/index",
-				icon: "/static/image/tools/6.png"
-			},{
-				id: 8,
-				title: "身份证",
-				desc: "哪儿人",
-				url: "/pages/explore/tools/idCard/index",
-				icon: "/static/image/tools/8.png"
 			},{
 				id: 9,
 				title: "原研药",

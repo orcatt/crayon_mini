@@ -1,0 +1,98 @@
+/* pages/explore/tools/location/idcard/index.wxss */
+
+.mode {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.modetitle {
+  font-family: 'DouyinSansBold';
+  position: relative;
+  margin: 10rpx 0;
+}
+
+.modetitle .bottom {
+  height: 50rpx;
+  font-size: 32rpx;
+  color: #71717A;
+}
+
+.idcard-card {
+  width: 100%;
+  background: #F4F4F5;
+  border-radius: 24rpx;
+  padding: 30rpx 40rpx;
+  box-sizing: border-box;
+  box-shadow: 0 0px 6rpx 0 rgba(0, 0, 0, 0.1), 0 2rpx 2px -2rpx rgba(0, 0, 0, 0.3);
+}
+
+.idcard-title {
+  font-size: 32rpx;
+  color: #09090B;
+  margin-bottom: 30rpx;
+  font-family: 'DouyinSansBold';
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.input-group1 {
+  display: flex;
+  justify-content: space-between;
+  gap: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.code-input {
+  width: 80rpx;
+  height: 100rpx;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  text-align: center;
+  font-size: 40rpx;
+  font-family: 'DouyinSansBold';
+  color: #09090B;
+  transition: all 0.3s ease;
+}
+
+.code-input.active {
+  background: #18181B;
+  color: #FFFFFF;
+  transform: scale(1.05);
+}
+
+.tips {
+  font-size: 24rpx;
+  color: #71717A;
+  text-align: center;
+}
+
+.result-card {
+  width: 100%;
+  margin-top: 40rpx;
+  background: #18181B;
+  border-radius: 24rpx;
+  padding: 30rpx 40rpx;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  box-shadow: 0 0px 6rpx 0 rgba(0, 0, 0, 0.1), 0 2rpx 2px -2rpx rgba(0, 0, 0, 0.3);
+}
+
+.result-title {
+  font-size: 32rpx;
+  color: #FFFFFF;
+  font-family: 'DouyinSansBold';
+  text-align: center;
+}
+
+
+
+.clear-btn {
+  font-size: 24rpx;
+  color: #71717A;
+  padding: 8rpx 20rpx;
+  background: #FFFFFF;
+  border-radius: 20rpx;
+}
