@@ -2,12 +2,28 @@
 Page({
   data: {
 		tabbarRealHeight: 0,
+    activeIndex: 0,
+		tabsList: [{
+			id: 0,
+			title: '间隔'
+		},{
+			id:1,
+			title: '推算'
+		}],
     startDate: '',
     endDate: '',
     daysDiff: null,
     startTime: '',
     endTime: '',
-    timeResult: null
+    timeResult: null,
+    baseDate: '',
+    dateDirection: 'after',
+    daysToCalculate: '',
+    calculatedDate: null,
+    baseTime: '',
+    timeDirection: 'after',
+    hoursToCalculate: '',
+    calculatedTime: null
   },
   onLoad(options) {
 		var that = this;
@@ -16,7 +32,25 @@ Page({
 		})
 
   },
-  
+  changeTabs(e) {
+		const id = e.currentTarget.dataset.id;
+		// 先设置缩小动画
+		this.setData({
+			activeIndex: -1
+		});
+		// 短暂延迟后设置新的选中状态，触发放大动画
+		setTimeout(() => {
+			this.setData({
+				activeIndex: id
+			});
+		}, 50);
+	},
+	// 滑动切换事件处理
+	handleSwiper(e) {
+		this.setData({
+			activeIndex: e.detail.current
+		})
+	},
   // 计算日期差
   calculateDaysDiff() {
     const { startDate, endDate } = this.data;
@@ -122,6 +156,118 @@ Page({
       this.calculateTimeDiff();
     });
   },
+
+  // 新增方法：计算日期推算
+  calculateDateResult() {
+    const { baseDate, dateDirection, daysToCalculate } = this.data;
+    if (!baseDate || !daysToCalculate) return;
+
+    const date = new Date(baseDate);
+    const days = parseInt(daysToCalculate);
+    
+    if (dateDirection === 'after') {
+      date.setDate(date.getDate() + days);
+    } else {
+      date.setDate(date.getDate() - days);
+    }
+
+    const resultDate = date.toISOString().split('T')[0];
+    
+    this.setData({
+      calculatedDate: resultDate
+    });
+  },
+
+  // 基准日期变化
+  onBaseDateChange(e) {
+    this.setData({
+      baseDate: e.detail.value
+    }, () => {
+      this.calculateDateResult();
+    });
+  },
+
+  // 日期方向变化
+  onDateDirectionChange(e) {
+    const index = parseInt(e.detail.value);
+    this.setData({
+      dateDirection: index === 0 ? 'after' : 'before'
+    }, () => {
+      this.calculateDateResult();
+    });
+  },
+
+  // 天数输入变化
+  onDaysInput(e) {
+    this.setData({
+      daysToCalculate: e.detail.value
+    }, () => {
+      this.calculateDateResult();
+    });
+  },
+
+  // 计算时间推算
+  calculateTimeResult() {
+    const { baseTime, timeDirection, hoursToCalculate } = this.data;
+    if (!baseTime || !hoursToCalculate) return;
+
+    const [hours, minutes] = baseTime.split(':').map(Number);
+    const hoursToAdd = parseInt(hoursToCalculate);
+    
+    let totalMinutes = hours * 60 + minutes;
+    const minutesToAdd = hoursToAdd * 60;
+
+    if (timeDirection === 'after') {
+      totalMinutes += minutesToAdd;
+    } else {
+      totalMinutes -= minutesToAdd;
+    }
+
+    // 处理负数时间
+    while (totalMinutes < 0) {
+      totalMinutes += 24 * 60;
+    }
+
+    const resultHours = Math.floor((totalMinutes / 60) % 24);
+    const resultMinutes = totalMinutes % 60;
+    const days = Math.floor(Math.abs(totalMinutes) / (24 * 60));
+
+    this.setData({
+      calculatedTime: {
+        time: `${String(resultHours).padStart(2, '0')}:${String(resultMinutes).padStart(2, '0')}`,
+        days: days
+      }
+    });
+  },
+
+  // 基准时间变化
+  onBaseTimeChange(e) {
+    this.setData({
+      baseTime: e.detail.value
+    }, () => {
+      this.calculateTimeResult();
+    });
+  },
+
+  // 时间方向变化
+  onTimeDirectionChange(e) {
+    const index = parseInt(e.detail.value);
+    this.setData({
+      timeDirection: index === 0 ? 'after' : 'before'
+    }, () => {
+      this.calculateTimeResult();
+    });
+  },
+
+  // 小时数输入变化
+  onHoursInput(e) {
+    this.setData({
+      hoursToCalculate: e.detail.value
+    }, () => {
+      this.calculateTimeResult();
+    });
+  },
+
   onReady() {},
   onShow() {},
   onHide() {},

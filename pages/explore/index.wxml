@@ -15,10 +15,10 @@
 		<Tools wx:if="{{activeIndex == 0}}" bindtoggleTabBar="toggleTabBar"></Tools>
   </swiper-item>
   <swiper-item>
-		<Weight wx:if="{{activeIndex == 1}}" bindtoggleTabBar="toggleTabBar"></Weight>
+		<Helpers wx:if="{{activeIndex == 1}}" bindtoggleTabBar="toggleTabBar"></Helpers>
   </swiper-item>
   <swiper-item>
-		<Cookbook wx:if="{{activeIndex == 2}}" bindtoggleTabBar="toggleTabBar"></Cookbook>
+		<Unused wx:if="{{activeIndex == 2}}" bindtoggleTabBar="toggleTabBar"></Unused>
   </swiper-item>
 </swiper>
 <TabBar bindcurrentShow="currentClick" wx:if="{{showTabBar}}"></TabBar>

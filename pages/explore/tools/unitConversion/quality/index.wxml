@@ -1,0 +1,74 @@
+<view class="mode" style="height: calc(100vh - {{tabbarRealHeight +90 + 'px'}});">
+  <view class="modetitle" style="margin-top: 0;">
+    <view class="title-wrapper">
+      <view>
+        <view class="top">公制单位</view>
+        <view class="bottom">吨、公斤、克等单位换算</view>
+      </view>
+      <view class="clear-btn" bindtap="clearMetric">清空</view>
+    </view>
+  </view>
+
+  <view class="unit-card">
+    <view class="unit-row" wx:for="{{metricUnits}}" wx:key="unit">
+      <view class="unit-label">{{item.label}}</view>
+      <input 
+        type="digit" 
+        class="unit-input"
+        value="{{item.value}}"
+        data-unit="{{item.unit}}"
+        bindinput="onMetricInput"
+        placeholder="请输入"
+      />
+    </view>
+  </view>
+
+  <view class="modetitle" style="margin-top: 50rpx;">
+    <view class="title-wrapper">
+      <view>
+        <view class="top">英制单位</view>
+        <view class="bottom">磅、盎司等单位换算</view>
+      </view>
+      <view class="clear-btn" bindtap="clearImperial">清空</view>
+    </view>
+  </view>
+
+  <view class="unit-card">
+    <view class="unit-row" wx:for="{{imperialUnits}}" wx:key="unit">
+      <view class="unit-label">{{item.label}}</view>
+      <input 
+        type="digit" 
+        class="unit-input"
+        value="{{item.value}}"
+        data-unit="{{item.unit}}"
+        bindinput="onImperialInput"
+        placeholder="请输入"
+      />
+    </view>
+  </view>
+
+  <view class="modetitle" style="margin-top: 50rpx;">
+    <view class="title-wrapper">
+      <view>
+        <view class="top">市制单位</view>
+        <view class="bottom">市斤、两、钱等单位换算</view>
+      </view>
+      <view class="clear-btn" bindtap="clearChinese">清空</view>
+    </view>
+  </view>
+
+  <view class="unit-card">
+    <view class="unit-row" wx:for="{{chineseUnits}}" wx:key="unit">
+      <view class="unit-label">{{item.label}}</view>
+      <input 
+        type="digit" 
+        class="unit-input"
+        value="{{item.value}}"
+        data-unit="{{item.unit}}"
+        bindinput="onChineseInput"
+        placeholder="请输入"
+      />
+    </view>
+  </view>
+  <view style="height: 100rpx;"></view>
+</view>

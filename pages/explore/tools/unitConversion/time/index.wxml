@@ -1,0 +1,26 @@
+<view class="mode" style="height: calc(100vh - {{tabbarRealHeight +90 + 'px'}});">
+  <view class="modetitle" style="margin-top: 0;">
+    <view class="title-wrapper">
+      <view>
+        <view class="top">时间单位</view>
+        <view class="bottom">年、月、周、天等单位换算</view>
+      </view>
+      <view class="clear-btn" bindtap="clearTime">清空</view>
+    </view>
+  </view>
+
+  <view class="unit-card">
+    <view class="unit-row" wx:for="{{timeUnits}}" wx:key="unit">
+      <view class="unit-label">{{item.label}}</view>
+      <input 
+        type="digit" 
+        class="unit-input"
+        value="{{item.value}}"
+        data-unit="{{item.unit}}"
+        bindinput="onTimeInput"
+        placeholder="请输入"
+      />
+    </view>
+  </view>
+  <view style="height: 100rpx;"></view>
+</view>

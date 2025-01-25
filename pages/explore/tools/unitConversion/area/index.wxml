@@ -1,0 +1,74 @@
+<view class="mode" style="height: calc(100vh - {{tabbarRealHeight +90 + 'px'}});">
+  <view class="modetitle" style="margin-top: 0;">
+    <view class="title-wrapper">
+      <view>
+        <view class="top">公制单位</view>
+        <view class="bottom">平方公里、公顷等单位换算</view>
+      </view>
+      <view class="clear-btn" bindtap="clearAreaMetric">清空</view>
+    </view>
+  </view>
+
+  <view class="unit-card">
+    <view class="unit-row" wx:for="{{areaMetricUnits}}" wx:key="unit">
+      <view class="unit-label">{{item.label}}</view>
+      <input 
+        type="digit" 
+        class="unit-input"
+        value="{{item.value}}"
+        data-unit="{{item.unit}}"
+        bindinput="onAreaMetricInput"
+        placeholder="请输入"
+      />
+    </view>
+  </view>
+
+  <view class="modetitle" style="margin-top: 50rpx;">
+    <view class="title-wrapper">
+      <view>
+        <view class="top">英制单位</view>
+        <view class="bottom">平方英里、英亩等单位换算</view>
+      </view>
+      <view class="clear-btn" bindtap="clearAreaImperial">清空</view>
+    </view>
+  </view>
+
+  <view class="unit-card">
+    <view class="unit-row" wx:for="{{areaImperialUnits}}" wx:key="unit">
+      <view class="unit-label">{{item.label}}</view>
+      <input 
+        type="digit" 
+        class="unit-input"
+        value="{{item.value}}"
+        data-unit="{{item.unit}}"
+        bindinput="onAreaImperialInput"
+        placeholder="请输入"
+      />
+    </view>
+  </view>
+
+  <view class="modetitle" style="margin-top: 50rpx;">
+    <view class="title-wrapper">
+      <view>
+        <view class="top">市制单位</view>
+        <view class="bottom">亩</view>
+      </view>
+      <view class="clear-btn" bindtap="clearAreaChinese">清空</view>
+    </view>
+  </view>
+
+  <view class="unit-card">
+    <view class="unit-row" wx:for="{{areaChineseUnits}}" wx:key="unit">
+      <view class="unit-label">{{item.label}}</view>
+      <input 
+        type="digit" 
+        class="unit-input"
+        value="{{item.value}}"
+        data-unit="{{item.unit}}"
+        bindinput="onAreaChineseInput"
+        placeholder="请输入"
+      />
+    </view>
+  </view>
+  <view style="height: 100rpx;"></view>
+</view>

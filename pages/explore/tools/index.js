@@ -9,34 +9,52 @@ Component({
 		toolsList: [
 			{
 				id: 1,
-				title: "解析",
-				desc: "视频下载",
-				url: "/pages/explore/tools/video/index",
-				icon: "/static/image/tools/7.png"
+				title: "转换",
+				desc: "单位换算",
+				url: "/pages/explore/tools/unitConversion/index",
+				icon: "/static/image/tools/3.png"
 			},{
 				id: 2,
-				title: "字典",
-				desc: "查字解词",
-				url: "/pages/explore/tools/dict/index",
-				icon: "/static/image/tools/2.png"
-			},{
-				id: 3,
 				title: "间隔",
 				desc: "日期时间",
 				url: "/pages/explore/tools/dateInterval/index",
 				icon: "/static/image/tools/4.png"
 			},{
-				id: 5,
+				id: 3,
 				title: "属地",
 				desc: "邮编区号",
 				url: "/pages/explore/tools/location/index",
 				icon: "/static/image/tools/1.png"
 			},{
-				id: 9,
+				id: 4,
 				title: "原研药",
 				desc: "信息查询",
 				url: "/pages/explore/tools/drug/index",
 				icon: "/static/image/tools/10.png"
+			},{
+				id: 7,
+				title: "硬币",
+				desc: "交给天意",
+				url: "/pages/explore/tools/coin/index",
+				icon: "/static/image/tools/5.png"
+			},{
+				id: 9,
+				title: "生肖",
+				desc: "属相查询",
+				url: "/pages/explore/tools/zodiac/index",
+				icon: "/static/image/tools/11.png"
+			},{
+				id: 10,
+				title: "字典",
+				desc: "查字解词",
+				url: "/pages/explore/tools/dict/index",
+				icon: "/static/image/tools/2.png"
+			},{
+				id: 11,
+				title: "血型",
+				desc: "遗传计算",
+				url: "/pages/explore/tools/bloods/index",
+				icon: "/static/image/tools/9.png"
 			}
 		]
   },

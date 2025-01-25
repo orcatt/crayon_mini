@@ -1,0 +1,39 @@
+<view class="mode" style="height: calc(100vh - {{tabbarRealHeight +90 + 'px'}});">
+  <view class="modetitle" style="margin-top: 0;">
+    <view class="title-wrapper">
+      <view>
+        <view class="top">温度单位</view>
+        <view class="bottom">摄氏度、华氏度换算</view>
+      </view>
+      <view class="clear-btn" bindtap="clearTemp">清空</view>
+    </view>
+  </view>
+
+  <view class="temp-container">
+    <view class="temp-column" wx:for="{{tempUnits}}" wx:key="unit">
+      <view class="temp-label">{{item.label}}</view>
+      <view class="thermometer-container">
+        <view class="thermometer">
+          <view class="mercury-container">
+            <view class="mercury" style="height: {{mercuryHeights[index]}}rpx; background-color: {{mercuryColors[index]}}"></view>
+          </view>
+          <view class="scale">
+            <view class="scale-mark" wx:for="{{scaleMarks[item.unit]}}" wx:key="index">
+              <text>{{item}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      <input 
+        type="digit" 
+        class="temp-input"
+        value="{{item.value}}"
+        data-unit="{{item.unit}}"
+        data-index="{{index}}"
+        bindinput="onTempInput"
+        placeholder="请输入"
+      />
+      <view class="temp-unit">°{{item.unit === 'celsius' ? 'C' : 'F'}}</view>
+    </view>
+  </view>
+</view>

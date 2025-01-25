@@ -2,7 +2,9 @@
   "usingComponents": {
 		"customheader":"/components/CustomHeader/index",
 		"TabBar": "/components/tabBar/index",
-    "Tools": "/pages/explore/tools/index"
+    "Tools": "/pages/explore/tools/index",
+    "Helpers": "/pages/explore/helpers/index",
+    "Unused": "/pages/explore/unused/index"
   },
   "navigationStyle": "custom"
 

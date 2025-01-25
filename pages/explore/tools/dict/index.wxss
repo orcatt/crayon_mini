@@ -6,7 +6,7 @@
 }
 .tabsList {
   width: 440rpx;
-  height: 80rpx;
+  height: 70rpx;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,8 +20,8 @@
 .tabsList>view {
   text-align: center;
   width: 100rpx;
-  height: 80rpx;
-  line-height: 80rpx;
+  height: 70rpx;
+  line-height: 76rpx;
   font-size: 32rpx;
   font-family: "DouyinSansBold";
   color: #09090b;

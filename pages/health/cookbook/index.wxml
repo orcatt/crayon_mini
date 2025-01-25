@@ -1,2 +1,20 @@
 <!--pages/health/cookbook/index.wxml-->
-<text>pages/health/cookbook/index.wxml</text>
+<view class="mode" style="margin-top: {{tabbarRealHeight  + 'px'}}; height: calc(100vh - {{tabbarRealHeight +90 + 'px'}});">
+  <view class="modetitle">
+		<view class="top">私人菜谱</view>
+		<view class="bottom">谁还没点小秘方？</view>
+		<view class="opt" bind:tap="addWeight">
+			<image src="/static/image/add.png"></image>
+		</view>
+	</view>
+  <view class="recipes">
+    <view class="recipesItem" wx:for="{{cookbookList}}" wx:key="id">
+      <view>
+        <image src="{{item.recipe_image?item.recipe_image:'/static/image/tools/13.png'}}"></image>
+      </view>
+        
+      <view>{{item.recipe_name}}</view>
+    </view>
+      
+  </view>
+</view>

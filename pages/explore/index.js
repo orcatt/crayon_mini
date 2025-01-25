@@ -7,18 +7,17 @@ Page({
 		tabbarHeight: 0,
 		tabbarMargin: 0,
 		current: 1,
-
 		activeIndex: 0,
 
 		tabsList: [{
 			id: 0,
-			title: '探索',
+			title: '有用',
 		}, {
 			id: 1,
-			title: '试试',
+			title: '有点用',
 		},{
 			id: 2,
-			title: '更多',
+			title: '用处不大',
 		}],
 		showTabBar: true,
 	},

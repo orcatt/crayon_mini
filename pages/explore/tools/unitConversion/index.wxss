@@ -1,20 +1,24 @@
 /* pages/explore/tools/dict/index.wxss */
-.mode{
+
+.mode {
   width: 90%;
-  margin: 0 auto;
-  position: relative;
+  margin: auto;
+  overflow: hidden;
 }
+
 .tabsList {
-  width: 320rpx;
-  height: 70rpx;
+  width: 90%;
+  line-height: 70rpx;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 30rpx;
+  gap: 20rpx;
   background-color: #fff;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   border-radius: 20rpx;
   margin: 40rpx auto; 
+  flex-wrap: wrap;
+  padding: 20rpx;
 }
 
 .tabsList>view {
@@ -36,5 +40,3 @@
   padding: 0 10rpx;
   transform: scale(1.2);
 }
-
-
