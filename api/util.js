@@ -1,12 +1,14 @@
-var webUrl = "http://192.168.8.117:8081/";
-// var webUrl = "https://crayonapi.orcatt.one/";
+// var webUrl = "http://192.168.8.117:8081/";
+// var webUrl = "http://192.168.1.5:8081/";
+
+var webUrl = "https://crayonapi.orcatt.one/";
 // v=spf1 include:spf.efwd.registrar-servers.com ~all
 //网络请求方法
 function getData(model) {
-  wx.showLoading({
-    title: '加载中',
-    mask: true,
-  })
+  // wx.showLoading({
+  //   title: '加载中',
+  //   mask: true,
+  // })
   wx.request({
     url: webUrl + model.url + (model.method === 'DELETE' && model.params ? '?' + objectToQueryString(model.params) : ''),
     data: model.method !== 'DELETE' ? model.params : {},
@@ -16,7 +18,7 @@ function getData(model) {
     },
     method: model.method || 'POST',
     success: function (res) {
-      wx.hideLoading();
+      // wx.hideLoading();
       model.success(res.data)
       if (wx.getStorageSync('token') && res.data.code == 401) {
         wx.clearStorageSync();
@@ -27,7 +29,7 @@ function getData(model) {
     },
     fail: function (res) {
       console.log(res)
-      wx.hideLoading();
+      // wx.hideLoading();
       wx.showModal({
         title: res.Error,
         showCancel: false

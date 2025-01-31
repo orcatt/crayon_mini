@@ -12,13 +12,13 @@ Page({
 
 		tabsList: [{
 			id: 0,
-			title: '摄入',
+			title: '菜谱',
 		}, {
 			id: 1,
-			title: '轻重',
+			title: '摄入',
 		},{
 			id: 2,
-			title: '菜谱',
+			title: '轻重',
 		}],
 		showTabBar: true,
 	},

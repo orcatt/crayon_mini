@@ -3,18 +3,225 @@
   <view class="modetitle">
 		<view class="top">私人菜谱</view>
 		<view class="bottom">谁还没点小秘方？</view>
-		<view class="opt" bind:tap="addWeight">
+		<view class="opt" bind:tap="addRecipe">
 			<image src="/static/image/add.png"></image>
 		</view>
 	</view>
   <view class="recipes">
-    <view class="recipesItem" wx:for="{{cookbookList}}" wx:key="id">
+    <view class="recipesItem" 
+      wx:for="{{cookbookList}}" 
+      wx:key="id"
+      bindtap="viewRecipeDetail"
+      data-id="{{item.recipe_id}}"
+    >
       <view>
-        <image src="{{item.recipe_image?item.recipe_image:'/static/image/tools/13.png'}}"></image>
+        <image src="{{item.image_path? 'https://crayonapi.orcatt.one' + item.image_path : '/static/image/tools/13.png'}}" mode="aspectFill"></image>
       </view>
         
       <view>{{item.recipe_name}}</view>
+      <view class="tags">
+        <view wx:for="{{item.tags}}" wx:key="id">{{item}}</view>
+      </view>
     </view>
       
+  </view>
+</view>
+<view class="drawer-mask" wx:if="{{showAddDrawer}}" bindtap="closeAddDrawer"></view>
+<view class="drawer {{showAddDrawer ? 'drawer-show' : ''}}">
+  <view class="drawer-header">
+    <view class="drawer-title">{{step === 1 ? '添加菜谱' : '补充食材信息'}}</view>
+    <view class="drawer-close" bindtap="closeAddDrawer">×</view>
+  </view>
+  <view class="drawer-content" wx:if="{{step === 1}}">
+    <view class="form-group">
+      <view class="account-title">菜名<text class="required">*</text></view>
+      <view class="account-input">
+        <input type="text" value="{{formData.name}}" bindinput="handleNameInput" placeholder-class="placeholderClass" placeholder="请输入菜名" />
+      </view>
+
+      <view class="account-title">标签<text class="required">*</text></view>
+      <view class="tag-input-container">
+        <view class="tag-input">
+          <input type="text" 
+            value="{{currentTag}}" 
+            bindinput="handleCurrentTagInput" 
+            bindconfirm="addTag"
+            placeholder-class="placeholderClass" 
+            placeholder="{{formData.tags.length ? '继续添加标签' : '请输入标签，回车确认'}}" />
+        </view>
+        <view class="tags-preview" wx:if="{{formData.tags.length}}">
+          <view class="tag-item" wx:for="{{formData.tags}}" wx:key="index">
+            <text>{{item}}</text>
+            <text class="delete-tag" catchtap="deleteTag" data-index="{{index}}">×</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="account-title">喜爱程度</view>
+      <view class="rating-container">
+        <view class="star {{formData.rating >= index + 1 ? 'active' : ''}}" 
+              wx:for="{{5}}" 
+              wx:key="index"
+              bindtap="handleRatingTap"
+              data-rating="{{index + 1}}">
+          ★
+        </view>
+      </view>
+
+      <view class="account-title">菜品图片</view>
+      <view class="upload-container">
+        <view class="upload-box" wx:if="{{!formData.image_path}}" bindtap="chooseImage">
+          <image class="upload-icon" src="/static/image/upload.png"></image>
+          <view class="upload-text">上传图片</view>
+        </view>
+        <view class="preview-box" wx:else>
+          <image class="preview-image" src="https://crayonapi.orcatt.one{{formData.image_path}}" mode="aspectFill"></image>
+          <view class="delete-image" catchtap="deleteImage">×</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="btn-group">
+      <view class="wx-login-btn" bindtap="nextStepTo2">下一步</view>
+      <view class="otherlogin" bindtap="closeAddDrawer">取消</view>
+    </view>
+  </view>
+  <view class="drawer-content" wx:if="{{step === 2}}">
+    <view class="form-group">
+      <view class="account-title">食材清单<text class="required">*</text></view>
+      <view class="ingredients-list">
+        <view class="ingredient-item" wx:for="{{ingredients}}" wx:key="index">
+          <view class="ingredient-content">
+            <view class="ingredient-row">
+              <view class="ingredient-input">
+                <input type="text" 
+                  value="{{item.name}}" 
+                  data-index="{{index}}"
+                  bindinput="handleIngredientNameInput" 
+                  placeholder-class="placeholderClass" 
+                  placeholder="食材名称" />
+              </view>
+              <view class="ingredient-input">
+                <input type="digit" 
+                  value="{{item.quantity}}" 
+                  data-index="{{index}}"
+                  bindinput="handleIngredientQuantityInput" 
+                  placeholder-class="placeholderClass" 
+                  placeholder="用量" />
+              </view>
+              <view class="ingredient-unit">
+                <picker 
+                  bindchange="handleUnitChange" 
+                  data-index="{{index}}"
+                  value="{{item.unit}}" 
+                  range="{{unitList}}" 
+                  range-key="label">
+                  <view class="{{item.unit ? '' : 'placeholderClass'}}">
+                    {{item.unit ? unitList[item.unit-1].label : '单位'}}
+                  </view>
+                </picker>
+              </view>
+            </view>
+          </view>
+          <view class="delete-ingredient" catchtap="deleteIngredient" data-index="{{index}}">×</view>
+        </view>
+      </view>
+      
+      <view class="add-ingredient" bindtap="addIngredient">
+        <text>+ 添加食材</text>
+      </view>
+    </view>
+
+    <view class="btn-group">
+      <view class="wx-login-btn" bindtap="submitIngredients">完成</view>
+      <view class="otherlogin" bindtap="closeAddDrawer">取消</view>
+    </view>
+  </view>
+  
+</view>
+<view class="drawer-mask" wx:if="{{showStepsDrawer}}" bindtap="closeStepsDrawer"></view>
+<view class="drawer {{showStepsDrawer ? 'drawer-show' : ''}}">
+  <view class="drawer-header">
+    <view class="drawer-title">{{stepPage === 1 ? '添加制作步骤' : '补充步骤图片'}}</view>
+    <view class="drawer-close" bindtap="closeStepsDrawer">×</view>
+  </view>
+  <view class="drawer-content" wx:if="{{stepPage === 1}}">
+    <view class="form-group">
+      <view class="account-title">制作步骤<text class="required">*</text></view>
+      <view class="steps-list">
+        <view class="step-item" wx:for="{{steps}}" wx:key="index">
+          <view class="step-content">
+            <view class="step-number">{{index + 1}}</view>
+            <view class="step-input">
+              <input type="text" 
+                value="{{item.content}}" 
+                data-index="{{index}}"
+                bindinput="handleStepContentInput" 
+                placeholder-class="placeholderClass" 
+                placeholder="请输入步骤内容" />
+            </view>
+          </view>
+          <view class="delete-step" catchtap="deleteStep" data-index="{{index}}">×</view>
+        </view>
+      </view>
+      
+      <view class="add-step" bindtap="addStep">
+        <text>+ 添加步骤</text>
+      </view>
+    </view>
+
+    <view class="btn-group">
+      <view class="wx-login-btn" bindtap="submitSteps">保存</view>
+      <view class="otherlogin" bindtap="closeStepsDrawer">取消</view>
+    </view>
+  </view>
+</view>
+<view class="drawer-mask" wx:if="{{showDetailDrawer}}" bindtap="closeDetailDrawer"></view>
+<view class="drawer {{showDetailDrawer ? 'drawer-show' : ''}}">
+  <view class="recipe-detail">
+    <view class="recipe-image">
+      <image src="{{recipeDetail.image_path? 'https://crayonapi.orcatt.one' + recipeDetail.image_path : '/static/image/tools/13.png'}}" mode="aspectFill"></image>
+      <view class="edit-detail" bindtap="editDetail">编辑</view>
+      <view class="close-detail" bindtap="closeDetailDrawer">×</view>
+    </view>
+    
+    <view class="detail-content">
+      <view class="recipe-header">
+        <view class="recipe-name">{{recipeDetail.recipe_name}}</view>
+        <view class="recipe-rating">
+          <text class="star {{recipeDetail.rating >= index + 1 ? 'active' : ''}}" 
+            wx:for="{{5}}" 
+            wx:key="index"
+          >★</text>
+        </view>
+      </view>
+
+      <view class="recipe-tags">
+        <view class="tag" wx:for="{{recipeDetail.tags}}" wx:key="index">{{item}}</view>
+      </view>
+
+      <view class="section">
+        <view class="section-title">食材清单</view>
+        <view class="ingredients-detail" wx:if="{{recipeDetail.ingredients.length > 0}}">
+          <view class="ingredient-row" wx:for="{{recipeDetail.ingredients}}" wx:key="ingredient_id">
+            <text class="ingredient-name">{{item.ingredient_name}}</text>
+            <text class="ingredient-amount">{{item.quantity}} {{unitList[item.unit-1].label}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="section">
+        <view class="section-title">制作步骤</view>
+        <view class="steps-detail" wx:if="{{recipeDetail.steps.length > 0}}">
+          <view class="step-row" wx:for="{{recipeDetail.steps}}" wx:key="step_id">
+            <view class="step-number">{{item.step_number}}</view>
+            <view class="step-content">
+              <text>{{item.step_content}}</text>
+              <image wx:if="{{item.step_image_path}}" src="{{item.step_image_path}}" mode="aspectFill"></image>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
   </view>
 </view>

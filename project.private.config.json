@@ -9,13 +9,14 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/explore/index",
-          "pathName": "pages/explore/index",
+          "name": "pages/health/index",
+          "pathName": "pages/health/index",
           "query": "",
           "launchMode": "default",
           "scene": null
         }
       ]
     }
-  }
+  },
+  "libVersion": "trial"
 }

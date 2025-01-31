@@ -38,7 +38,7 @@ Component({
       this.triggerEvent('currentShow', {
         index: e.currentTarget.dataset.index
       })
-      wx.redirectTo({
+      wx.reLaunch({
         url: e.currentTarget.dataset.path
       })
       wx.setStorageSync('currentIndex', e.currentTarget.dataset.index)
