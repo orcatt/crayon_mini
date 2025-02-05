@@ -12,13 +12,10 @@
   current="{{activeIndex}}" 
   bindchange="handleSwiper">
   <swiper-item>
-		<TopUpPosition wx:if="{{activeIndex == 0}}" bindtoggleTabBar="toggleTabBar"></TopUpPosition>
+		<My wx:if="{{activeIndex == 0}}" bindtoggleTabBar="toggleTabBar"></My>
   </swiper-item>
   <swiper-item>
-		<CalculateProfit wx:if="{{activeIndex == 1}}" bindtoggleTabBar="toggleTabBar"></CalculateProfit>
-  </swiper-item>
-  <swiper-item>
-		<SetProfitThreshold wx:if="{{activeIndex == 2}}" bindtoggleTabBar="toggleTabBar"></SetProfitThreshold>
+		<Tools wx:if="{{activeIndex == 1}}" bindtoggleTabBar="toggleTabBar"></Tools>
   </swiper-item>
 </swiper>
 <TabBar bindcurrentShow="currentClick" wx:if="{{showTabBar}}"></TabBar>

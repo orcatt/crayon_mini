@@ -1,0 +1,13 @@
+<!--pagesusertools/dict/index.wxml-->
+<header classTitle="center" classColor="true" isBack="true" backgroundColor="#f4f4f5">查到的字</header>
+<view style="padding-top: {{tabbarRealHeight + 'px'}}; max-height: calc(100vh - {{tabbarRealHeight  + 'px'}}); overflow-y: auto;">
+  <view class="mode">
+    <view 
+      class="rightItem" 
+      wx:for="{{fontsData}}" wx:key="index"
+    >
+      <image src="/static/image/tian.png" mode="aspectFit"></image>
+      <view>{{item.name}}</view>
+    </view>
+  </view>
+</view>

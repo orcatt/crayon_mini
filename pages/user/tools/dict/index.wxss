@@ -1,0 +1,39 @@
+/* pagesusertools/dict/index.wxss */
+.mode{
+  width: 90%;
+  margin: 0 auto;
+  position: relative;
+}
+.tabsList {
+  width: 440rpx;
+  height: 70rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30rpx;
+  background-color: #fff;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 20rpx;
+  margin: 40rpx auto; 
+}
+
+.tabsList>view {
+  text-align: center;
+  width: 100rpx;
+  height: 70rpx;
+  line-height: 76rpx;
+  font-size: 32rpx;
+  font-family: "DouyinSansBold";
+  color: #09090b;
+  transition: all 0.3s ease;
+  transform: scale(1);
+}
+
+.tabsList>view.tabs_active{
+  color: #fff;
+  background-color: #09090b;
+  border-radius: 20rpx;
+  padding: 0 10rpx;
+  transform: scale(1.2);
+}
+

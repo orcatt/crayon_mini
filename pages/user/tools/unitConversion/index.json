@@ -1,0 +1,12 @@
+{
+	"usingComponents": {
+		"header":"/components/Header/index",
+		"length":"/pages/user/tools/unitConversion/length/index",
+		"area":"/pages/user/tools/unitConversion/area/index",
+		"quality":"/pages/user/tools/unitConversion/quality/index",
+		"time":"/pages/user/tools/unitConversion/time/index",
+		"temperature":"/pages/user/tools/unitConversion/temperature/index"
+	},
+  "navigationStyle": "custom"
+	
+}

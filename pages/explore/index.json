@@ -2,9 +2,9 @@
   "usingComponents": {
 		"customheader":"/components/CustomHeader/index",
 		"TabBar": "/components/tabBar/index",
-    "Tools": "/pages/explore/tools/index",
-    "Helpers": "/pages/explore/helpers/index",
-    "Unused": "/pages/explore/unused/index"
+    "TopUpPosition": "/pages/explore/topUpPosition/index",
+    "CalculateProfit": "/pages/explore/calculateProfit/index",
+    "SetProfitThreshold": "/pages/explore/setProfitThreshold/index"
   },
   "navigationStyle": "custom"
 

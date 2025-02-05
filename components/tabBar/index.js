@@ -24,7 +24,7 @@ Component({
       title: '我的',
       icon: '/static/image/tabber/tab3.png',
       selectedIcon: "/static/image/tabber/tab3active.png",
-      path: "/pages/my/index"
+      path: "/pages/user/index"
     }]
   },
   methods: {

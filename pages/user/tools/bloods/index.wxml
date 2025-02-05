@@ -1,0 +1,48 @@
+<!--pages/user/tools/dict/index.wxml-->
+<header classTitle="center" classColor="true" isBack="true" backgroundColor="#f4f4f5">血型</header>
+<view class="mode" style="padding-top: {{tabbarRealHeight + 20 + 'px'}}; max-height: calc(100vh - {{tabbarRealHeight  + 'px'}}); overflow-y: auto;">
+  <view class="modetitle" style="margin-top: 0;">
+    <view class="title-wrapper">
+      <view>
+        <view class="top">亲属血型</view>
+        <view class="bottom">选择两位亲属的血型</view>
+      </view>
+      <view class="clear-btn" bindtap="clearSelection">清空</view>
+    </view>
+  </view>
+
+  <view class="blood-card">
+    <view class="blood-row">
+      <view class="blood-label">亲属 A</view>
+      <picker mode="selector" range="{{bloodTypes}}" bindchange="onParentAChange">
+        <view class="blood-picker {{parentA ? '' : 'placeholder'}}">
+          {{parentA || '请选择血型'}}
+        </view>
+      </picker>
+    </view>
+    <view class="blood-row">
+      <view class="blood-label">亲属 B</view>
+      <picker mode="selector" range="{{bloodTypes}}" bindchange="onParentBChange">
+        <view class="blood-picker {{parentB ? '' : 'placeholder'}}">
+          {{parentB || '请选择血型'}}
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <block wx:if="{{showResult}}">
+    <view class="result-card possible">
+      <view class="result-title">可能的血型</view>
+      <view class="result-types">
+        <view class="type-tag" wx:for="{{resultPossible}}" wx:key="index">{{item}}</view>
+      </view>
+    </view>
+
+    <view class="result-card impossible" wx:if="{{resultImpossible.length > 0}}">
+      <view class="result-title">不可能的血型</view>
+      <view class="result-types">
+        <view class="type-tag" wx:for="{{resultImpossible}}" wx:key="index">{{item}}</view>
+      </view>
+    </view>
+  </block>
+</view>

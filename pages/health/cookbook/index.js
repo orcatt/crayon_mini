@@ -477,7 +477,8 @@ Component({
           name: that.data.recipeDetail.recipe_name,
           tags: that.data.recipeDetail.tags,
           rating: that.data.recipeDetail.rating,
-          is_pinned: that.data.recipeDetail.is_pinned
+          is_pinned: that.data.recipeDetail.is_pinned,
+          image_path: that.data.recipeDetail.image_path
         }
       });
     },

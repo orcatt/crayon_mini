@@ -2,7 +2,7 @@
 <view class="mode" style="margin-top: {{tabbarRealHeight  + 'px'}}; height: calc(100vh - {{tabbarRealHeight +90 + 'px'}});">
 	<view class="modetitle">
 		<view class="top">黄历</view>
-		<view class="bottom">今日定是个良辰吉日</view>
+		<view class="bottom">今日良辰</view>
 		<view class="opt" bind:tap="explain">
 			<image src="/static/image/almanac.png"></image>
 		</view>

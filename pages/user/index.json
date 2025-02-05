@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+		"customheader":"/components/CustomHeader/index",
+		"TabBar": "/components/tabBar/index",
+    "My": "/pages/user/my/index",
+    "Tools": "/pages/user/tools/index"
+  },
+  "navigationStyle": "custom"
+
+}

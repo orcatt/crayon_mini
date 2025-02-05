@@ -1,0 +1,39 @@
+<!--pagesusertools/dict/index.wxml-->
+<header classTitle="center" classColor="true" isBack="true" backgroundColor="#f4f4f5">单位换算</header>
+<view class="mode" style="padding-top: {{tabbarRealHeight + 'px'}}; max-height: calc(100vh - {{tabbarRealHeight  + 'px'}});">
+  <view class="tabsList">
+    <view 
+      class="{{activeIndex == item.id ? 'tabs_active': ''}}" 
+      wx:for="{{tabsList}}" wx:key="index" 
+      bind:tap="changeTabs" 
+      data-id="{{item.id}}"
+    >
+      {{item.title}}
+    </view>
+  </view>
+
+  <swiper 
+    class="swiper-container" 
+    current="{{activeIndex}}" 
+    bindchange="handleSwiper"
+    style="height: calc(100vh - 160rpx - {{tabbarRealHeight  + 'px'}});"
+  >
+  
+    <swiper-item>
+      <length></length>
+    </swiper-item>
+    <swiper-item>
+      <area></area>
+    </swiper-item>
+    <swiper-item>
+      <quality></quality>
+    </swiper-item>
+    <swiper-item>
+      <time></time>
+    </swiper-item>
+    <swiper-item>
+      <temperature></temperature>
+    </swiper-item>
+
+  </swiper>
+</view>

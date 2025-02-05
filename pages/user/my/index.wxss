@@ -1,0 +1,32 @@
+/* pages/today/index.wxss */
+
+.mode {
+	width: 90%;
+	margin: auto;
+	padding: 20rpx 0;
+	overflow-y: auto;
+  overflow-x: hidden;
+}
+.modetitle{
+  font-family: 'DouyinSansBold';
+  position: relative;
+  margin-bottom: 10rpx;
+}
+.modetitle .top{
+  height: 65rpx;
+  font-size: 48rpx;
+  color: #09090B;
+}
+.modetitle .bottom{
+  height: 50rpx;
+  font-size: 32rpx;
+  color: #71717A;
+}
+.opt image{
+  width: 60rpx;
+  height: 60rpx;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}

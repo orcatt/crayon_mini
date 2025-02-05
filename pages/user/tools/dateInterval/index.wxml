@@ -1,0 +1,175 @@
+<!--pagesusertools/dict/index.wxml-->
+<header classTitle="center" classColor="true" isBack="true" backgroundColor="#f4f4f5">间隔</header>
+<view class="mode" style="padding-top: {{tabbarRealHeight + 'px'}}; max-height: calc(100vh - {{tabbarRealHeight  + 'px'}}); overflow-y: auto;">
+  <view class="tabsList">
+    <view 
+      class="{{activeIndex == item.id ? 'tabs_active': ''}}" 
+      wx:for="{{tabsList}}" wx:key="index" bind:tap="changeTabs" data-id="{{item.id}}"
+    >
+      {{item.title}}
+    </view>
+
+  </view>
+  <swiper 
+    class="swiper-container" 
+    current="{{activeIndex}}" 
+    bindchange="handleSwiper"
+    style="height: calc(100vh - 160rpx - {{tabbarRealHeight  + 'px'}});"
+  >
+    <swiper-item>
+      <view class="modetitle" style="margin-top: 0;">
+        <view class="top">日期间隔</view>
+        <view class="bottom">计算两个日期之间的间隔天数</view>
+      </view>
+
+      <view class="date-card">
+        <view class="date-row">
+          <view class="date-label">开始日期</view>
+          <picker mode="date" value="{{startDate}}" bindchange="onStartDateChange">
+            <view class="date-picker {{startDate ? '' : 'placeholder'}}">
+              {{startDate || '请选择开始日期'}}
+            </view>
+          </picker>
+        </view>
+        <view class="date-row">
+          <view class="date-label">结束日期</view>
+          <picker mode="date" value="{{endDate}}" bindchange="onEndDateChange">
+            <view class="date-picker {{endDate ? '' : 'placeholder'}}">
+              {{endDate || '请选择结束日期'}}
+            </view>
+          </picker>
+        </view>
+      </view>
+
+      <view class="result-card" wx:if="{{daysDiff !== null}}">
+        <view class="result-title">计算结果</view>
+        <view class="result-content">
+          <view class="result-number">{{daysDiff}}</view>
+          <view class="result-unit">天</view>
+        </view>
+        <view class="result-detail">
+          <text>从 {{startDate}} 至 {{endDate}}</text>
+          <text>共计 {{daysDiff}} 天</text>
+        </view>
+      </view>
+      <view class="modetitle" style="margin-top: 50rpx;">
+        <view class="top">时间间隔</view>
+        <view class="bottom">计算两个时间之间的间隔小时和分钟</view>
+      </view>
+      <view class="time-card">
+        <view class="time-row">
+          <view class="time-label">开始时间</view>
+          <picker mode="time" value="{{startTime}}" bindchange="onStartTimeChange">
+            <view class="time-picker {{startTime ? '' : 'placeholder'}}">
+              {{startTime || '请选择开始时间'}}
+            </view>
+          </picker>
+        </view>
+        <view class="time-row">
+          <view class="time-label">结束时间</view>
+          <picker mode="time" value="{{endTime}}" bindchange="onEndTimeChange">
+            <view class="time-picker {{endTime ? '' : 'placeholder'}}">
+              {{endTime || '请选择结束时间'}}
+            </view>
+          </picker>
+        </view>
+      </view>
+
+      <view class="time-result-card" wx:if="{{timeResult}}">
+        <view class="result-title">计算结果</view>
+        <view class="result-content">
+          <block wx:if="{{timeResult.hours > 0}}">
+            <view class="time-result-item">
+              <text class="result-number">{{timeResult.hours}}</text>
+              <text class="result-unit">小时</text>
+            </view>
+          </block>
+          <block wx:if="{{timeResult.minutes > 0}}">
+            <view class="time-result-item">
+              <text class="result-number">{{timeResult.minutes}}</text>
+              <text class="result-unit">分钟</text>
+            </view>
+          </block>
+        </view>
+        <view class="result-detail">
+          <text>从 {{startTime}} 至 {{endTime}}</text>
+          <text wx:if="{{timeResult.crossMidnight}}">跨越午夜</text>
+        </view>
+      </view>
+    </swiper-item>
+    <swiper-item >
+      <view class="modetitle" style="margin-top: 0;">
+        <view class="top">日期推算</view>
+        <view class="bottom">计算指定日期前后的日期</view>
+      </view>
+
+      <view class="calc-card">
+        <view class="calc-row">
+          <view class="calc-label">基准日期</view>
+          <picker mode="date" value="{{baseDate}}" bindchange="onBaseDateChange">
+            <view class="calc-picker {{baseDate ? '' : 'placeholder'}}">
+              {{baseDate || '请选择日期'}}
+            </view>
+          </picker>
+        </view>
+        <view class="calc-row calc-flex">
+          <view class="calc-direction">
+            <picker bindchange="onDateDirectionChange" value="{{dateDirection}}" range="{{['往后', '往前']}}">
+              <view class="direction-picker">{{dateDirection === 'after' ? '往后' : '往前'}}</view>
+            </picker>
+          </view>
+          <view class="calc-input">
+            <input type="number" value="{{daysToCalculate}}" bindinput="onDaysInput" placeholder="输入天数" />
+          </view>
+        </view>
+      </view>
+
+      <view class="calc-result-card" wx:if="{{calculatedDate}}">
+        <view class="result-title">计算结果</view>
+        <view class="result-content">
+          <text>{{calculatedDate}}</text>
+        </view>
+      </view>
+
+      <view class="modetitle" style="margin-top: 50rpx;">
+        <view class="top">时间推算</view>
+        <view class="bottom">计算指定时间前后的时间</view>
+      </view>
+
+      <view class="calc-card">
+        <view class="calc-row">
+          <view class="calc-label">基准时间</view>
+          <picker mode="time" value="{{baseTime}}" bindchange="onBaseTimeChange">
+            <view class="calc-picker {{baseTime ? '' : 'placeholder'}}">
+              {{baseTime || '请选择时间'}}
+            </view>
+          </picker>
+        </view>
+        <view class="calc-row calc-flex">
+          <view class="calc-direction">
+            <picker bindchange="onTimeDirectionChange" value="{{timeDirection}}" range="{{['往后', '往前']}}">
+              <view class="direction-picker">{{timeDirection === 'after' ? '往后' : '往前'}}</view>
+            </picker>
+          </view>
+          <view class="calc-input">
+            <input type="number" value="{{hoursToCalculate}}" bindinput="onHoursInput" placeholder="输入小时数" />
+          </view>
+        </view>
+      </view>
+
+      <view class="calc-result-card" wx:if="{{calculatedTime}}">
+        <view class="result-title">计算结果</view>
+        <view class="result-content">
+          <text>{{calculatedTime.time}}</text>
+        </view>
+        <view class="result-detail" wx:if="{{calculatedTime.days > 0}}">
+          <text>跨越 {{calculatedTime.days}} 天</text>
+        </view>
+      </view>
+    </swiper-item>
+  </swiper>
+  
+  
+
+  
+</view>

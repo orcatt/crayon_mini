@@ -1,0 +1,77 @@
+<!--pagesusertools/dict/index.wxml-->
+<header classTitle="center" classColor="true" isBack="true" backgroundColor="#f4f4f5">生肖</header>
+
+<view class="mode" style="padding-top: {{tabbarRealHeight + 20 + 'px'}}; max-height: calc(100vh - {{tabbarRealHeight  + 'px'}}); overflow-y: auto;">
+  <view class="modetitle" style="margin-top: 0;">
+    <view class="title-wrapper">
+      <view>
+        <view class="top">生肖查询</view>
+        <view class="bottom">输入年份或年龄查询生肖</view>
+      </view>
+      <view class="clear-btn" bindtap="clearSelection">清空</view>
+    </view>
+  </view>
+
+  <view class="zodiac-card">
+    <view class="input-row">
+      <view class="input-label">出生年份</view>
+      <input type="number" class="input-field" placeholder="请输入1900年之后的年份" value="{{inputYear}}" bindinput="onYearInput" maxlength="4"/>
+    </view>
+    <view class="input-row">
+      <view class="input-label">年龄</view>
+      <input type="number" class="input-field" placeholder="请输入125岁以下的年龄" value="{{inputAge}}" bindinput="onAgeInput"/>
+    </view>
+  </view>
+
+  <block wx:if="{{result}}">
+    <view class="result-card">
+      <view class="result-title">查询结果</view>
+      <view class="result-content">
+        <view class="result-item">
+          <text class="label">生肖：</text>
+          <text class="value">{{result.zodiac}}</text>
+        </view>
+        <view class="result-item">
+          <text class="label">年份：</text>
+          <text class="value">{{result.year}}年</text>
+        </view>
+        <view class="result-item">
+          <text class="label">年龄：</text>
+          <text class="value">{{result.age}}岁</text>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <view class="modetitle">
+    <view class="title-wrapper">
+      <view>
+        <view class="top">生肖年份</view>
+        <view class="bottom">选择生肖查询年份范围</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="zodiac-card">
+    <view class="input-row">
+      <view class="input-label">选择生肖</view>
+      <picker mode="selector" range="{{zodiacList}}" bindchange="onZodiacChange">
+        <view class="picker {{selectedZodiac ? '' : 'placeholder'}}">
+          {{selectedZodiac || '请选择生肖'}}
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <block wx:if="{{zodiacYears.length > 0}}">
+    <view class="result-card years-card">
+      <view class="result-title">{{yearRange.start}} - {{yearRange.end}}年</view>
+      <view class="years-grid">
+        <view class="year-item" wx:for="{{zodiacYears}}" wx:key="year">
+          <text class="year">{{item.year}}年</text>
+          <text class="age">{{item.age}}岁</text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>
