@@ -1,0 +1,11 @@
+<!-- pages/explore/tools/dict/index.wxml -->
+<header classTitle="center" classColor="true" isBack="true" backgroundColor="#f4f4f5">备忘</header>
+<view class="mode" style="padding-top: {{tabbarRealHeight + 'px'}}; max-height: calc(100vh - {{tabbarRealHeight  + 'px'}}); overflow-y: auto;">
+  <view class="modetitle">
+		<view class="top">待办</view>
+		<view class="bottom">{{todoData.length > 0 ? '看看今天有啥要做的' : '看来今天并没有什么事儿做'}}</view>
+		<view class="opt" bind:tap="prepareAddTodo">
+			<image src="/static/image/add.png"></image>
+		</view>
+	</view>
+</view>

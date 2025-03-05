@@ -55,6 +55,18 @@ Component({
 				desc: "遗传计算",
 				url: "/pages/user/tools/bloods/index",
 				icon: "/static/image/tools/9.png"
+			},{
+				id: 12,
+				title: "备忘录",
+				desc: "记录生活",
+				url: "/pages/user/tools/memo/index",
+				icon: "/static/image/tools/14.png"
+			},{
+				id: 13,
+				title: "代办",
+				desc: "代办事项",
+				url: "/pages/user/tools/todo/index",
+				icon: "/static/image/tools/15.png"
 			}
 		]
   },

@@ -13,7 +13,9 @@
     "pages/user/tools/unitConversion/index",
     "pages/user/tools/bloods/index",
     "pages/user/tools/zodiac/index",
-    "pages/user/tools/coin/index"
+    "pages/user/tools/coin/index",
+    "pages/user/tools/memo/index",
+    "pages/user/tools/todo/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
