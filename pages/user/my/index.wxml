@@ -1,4 +1,34 @@
-<view class="mode" style="margin-top: {{tabbarRealHeight  + 'px'}}; height: calc(100vh - {{tabbarRealHeight +90 + 'px'}});">
-  我的
-	
+<view class="mode" style="margin-top: {{tabbarRealHeight  + 'px'}}; height: calc(100vh - {{tabbarRealHeight + 'px'}});">
+  <!-- 用户信息卡片 -->
+  <view class="user-card">
+    <view class="user-info">
+      <image class="avatar" bind:tap="chooseImage" src="{{userInfo.avatar_url? 'https://crayonapi.orcatt.one'+userInfo.avatar_url:'/static/image/logo.png'}}" mode="aspectFill" ></image>
+      <view class="user-detail">
+        <view class="nickname">{{userInfo.nickname}}</view>
+        <view class="level">{{userInfo.openid}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-section">
+    <view class="section-title">功能</view>
+    <view class="menu-list">
+      <view class="menu-item" wx:for="{{menuList}}" wx:key="title" bindtap="navigateTo" data-url="{{item.url}}">
+        <view class="menu-item-left">
+          <image class="menu-icon" src="{{item.icon}}" mode="aspectFit"></image>
+          <view class="menu-text">
+            <view class="menu-title">{{item.title}}</view>
+            <view class="menu-desc">{{item.desc}}</view>
+          </view>
+        </view>
+        <image class="arrow-icon" src="/static/image/arrow-right.png" mode="aspectFit"></image>
+      </view>
+    </view>
+  </view>
+
+  <!-- 版本信息 -->
+  <view class="version-info">
+    <text>版本 1.0.0</text>
+  </view>
 </view>

@@ -2,7 +2,6 @@
   "usingComponents": {
 		"customheader":"/components/CustomHeader/index",
 		"TabBar": "/components/tabBar/index",
-		"Todo": "/pages/today/todo/index",
 		"Countdown": "/pages/today/countdown/index",
 		"Almanac": "/pages/today/almanac/index"
   },

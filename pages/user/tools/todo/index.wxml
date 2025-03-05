@@ -1,5 +1,101 @@
 <!--pages/explore/tools/dict/index.wxml-->
 <header classTitle="center" classColor="true" isBack="true" backgroundColor="#f4f4f5">待办</header>
 <view class="mode" style="padding-top: {{tabbarRealHeight + 'px'}}; max-height: calc(100vh - {{tabbarRealHeight  + 'px'}}); overflow-y: auto;">
-  1111
+  <view class="modetitle">
+		<view class="top">待办</view>
+		<view class="bottom">{{todoData.length > 0 ? '看看今天有啥要做的' : '看来今天并没有什么事儿做'}}</view>
+		<view class="opt" bind:tap="prepareAddTodo">
+			<image src="/static/image/add.png"></image>
+		</view>
+	</view>
+  <view class="todo">
+    <!-- bindchange="handleTodoMovableChange" data-index="{{index}}" -->
+		<movable-area class="todoItem-wrapper" wx:for="{{todoData}}" wx:key="index">
+			<movable-view class="todoItem-content" 
+				direction="horizontal" 
+				x="{{item.x}}"
+				damping="20"
+				friction="5"
+				out-of-bounds="{{true}}"
+				inertia="{{false}}"
+				disabled="true"
+			>
+				<view class="todoItem {{item.done == 1 ? 'done' : ''}}" bind:tap="openCloseTodoMovable" data-index="{{index}}">
+					<view class="todoItemDone">
+						<view wx:if="{{item.done == 1}}"></view>
+					</view>
+					<view class="todoItemContent">
+						<view>{{item.title}}</view>
+						<view wx:if="{{item.description}}">{{item.description}}</view>
+					</view>
+					<view class="todoItemTime">{{item.time}}</view>
+				</view>
+				<view class="todoItem-buttons">
+					<view class="todoItem-done" bindtap="handleTodoDone" data-id="{{item.id}}" data-done="{{item.done}}">完成</view>
+					<view class="todoItem-delete" bindtap="handleTodoDelete" data-id="{{item.id}}">删除</view>
+				</view>
+			</movable-view>
+		</movable-area>
+	</view>
+  <view style="height: 100rpx;"></view>
+
+</view>
+
+<view class="drawer-mask" wx:if="{{showMaskDrawer}}" bindtap="closeTodoMaskDrawer"></view>
+<view class="drawer {{showMaskDrawer ? 'drawer-show' : ''}}">
+  <view class="drawer-header">
+    <view class="drawer-title" id="tabbarx">新建待办</view>
+    <view class="drawer-close" bindtap="closeTodoMaskDrawer">×</view>
+  </view>
+  
+  <view class="drawer-content">
+    <view class="form-group">
+      <view class="account-title">标题<text class="required">*</text></view>
+      <view class="account-input">
+        <input type="text" value="{{formData.title}}" bindinput="handleTitleInput" placeholder-class="placeholderClass" placeholder="请输入待办标题" />
+      </view>
+
+      <view class="date-time-group">
+        <view class="date-item">
+          <view class="account-title">日期<text class="required">*</text></view>
+          <view class="account-input">
+            <picker mode="date" value="{{formData.date}}" bindchange="dateChange">
+              <view class="{{formData.date ? '' : 'placeholderClass'}}">{{formData.date || '请选择日期'}}</view>
+            </picker>
+          </view>
+        </view>
+
+        <view class="time-item">
+          <view class="account-title">时间<text class="required">*</text></view>
+          <view class="account-input">
+            <picker mode="time" value="{{formData.time}}" bindchange="timeChange" fields="minute">
+              <view class="{{formData.time ? '' : 'placeholderClass'}}">{{formData.time ? formData.time + ':00' : '请选择时间'}}</view>
+            </picker>
+          </view>
+        </view>
+
+        <view class="alert-item">
+          <view class="account-title">提醒<text class="required">*</text></view>
+          <view class="alert-switch">
+            <switch checked="{{formData.alert === 1}}" bindchange="alertChange" color="#18181B"/>
+          </view>
+        </view>
+      </view>
+
+      <view class="account-title">标签</view>
+      <view class="account-input">
+        <input type="text" value="{{formData.category}}" bindinput="handleCategoryInput" placeholder-class="placeholderClass" placeholder="请输入标签" />
+      </view>
+
+      <view class="account-title">描述</view>
+      <view class="account-input textarea-container">
+        <textarea value="{{formData.description}}" bindinput="handleDescriptionInput" placeholder-class="placeholderClass" placeholder="请输入待办描述" />
+      </view>
+    </view>
+
+    <view style="margin-top: 60rpx;">
+      <view class="wx-login-btn" bindtap="submitTodoForm">保存</view>
+      <view class="otherlogin" bindtap="closeTodoMaskDrawer">取消</view>
+    </view>
+  </view>
 </view>

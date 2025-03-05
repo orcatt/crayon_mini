@@ -15,10 +15,7 @@
     <Almanac wx:if="{{activeIndex == 0}}"></Almanac>
   </swiper-item>
   <swiper-item>
-    <Todo wx:if="{{activeIndex == 1}}" bind:toggleTabBar="toggleTabBar"></Todo>
-  </swiper-item>
-  <swiper-item>
-    <Countdown wx:if="{{activeIndex == 2}}" bind:toggleTabBar="toggleTabBar"></Countdown>
+    <Countdown wx:if="{{activeIndex == 1}}" bind:toggleTabBar="toggleTabBar"></Countdown>
   </swiper-item>
 </swiper>
 <TabBar bindcurrentShow="currentClick" wx:if="{{showTabBar}}"></TabBar>

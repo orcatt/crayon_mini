@@ -15,9 +15,6 @@ Page({
 			title: '今日',
 		}, {
 			id: 1,
-			title: '待办',
-		}, {
-			id: 2,
 			title: '倒数日',
 		}],
 		showTabBar: true,

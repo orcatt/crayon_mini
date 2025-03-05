@@ -1,32 +1,122 @@
 /* pages/today/index.wxss */
 
 .mode {
-	width: 90%;
-	margin: auto;
-	padding: 20rpx 0;
-	overflow-y: auto;
-  overflow-x: hidden;
+	width: 100%;
+	padding: 32rpx;
+	box-sizing: border-box;
+	background-color: #f4f4f5;
 }
-.modetitle{
-  font-family: 'DouyinSansBold';
-  position: relative;
-  margin-bottom: 10rpx;
+
+/* 用户卡片样式 */
+.user-card {
+	background: #ffffff;
+	border-radius: 24rpx;
+	padding: 32rpx;
+	margin-bottom: 32rpx;
+	box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
 }
-.modetitle .top{
-  height: 65rpx;
-  font-size: 48rpx;
-  color: #09090B;
+
+.user-info {
+	display: flex;
+	align-items: center;
 }
-.modetitle .bottom{
-  height: 50rpx;
-  font-size: 32rpx;
-  color: #71717A;
+
+.avatar {
+	width: 120rpx;
+	height: 120rpx;
+	border-radius: 60rpx;
+	margin-right: 24rpx;
 }
-.opt image{
-  width: 60rpx;
-  height: 60rpx;
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+
+.user-detail {
+	flex: 1;
+}
+
+.nickname {
+	font-size: 36rpx;
+	color: #18181b;
+	font-weight: 600;
+	margin-bottom: 8rpx;
+}
+
+.level {
+	font-size: 28rpx;
+	color: #71717a;
+}
+
+/* 菜单部分样式 */
+.menu-section {
+	background: #ffffff;
+	border-radius: 24rpx;
+	padding: 32rpx;
+	margin-bottom: 32rpx;
+}
+
+.section-title {
+	font-size: 32rpx;
+	color: #18181b;
+	font-weight: 600;
+	margin-bottom: 24rpx;
+}
+
+.menu-list {
+	display: flex;
+	flex-direction: column;
+	gap: 24rpx;
+}
+
+.menu-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 24rpx;
+	background: #f4f4f5;
+	box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.1);
+	border-radius: 16rpx;
+	transition: all 0.3s ease;
+}
+
+.menu-item:active {
+	background: #e4e4e7;
+}
+
+.menu-item-left {
+	display: flex;
+	align-items: center;
+	gap: 24rpx;
+}
+
+.menu-icon {
+	width: 48rpx;
+	height: 48rpx;
+}
+
+.menu-text {
+	display: flex;
+	flex-direction: column;
+	gap: 4rpx;
+}
+
+.menu-title {
+	font-size: 32rpx;
+	color: #18181b;
+	font-weight: 500;
+}
+
+.menu-desc {
+	font-size: 24rpx;
+	color: #71717a;
+}
+
+.arrow-icon {
+	width: 32rpx;
+	height: 32rpx;
+}
+
+/* 版本信息 */
+.version-info {
+	text-align: center;
+	font-size: 24rpx;
+	color: #71717a;
+	padding: 32rpx 0;
 }
