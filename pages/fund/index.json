@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+		"customheader":"/components/CustomHeader/index",
+		"TabBar": "/components/tabBar/index",
+    "Holding": "/pages/fund/holding/index"
+  },
+  "navigationStyle": "custom"
+
+}

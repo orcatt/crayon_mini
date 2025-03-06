@@ -9,16 +9,16 @@ Component({
 		userInfo: {},
 		menuList: [
 			{
-				icon: '/static/image/memo.png',
-				title: '认证',
-				desc: '认证信息',
-				url: '/pages/user/tools/memo/index'
+				icon: '/static/image/my/authentication.png',
+				title: '身份',
+				desc: '资格认定',
+				url: '/pages/user/my/slave/index'
 			},
 			{
-				icon: '/static/image/settings.png',
+				icon: '/static/image/my/setting.png',
 				title: '设置',
 				desc: '偏好设置',
-				url: '/pages/user/settings/index'
+				url: '/pages/user/my/setting/index'
 			}
 		],
 		newAvatarUrl: ''
@@ -43,6 +43,14 @@ Component({
               mediaType: ['image'],
               sourceType: sourceType,
               success: (res) => {
+                // 尺寸
+                if (res.tempFiles[0].size > 1024 * 1024 * 2) {
+                  wx.showToast({
+                    title: '头像文件太大了',
+                    icon: 'none'
+                  });
+                  return;
+                }
                 const tempFilePath = res.tempFiles[0].tempFilePath;
                 that.uploadAvatar(tempFilePath);
               }
@@ -56,38 +64,53 @@ Component({
       wx.showLoading({
         title: '上传中...',
       });
-      wx.uploadFile({
-        url: 'https://crayonapi.orcatt.one/upload/auth/uploadAvatar',
-        filePath: filePath,
-        name: 'image',
-        header: {
-          'Authorization': 'Bearer ' + wx.getStorageSync('token')
-        },
-        success: (res) => {
-          console.log(res);
-          let data = JSON.parse(res.data);
-          if (data.code == 200) {
-						if(that.data.userInfo.avatar_url){
-							that.deleteImage();
-						}
-						that.setData({
-							newAvatarUrl: data.data.image_path
-						});
-						that.updateUserInfo();
-          } else {
-            wx.showToast({
-              title: res.message || '上传失败',
-              icon: 'none'
-            });
-          }
-        },
-        fail: () => {
-          wx.showToast({
-            title: '上传失败',
-            icon: 'none'
+      
+      // 添加图片压缩
+      wx.compressImage({
+        src: filePath,
+        quality: 80,  // 压缩质量0-100，数值越小压缩率越高
+        success: (compressRes) => {
+          wx.uploadFile({
+            url: 'https://crayonapi.orcatt.one/upload/auth/uploadAvatar',
+            filePath: compressRes.tempFilePath,  // 使用压缩后的图片路径
+            name: 'image',
+            header: {
+              'Authorization': 'Bearer ' + wx.getStorageSync('token')
+            },
+            success: (res) => {
+              let listData = JSON.parse(res.data);
+              if (listData.code == 200) {
+                if(that.data.userInfo.avatar_url){
+                  that.deleteImage();
+                }
+                that.setData({
+                  newAvatarUrl: listData.data.image_path
+                });
+                that.updateUserInfo();
+              } else {
+                wx.showToast({
+                  title: res.message || '上传失败',
+                  icon: 'none'
+                });
+              }
+            },
+            fail: () => {
+              wx.showToast({
+                title: '上传失败',
+                icon: 'none'
+              });
+            },
+            complete: () => {
+              wx.hideLoading();
+            }
           });
         },
-        complete: () => {
+        fail: (err) => {
+          console.error('压缩失败：', err);
+          wx.showToast({
+            title: '图片压缩失败',
+            icon: 'none'
+          });
           wx.hideLoading();
         }
       });

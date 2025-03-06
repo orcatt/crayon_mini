@@ -15,10 +15,10 @@ Component({
       path: "/pages/health/index"
     }, {
 			id: 3,
-      title: '探索',
+      title: '股市',
       icon: '/static/image/tabber/tab2.png',
       selectedIcon: "/static/image/tabber/tab2active.png",
-      path: "/pages/explore/index"
+      path: "/pages/fund/index"
     },  {
 			id: 4,
       title: '我的',
@@ -29,8 +29,6 @@ Component({
   },
   methods: {
     currentClick(e) {
-      console.log(e);
-      
 			var that = this;
       this.setData({
         current: e.currentTarget.dataset.index

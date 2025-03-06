@@ -34,7 +34,7 @@
 
 .nickname {
 	font-size: 36rpx;
-	color: #18181b;
+	color: #09090B;
 	font-weight: 600;
 	margin-bottom: 8rpx;
 }
@@ -54,7 +54,7 @@
 
 .section-title {
 	font-size: 32rpx;
-	color: #18181b;
+	color: #09090B;
 	font-weight: 600;
 	margin-bottom: 24rpx;
 }
@@ -87,8 +87,8 @@
 }
 
 .menu-icon {
-	width: 48rpx;
-	height: 48rpx;
+	width: 54rpx;
+	height: 54rpx;
 }
 
 .menu-text {
@@ -99,7 +99,7 @@
 
 .menu-title {
 	font-size: 32rpx;
-	color: #18181b;
+	color: #09090B;
 	font-weight: 500;
 }
 

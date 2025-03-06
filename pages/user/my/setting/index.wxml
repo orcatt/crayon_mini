@@ -1,0 +1,24 @@
+<!--pages/explore/tools/dict/index.wxml-->
+<header classTitle="center" classColor="true" isBack="true" backgroundColor="#f4f4f5">设置</header>
+<view class="mode" style="padding-top: {{tabbarRealHeight + 'px'}}; height: 100vh; overflow-y: auto;">
+  <view class="menu-section">
+    <view class="menu-list">
+      <view 
+        class="menu-item" 
+        wx:for="{{menuList}}" 
+        wx:key="title" 
+        bindtap="handleTap"
+        data-type="{{item.type}}"
+      >
+        <view class="menu-item-left">
+          <image class="menu-icon" src="{{item.icon}}" mode="aspectFit"></image>
+          <view class="menu-text">
+            <view class="menu-title">{{item.title}}</view>
+            <view class="menu-desc">{{item.desc}}</view>
+          </view>
+        </view>
+        <image class="arrow-icon" src="/static/image/arrow-right.png" mode="aspectFit"></image>
+      </view>
+    </view>
+  </view>
+</view>

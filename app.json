@@ -3,7 +3,7 @@
     "pages/today/index",
     "pages/login/index",
     "pages/health/index",
-    "pages/explore/index",
+    "pages/fund/index",
     "pages/user/index",
     "pages/user/tools/dict/index",
     "pages/user/tools/dict/fontResult/index",
@@ -15,7 +15,9 @@
     "pages/user/tools/zodiac/index",
     "pages/user/tools/coin/index",
     "pages/user/tools/memo/index",
-    "pages/user/tools/todo/index"
+    "pages/user/tools/todo/index",
+    "pages/user/my/slave/index",
+    "pages/user/my/setting/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

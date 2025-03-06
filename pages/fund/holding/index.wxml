@@ -1,0 +1,65 @@
+<view class="mode" style="margin-top: {{tabbarRealHeight  + 'px'}}; height: calc(100vh - {{tabbarRealHeight +90 + 'px'}});">
+  <view class="holdingInfo">
+    <view class="holdingInfo-title">
+      <view>持仓总览</view>
+      <view>数据统计</view>
+    </view>
+    <view class="holdingInfo-content">
+      <view class="content-top">
+        <view class="content-top-left">
+          <view class="total-amount">¥{{totalData.totalAmount}}</view>
+          <view class="total-profit {{totalData.totalProfit >= 0 ? 'profit' : 'loss'}}">
+            {{totalData.totalProfit >= 0 ? '+' : ''}}{{totalData.totalProfit}}
+          </view>
+        </view>
+        <view class="content-top-right">
+          <view class="content-top-right-line1">
+            <view>收益率</view>
+            <view class="{{totalData.profitRate >= 0 ? 'profit' : 'loss'}}">
+              {{totalData.profitRate}}%
+            </view>
+          </view>
+          <view class="content-top-right-line2">
+            <view>持仓数<text>{{totalData.holdingCount}}</text></view>
+            <view>均价<text>{{totalData.avgCost}}</text></view>
+          </view>
+        </view>
+      </view>
+      <view class="content-bottom">
+        <view class="content-bottom-line">
+          <view>
+            <view>最大收益</view>
+            <view class="profit">+{{totalData.maxProfit}}</view>
+          </view>
+          <view>
+            <view>最大亏损</view>
+            <view class="loss">{{totalData.maxLoss}}</view>
+          </view>
+          <view>
+            <view>平均持有</view>
+            <view><text>{{totalData.avgHoldingDays}}</text>天</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="holding-list">
+    <view class="list-header">
+      <view>基金名称</view>
+      <view>持仓收益</view>
+    </view>
+    <view class="list-content">
+      <view class="list-item" wx:for="{{holdingList}}" wx:key="id">
+        <view class="item-left">
+          <view class="fund-name">{{item.fund_name}}</view>
+          <view class="fund-code">{{item.code}}</view>
+        </view>
+        <view class="item-right">
+          <view class="profit-amount {{item.daily_profit_loss >= 0 ? 'profit' : 'loss'}}">{{item.daily_profit_loss}}</view>
+          <view class="profit-rate {{item.price_change_percentage >= 0 ? 'profit' : 'loss'}}">{{item.price_change_percentage}}%</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

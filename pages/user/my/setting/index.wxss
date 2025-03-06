@@ -1,0 +1,77 @@
+/* pages/explore/tools/dict/index.wxss */
+.mode {
+  width: 100%;
+  padding: 32rpx;
+  box-sizing: border-box;
+  background-color: #f4f4f5;
+}
+
+.menu-section {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  margin-bottom: 32rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
+}
+
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx;
+  background: #f4f4f5;
+  border-radius: 16rpx;
+  transition: all 0.3s ease;
+}
+
+.menu-item:active {
+  background: #e4e4e7;
+}
+
+.menu-item-left {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.menu-icon {
+	width: 54rpx;
+	height: 54rpx;
+}
+
+.menu-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.menu-title {
+  font-size: 32rpx;
+  color: #09090B;
+  font-weight: 500;
+}
+
+.menu-desc {
+  font-size: 24rpx;
+  color: #71717a;
+}
+
+.arrow-icon {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+/* 退出登录按钮特殊样式 */
+.menu-item[data-type="logout"] .menu-title {
+  color: #ef4444;
+}
+
+.menu-item[data-type="logout"] .menu-desc {
+  color: #f87171;
+}

@@ -1,0 +1,218 @@
+/* pages/today/index.wxss */
+.mode {
+  width: 100%;
+  padding: 32rpx;
+  box-sizing: border-box;
+  background-color: #f4f4f5;
+}
+
+.holdingInfo {
+  width: 100%;
+  height: auto;
+}
+
+.holdingInfo-title{
+  width: 100%;
+  height: 80rpx;
+  position: relative;
+}
+
+.holdingInfo-title>view:nth-child(1){
+  width: 85%;
+  height: 100%;
+  line-height: 80rpx;
+  background: #ffffff;
+  clip-path: polygon(0 100%, 100% 100%, 100% 98px, 80% 0px, 0 0);
+  border-radius: 8rpx 0 0 0;
+  padding: 0 30rpx;
+  box-sizing: border-box;
+  font-size: 28rpx;
+  font-family: 'DouyinSansBold';
+  color: #09090B;
+}
+
+.holdingInfo-title>view:nth-child(2) {
+  width: 30%;
+  height: 90%;
+  line-height: 72rpx;
+  background: #e0e0e0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 21% 100%, 0 0%);
+  border-radius: 0 8rpx 8rpx 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding-left: 20rpx;
+  box-sizing: border-box;
+  font-size: 28rpx;
+  color: #09090B;
+  text-align: center;
+}
+
+.holdingInfo-content{
+  width: 100%;
+  background: #fff;
+  border-radius: 0 8rpx 8rpx 8rpx;
+  padding: 32rpx;
+  box-sizing: border-box;
+}
+
+.content-top{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 48rpx;
+}
+
+.content-top-left {
+  flex: 1;
+}
+
+.total-amount {
+  font-size: 48rpx;
+  font-weight: 600;
+  color: #09090B;
+  margin-bottom: 8rpx;
+}
+
+.total-profit {
+  font-size: 32rpx;
+  font-weight: 500;
+}
+
+.content-top-right {
+  width: 200rpx;
+}
+
+.content-top-right-line1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.content-top-right-line1>view:first-child {
+  font-size: 28rpx;
+  color: #71717a;
+}
+
+.content-top-right-line2 {
+  display: flex;
+  justify-content: space-between;
+  font-size: 28rpx;
+  color: #09090B;
+}
+
+.content-top-right-line2>view>text {
+  font-family: 'DouyinSansBold';
+  margin-left: 8rpx;
+}
+
+.content-bottom-line {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.content-bottom-line>view>view:first-child {
+  font-size: 24rpx;
+  color: #71717a;
+  margin-bottom: 8rpx;
+}
+
+.content-bottom-line>view>view:last-child {
+  font-size: 28rpx;
+  color: #09090B;
+}
+
+.content-bottom-line>view>view:last-child text {
+  font-family: 'DouyinSansBold';
+  margin-right: 4rpx;
+}
+
+.profit {
+  color: #ef4444 !important;
+}
+
+.loss {
+  color: #22c55e !important;
+}
+
+.holding-list {
+  width: 100%;
+  margin-top: 32rpx;
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  box-sizing: border-box;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 24rpx;
+  border-bottom: 2rpx solid #f4f4f5;
+  margin-bottom: 24rpx;
+}
+
+.list-header>view {
+  font-size: 28rpx;
+  color: #71717a;
+}
+
+.list-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx;
+  background: #f4f4f5;
+  border-radius: 16rpx;
+  transition: all 0.3s ease;
+}
+
+.list-item:active {
+  background: #e4e4e7;
+}
+
+.item-left {
+  flex: 1;
+  margin-right: 24rpx;
+}
+
+.fund-name {
+  font-size: 28rpx;
+  color: #09090B;
+  font-weight: 500;
+  margin-bottom: 4rpx;
+  /* 超出部分显示省略号 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 400rpx;
+}
+
+.fund-code {
+  font-size: 24rpx;
+  color: #71717a;
+}
+
+.item-right {
+  text-align: right;
+}
+
+.profit-amount {
+  font-size: 32rpx;
+  font-weight: 500;
+  margin-bottom: 4rpx;
+}
+
+.profit-rate {
+  font-size: 24rpx;
+}
+

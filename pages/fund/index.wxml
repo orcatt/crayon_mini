@@ -12,7 +12,7 @@
   current="{{activeIndex}}" 
   bindchange="handleSwiper">
   <swiper-item>
-		<TopUpPosition wx:if="{{activeIndex == 0}}" bindtoggleTabBar="toggleTabBar"></TopUpPosition>
+		<Holding wx:if="{{activeIndex == 0}}" bindtoggleTabBar="toggleTabBar"></Holding>
   </swiper-item>
   <swiper-item>
 		<CalculateProfit wx:if="{{activeIndex == 1}}" bindtoggleTabBar="toggleTabBar"></CalculateProfit>
