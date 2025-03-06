@@ -50,16 +50,241 @@
       <view>持仓收益</view>
     </view>
     <view class="list-content">
-      <view class="list-item" wx:for="{{holdingList}}" wx:key="id">
-        <view class="item-left">
-          <view class="fund-name">{{item.fund_name}}</view>
-          <view class="fund-code">{{item.code}}</view>
+      <view class="list-item" wx:for="{{holdingList}}" wx:key="id" >
+        <view class="item-top">
+          <view class="item-left">
+            <view class="fund-name">{{item.fund_name}}</view>
+            <view class="fund-code">{{item.code}}</view>
+          </view>
+          <view class="item-right">
+            <view class="profit-amount {{item.daily_profit_loss >= 0 ? 'profit' : 'loss'}}">{{item.daily_profit_loss >= 0 ? '+' : '-'}}{{item.daily_profit_loss}}</view>
+            <view class="profit-rate {{item.price_change_percentage >= 0 ? 'profit' : 'loss'}}"><text style="margin: 0 8rpx;">/</text>{{item.price_change_percentage}}%</view>
+          </view>
         </view>
-        <view class="item-right">
-          <view class="profit-amount {{item.daily_profit_loss >= 0 ? 'profit' : 'loss'}}">{{item.daily_profit_loss}}</view>
-          <view class="profit-rate {{item.price_change_percentage >= 0 ? 'profit' : 'loss'}}">{{item.price_change_percentage}}%</view>
+        <view class="item-bottom">
+          <view class="item-bottom-line"> 
+            <view>
+              <view>持仓金额</view>
+              <view>{{item.holding_amount}}</view>
+            </view>
+            <view>
+              <view>持仓数量</view>
+              <view>{{item.holding_shares}}</view>
+            </view>
+            <view>
+              <view>平均净值</view>
+              <view>{{item.average_net_value}}</view>
+            </view>
+          </view>
+          <view class="item-bottom-line"> 
+            <view>
+              <view>持有收益</view>
+              <view>{{item.holding_profit}}</view>
+            </view>
+            <view>
+              <view>持有收益率</view>
+              <view>{{item.holding_profit_rate}}</view>
+            </view>
+            <view>
+              <view>持有成本</view>
+              <view>{{item.holding_cost}}</view>
+            </view>
+          </view>
+          <view class="item-bottom-line"> 
+            <view>
+              <view>总收益</view>
+              <view>{{item.total_profit}}</view>
+            </view>
+            <view>
+              <view>总收益率</view>
+              <view>{{item.total_profit_rate}}</view>
+            </view>
+            <view>
+              <view>总投入</view>
+              <view>{{item.total_amount}}</view>
+            </view>
+          </view>
+        </view>
+        <view class="item-bottom-btn">
+          <view bindtap="showBuySellDrawer" data-item="{{item}}">买入卖出</view>
+          <view bindtap="showUpdateProfitDrawer" data-item="{{item}}">更新收益</view>
+          <view bindtap="showFundDrawer" data-type="edit" data-item="{{item}}">编辑</view>
+          <view bindtap="deleteFund" data-id="{{item.id}}">删除</view>
+        </view>
+        <view class="item-bottom-record">
+          <view bindtap="showBuySellDrawer" data-item="{{item}}">
+            <view>
+              <image src="/static/image/code.png" mode="widthFix"></image>
+            </view>
+            <view>
+              <view>买卖记录</view>
+              <view>查询历史买卖</view>
+            </view>
+          </view>
+          <view bindtap="showUpdateProfitDrawer" data-item="{{item}}">
+            <view>
+              <image src="/static/image/code.png" mode="widthFix"></image>
+            </view>
+            <view>
+              <view>收益记录</view>
+              <view>查询历史收益</view>
+            </view>
+          </view>
         </view>
       </view>
+      <view class="add-btn" bindtap="showFundDrawer" data-type="add">新增基金</view>
+
+    </view>
+  </view>
+</view>
+
+
+
+<!-- 新增/编辑基金弹窗 -->
+<view class="drawer-mask" wx:if="{{showAddUpdateFundDrawer}}" bindtap="closeFundDrawer"></view>
+<view class="drawer {{showAddUpdateFundDrawer ? 'drawer-show' : ''}}">
+  <view class="drawer-header">
+    <view class="drawer-title">{{addUpdateFundType === 'add' ? '新增基金' : '编辑基金'}}</view>
+    <view class="drawer-close" bindtap="closeFundDrawer">×</view>
+  </view>
+  <view class="drawer-content">
+    <view class="form-group">
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">基金名称<text class="required">*</text></view>
+          <view class="account-input">
+            <input type="text" value="{{fundFormData.fund_name}}" data-field="fund_name" bindinput="handleInput" placeholder="请输入基金名称" />
+          </view>
+        </view>
+      </view>
+
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">基金代码<text class="required">*</text></view>
+          <view class="account-input">
+            <input type="number" value="{{fundFormData.code}}" data-field="code" bindinput="handleInput" placeholder="请输入基金代码" />
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="btn-group">
+      <view class="wx-login-btn" bindtap="submitAddUpdateFund">提交</view>
+      <view class="otherlogin" bindtap="closeFundDrawer">取消</view>
+    </view>
+  </view>
+</view>
+<!-- 买入卖出弹窗 -->
+<view class="drawer-mask" wx:if="{{showBuySellDrawer}}" bindtap="closeBuySellDrawer"></view>
+<view class="drawer {{showBuySellDrawer ? 'drawer-show' : ''}}">
+  <view class="drawer-header">
+    <view class="drawer-title">买入卖出</view>
+    <view class="drawer-close" bindtap="closeBuySellDrawer">×</view>
+  </view>
+  <view class="drawer-content">
+    <view class="form-group">
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">基金名称</view>
+          <view class="account-input">
+            <input type="text" value="{{buySellFormData.fund_name}}" disabled placeholder="基金名称" />
+          </view>
+        </view>
+      </view>
+
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">交易类型<text class="required">*</text></view>
+          <view class="account-input">
+            <picker mode="selector" range="{{transactionTypes}}" bindchange="handleTransactionTypeChange">
+              <view class="{{buySellFormData.transaction_type ? '' : 'placeholderClass'}}">
+                {{buySellFormData.transaction_type || '请选择交易类型'}}
+              </view>
+            </picker>
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">交易日期<text class="required">*</text></view>
+          <view class="account-input">
+            <picker mode="date" value="{{buySellFormData.transaction_date}}" bindchange="handleTransactionDateChange">
+              <view class="{{buySellFormData.transaction_date ? '' : 'placeholderClass'}}">
+                {{buySellFormData.transaction_date || '请选择日期'}}
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">份额<text class="required">*</text></view>
+          <view class="account-input">
+            <input type="digit" value="{{buySellFormData.shares}}" data-field="shares" bindinput="handleBuySellInput" placeholder="请输入份额" />
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">净值<text class="required">*</text></view>
+          <view class="account-input">
+            <input type="digit" value="{{buySellFormData.net_value}}" data-field="net_value" bindinput="handleBuySellInput" placeholder="请输入净值" />
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">金额</view>
+          <view class="account-input">
+            <input type="digit" value="{{buySellFormData.amount}}" disabled placeholder="自动计算金额" />
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="btn-group">
+      <view class="wx-login-btn" bindtap="submitBuySell">提交</view>
+      <view class="otherlogin" bindtap="closeBuySellDrawer">取消</view>
+    </view>
+  </view>
+</view>
+
+<!-- 更新收益弹窗 -->
+<view class="drawer-mask" wx:if="{{showUpdateProfitDrawer}}" bindtap="closeUpdateProfitDrawer"></view>
+<view class="drawer {{showUpdateProfitDrawer ? 'drawer-show' : ''}}">
+  <view class="drawer-header">
+    <view class="drawer-title">更新收益</view>
+    <view class="drawer-close" bindtap="closeUpdateProfitDrawer">×</view>
+  </view>
+  <view class="drawer-content">
+    <view class="form-group">
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">基金名称</view>
+          <view class="account-input">
+            <input type="text" value="{{updateProfitFormData.fund_name}}" disabled placeholder="基金名称" />
+          </view>
+        </view>
+      </view>
+
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">盈亏率<text class="required">*</text></view>
+          <view class="account-input">
+            <input type="digit" value="{{updateProfitFormData.price_change_percentage}}" data-field="price_change_percentage" bindinput="handleUpdateProfitInput" placeholder="请输入盈亏率" />
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">交易日期<text class="required">*</text></view>
+          <view class="account-input">
+            <picker mode="date" value="{{updateProfitFormData.transaction_date}}" bindchange="handleUpdateProfitDateChange">
+              <view class="{{updateProfitFormData.transaction_date ? '' : 'placeholderClass'}}">
+                {{updateProfitFormData.transaction_date || '请选择日期'}}
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="btn-group">
+      <view class="wx-login-btn" bindtap="submitUpdateProfit">提交</view>
+      <view class="otherlogin" bindtap="closeUpdateProfitDrawer">取消</view>
     </view>
   </view>
 </view>

@@ -11,13 +11,10 @@ Page({
 
 		tabsList: [{
 			id: 0,
-			title: '补仓',
+			title: '持股',
 		}, {
 			id: 1,
-			title: '收益',
-		},{
-			id: 2,
-			title: '止盈止损',
+			title: '计算',
 		}],
 		showTabBar: true,
 	},

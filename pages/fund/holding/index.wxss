@@ -4,6 +4,7 @@
   padding: 32rpx;
   box-sizing: border-box;
   background-color: #f4f4f5;
+  overflow-y: auto;
 }
 
 .holdingInfo {
@@ -70,14 +71,14 @@
 
 .total-amount {
   font-size: 48rpx;
-  font-weight: 600;
+  font-family: 'DouyinSansBold';
   color: #09090B;
   margin-bottom: 8rpx;
 }
 
 .total-profit {
   font-size: 32rpx;
-  font-weight: 500;
+  font-family: 'DouyinSansBold';
 }
 
 .content-top-right {
@@ -138,11 +139,13 @@
   color: #22c55e !important;
 }
 
+
+/* 持仓列表 */
 .holding-list {
   width: 100%;
   margin-top: 32rpx;
   background: #ffffff;
-  border-radius: 24rpx;
+  border-radius: 12rpx;
   padding: 32rpx;
   box-sizing: border-box;
 }
@@ -167,13 +170,16 @@
 }
 
 .list-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 24rpx;
+  padding: 30rpx;
+  box-sizing: border-box;
   background: #f4f4f5;
   border-radius: 16rpx;
   transition: all 0.3s ease;
+}
+.item-top{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .list-item:active {
@@ -182,13 +188,18 @@
 
 .item-left {
   flex: 1;
+  height: 80rpx;
   margin-right: 24rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .fund-name {
-  font-size: 28rpx;
+  font-size: 32rpx;
+  font-family: 'DouyinSansBold';
   color: #09090B;
-  font-weight: 500;
+  
   margin-bottom: 4rpx;
   /* 超出部分显示省略号 */
   white-space: nowrap;
@@ -203,16 +214,292 @@
 }
 
 .item-right {
-  text-align: right;
+  display: flex;
+  height: 80rpx;
 }
 
 .profit-amount {
-  font-size: 32rpx;
-  font-weight: 500;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 48rpx;
+  font-family: 'DouyinSansBold';
   margin-bottom: 4rpx;
 }
 
 .profit-rate {
-  font-size: 24rpx;
+  height: 80rpx;
+  line-height: 94rpx;
+
+  font-size: 28rpx;
+  font-family: 'DouyinSansBold';
 }
 
+
+.item-bottom{
+  width: 100%;
+  margin: 20rpx 0;
+  /* height: 520rpx; */
+}
+
+.item-bottom-line{
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10rpx;
+}
+.item-bottom-line>view{
+  width: calc(100% / 3);
+  height: 100rpx;
+  
+}
+
+.item-bottom-line>view>view:nth-child(1){
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 24rpx;
+  color: #71717a;
+}
+.item-bottom-line>view>view:nth-child(2){
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 32rpx;
+  font-family: 'DouyinSansBold';
+  color: #09090B;
+}
+
+.item-bottom-btn{
+  width: 100%;
+  height: 70rpx;
+  line-height: 70rpx;
+  text-align: center;
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+  margin: 0 auto;
+  gap: 20rpx;
+}
+.item-bottom-btn>view:nth-child(1){
+  width: 30%;
+  height: 100%;
+  background: #18181b;
+  color: #ffffff;
+  font-size: 28rpx;
+  border-radius: 12rpx;
+}
+.item-bottom-btn>view:nth-child(2){
+  width: 30%;
+  height: 100%;
+  background: #ffffff;
+  color: #09090B;
+  font-size: 28rpx;
+  border-radius: 12rpx;
+}
+.item-bottom-btn>view:nth-child(3){
+  width: 20%;
+  height: 100%;
+  background: #e0e0e0;
+  color: #09090B;
+  font-size: 28rpx;
+  border-radius: 12rpx;
+}
+.item-bottom-btn>view:nth-child(4){
+  width: 20%;
+  height: 100%;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 28rpx;
+  border-radius: 12rpx;
+}
+
+.item-bottom-record{
+  margin-top: 20rpx;
+  width: 100%;
+  height: 120rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20rpx;
+}
+.item-bottom-record>view{
+  width: 50%;
+  height: 100%;
+  background: #e0e0e0;
+  color: #09090B;
+  font-size: 28rpx;
+  padding: 14rpx 20rpx 0 20rpx;
+  box-sizing: border-box;
+  border-radius: 12rpx;
+
+  display: flex;
+  gap: 10rpx;
+}
+.item-bottom-record>view>view:nth-child(1){
+  width: 40rpx;
+  height: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.item-bottom-record>view>view:nth-child(1)>image{
+  width: 32rpx;
+  height: 32rpx;
+}
+.item-bottom-record>view>view:nth-child(2)>view:nth-child(1){
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 28rpx;
+  color: #09090B;
+}
+.item-bottom-record>view>view:nth-child(2)>view:nth-child(2){
+  font-size: 24rpx;
+}
+/* 新增弹窗样式 */
+
+.add-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #18181b;
+  color: #ffffff;
+  border-radius: 12rpx;
+}
+
+.drawer-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+}
+
+.drawer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: 501;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.drawer.drawer-show {
+  transform: translateY(0);
+}
+
+.drawer-header {
+  padding: 32rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2rpx solid #f4f4f5;
+}
+
+.drawer-title {
+  font-size: 36rpx;
+  color: #09090B;
+  font-weight: 600;
+}
+
+.drawer-close {
+  font-size: 40rpx;
+  color: #71717a;
+  padding: 0 20rpx;
+}
+
+.drawer-content {
+  padding: 32rpx;
+}
+
+.form-group {
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  gap: 24rpx;
+  margin-bottom: 32rpx;
+}
+
+.form-item {
+  flex: 1;
+}
+
+.account-title {
+  font-size: 28rpx;
+  color: #09090B;
+  margin-bottom: 12rpx;
+}
+
+.required {
+  color: #ef4444;
+  margin-left: 4rpx;
+}
+
+.account-input {
+  height: 80rpx;
+  padding: 0 24rpx;
+  background: #f4f4f5;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+}
+
+.account-input input {
+  height: 100%;
+  width: 100%;
+  font-size: 28rpx;
+}
+
+.btn-group {
+  margin-top: 48rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.wx-login-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #18181b;
+  color: #ffffff;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+}
+
+.otherlogin {
+  color: #71717a;
+  font-size: 28rpx;
+  text-align: right;
+}
+
+.placeholderClass {
+  color: #a1a1aa;
+  font-size: 28rpx;
+}
+
+.account-input picker {
+  width: 100%;
+  height: 100%;
+}
+
+.account-input picker view {
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 28rpx;
+}
+
+/* 禁用输入框样式 */
+.account-input input:disabled {
+  color: #71717a;
+}
