@@ -44,7 +44,8 @@ Page({
 	// 滑动切换事件处理
 	handleSwiper(e) {
 		this.setData({
-			activeIndex: e.detail.current
+			activeIndex: e.detail.current,
+			showTabBar: true
 		})
 	},
 

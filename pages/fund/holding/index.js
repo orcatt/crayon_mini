@@ -6,6 +6,7 @@ Component({
   },
   data: {
 		tabbarRealHeight: 0,
+		currentDate: '',
 		holdingList: [],
 		totalData: {
 			totalAmount: 0, // 总金额
@@ -39,46 +40,36 @@ Component({
 			fund_id: '',
 			price_change_percentage: '',
 			transaction_date: '',
-			fund_name: '' // 用于显示
+			fund_name: '', // 用于显示
+			profit_loss_type: true, // 盈亏
+			profit_loss_addOrUpdate: 'add' // 盈亏类型
 		}
   },
   methods: {
 		getData(){
 			var that = this;
+
+			let today = new Date();
+			let year = today.getFullYear();
+			let month = String(today.getMonth() + 1).padStart(2, '0');
+			let day = String(today.getDate()).padStart(2, '0');
+			let currentDate = `${year}-${month}-${day}`;
+			that.setData({
+				currentDate: currentDate,
+			})
+
+			
 			let postData = {
-				transaction_date: '2025-03-02',
+				transaction_date: currentDate,
 			}
 			utils.getData({
 				url: 'fund/holdingShares/list',
 				params: postData,
 				success: (res) => {
 					if (res.code === 200) {
-						// // 计算总计数据
-						// let totalAmount = 0;
-						// let totalProfit = 0;
-						// let maxProfit = -Infinity;
-						// let maxLoss = Infinity;
-						// let totalDays = 0;
-
-						// res.data.forEach(item => {
-						// 	totalAmount += item.amount;
-						// 	totalProfit += item.profit;
-						// 	maxProfit = Math.max(maxProfit, item.profit);
-						// 	maxLoss = Math.min(maxLoss, item.profit);
-						// 	totalDays += item.holdingDays;
-						// });
-
 						that.setData({
 							holdingList: res.data,
 							totalData: {
-								// totalAmount: totalAmount.toFixed(2),
-								// totalProfit: totalProfit.toFixed(2),
-								// profitRate: ((totalProfit / totalAmount) * 100).toFixed(2),
-								// holdingCount: res.data.length,
-								// avgCost: (totalAmount / res.data.length).toFixed(2),
-								// maxProfit: maxProfit.toFixed(2),
-								// maxLoss: maxLoss.toFixed(2),
-								// avgHoldingDays: Math.floor(totalDays / res.data.length)
 							}
 						})
 					}else{
@@ -201,13 +192,6 @@ Component({
 			that.triggerEvent('toggleTabBar', { show: false }, {});
 			let item = e.currentTarget.dataset.item;
 			
-			// 获取当前日期
-			let today = new Date();
-			let year = today.getFullYear();
-			let month = String(today.getMonth() + 1).padStart(2, '0');
-			let day = String(today.getDate()).padStart(2, '0');
-			let currentDate = `${year}-${month}-${day}`;
-			
 			that.setData({
 				showBuySellDrawer: true,
 				buySellFormData: {
@@ -216,7 +200,7 @@ Component({
 					shares: '',
 					net_value: '',
 					amount: '',
-					transaction_date: currentDate,
+					transaction_date: that.data.currentDate,
 					fund_name: item.fund_name
 				}
 			});
@@ -313,23 +297,43 @@ Component({
 		// ? ------ 更新收益 ------
 		showUpdateProfitDrawer(e) {
 			var that = this;
-			that.triggerEvent('toggleTabBar', { show: false }, {});
 			let item = e.currentTarget.dataset.item;
+			console.log(item);
 			
-			// 获取当前日期
-			let today = new Date();
-			let year = today.getFullYear();
-			let month = String(today.getMonth() + 1).padStart(2, '0');
-			let day = String(today.getDate()).padStart(2, '0');
-			let currentDate = `${year}-${month}-${day}`;
-			
+			if (item.daily_profit_loss != 0) {
+				wx.showModal({
+					title: '提示',
+					content: '今日已更新收益，是否重新更新？',
+					success: (res) => {
+						if (res.confirm) {
+							that.triggerEvent('toggleTabBar', { show: false }, {});
+							that.setData({
+								showUpdateProfitDrawer: true,
+								updateProfitFormData: {
+									fund_id: item.id,
+									price_change_percentage: item.dailyData.price_change_percentage,
+									transaction_date: that.data.currentDate,
+									fund_name: item.fund_name,
+									profit_loss_id: item.dailyData.id,
+									profit_loss_type: item.dailyData.profit_loss > 0 ? true : false,
+									profit_loss_addOrUpdate: 'update'
+								}
+							});
+						}
+					}
+				});
+				return;
+			}
+			that.triggerEvent('toggleTabBar', { show: false }, {});
 			that.setData({
 				showUpdateProfitDrawer: true,
 				updateProfitFormData: {
 					fund_id: item.id,
 					price_change_percentage: '',
-					transaction_date: currentDate,
-					fund_name: item.fund_name
+					transaction_date: that.data.currentDate,
+					fund_name: item.fund_name,
+					profit_loss_type: true,
+					profit_loss_addOrUpdate: 'add'
 				}
 			});
 		},
@@ -342,8 +346,16 @@ Component({
 					fund_id: '',
 					price_change_percentage: '',
 					transaction_date: '',
-					fund_name: ''
+					fund_name: '',
+					profit_loss_type: true,
+					profit_loss_addOrUpdate: 'add'
 				}
+			});
+		},
+		handleProfitSwitch(e) {
+			const profit_loss_type = e.currentTarget.dataset.value;
+			this.setData({
+				'updateProfitFormData.profit_loss_type': profit_loss_type
 			});
 		},
 		handleUpdateProfitInput(e) {
@@ -368,7 +380,14 @@ Component({
 					icon: 'none'
 				});
 				return;
+			} else if (formData.price_change_percentage == 0) {
+				wx.showToast({
+					title: '盈亏率不能为0',
+					icon: 'none'
+				});
+				return;
 			}
+
 			if (!formData.transaction_date) {
 				wx.showToast({
 					title: '请选择交易日期',
@@ -377,25 +396,85 @@ Component({
 				return;
 			}
 
-			utils.getData({
-				url: 'fund/holdingShares/profitLoss',
-				params: formData,
-				success: (res) => {
-					if (res.code === 200) {
-						wx.showToast({
-							title: res.message,
-							icon: 'success'
-						});
-						that.closeUpdateProfitDrawer();
-						that.getData();
-					} else {
-						wx.showToast({
-							title: res.message,
-							icon: 'none'
-						});
+			// 盈利正数，亏损负数
+			formData.price_change_percentage = formData.profit_loss_type ? 
+				Math.abs(parseInt(formData.price_change_percentage, 10)) : 
+				-Math.abs(parseInt(formData.price_change_percentage, 10));
+			
+			if(formData.profit_loss_addOrUpdate === 'add'){
+				utils.getData({
+					url: 'fund/holdingShares/profitLoss',
+					params: formData,
+					success: (res) => {
+						if (res.code === 200) {
+							wx.showToast({
+								title: formData.profit_loss_type ? '盈利已更新' : '亏损已更新',
+								icon: 'success'
+							});
+							that.closeUpdateProfitDrawer();
+							that.getData();
+						} else {
+							wx.showToast({
+								title: res.message,
+								icon: 'none'
+							});
+						}
 					}
+				});
+			} else if (formData.profit_loss_addOrUpdate === 'update') {
+				let postData = {
+					profit_loss_id: formData.profit_loss_id
 				}
-			});
+				utils.getData({
+					url: 'fund/holdingShares/deleteProfitLoss',
+					params: postData,
+					success: (res) => {
+						if (res.code === 200) {
+							utils.getData({
+								url: 'fund/holdingShares/profitLoss',
+								params: formData,
+								success: (res) => {
+									if (res.code === 200) {
+										wx.showToast({
+											title: formData.profit_loss_type ? '盈利已更新' : '亏损已更新',
+											icon: 'success'
+										});
+										that.closeUpdateProfitDrawer();
+										that.getData();
+									} else {
+										wx.showToast({
+											title: res.message,
+											icon: 'none'
+										});
+									}
+								}
+							});
+						} else {
+							wx.showToast({
+								title: res.message,
+								icon: 'none'
+							});
+						}
+					}
+				});
+			}
+			
+		},
+		// ? ------ 跳转 ------
+		toBuySellRecord(e) {
+			var that = this;
+			let item = e.currentTarget.dataset.item;
+			console.log(item);
+		},
+		toProfitLossRecord(e) {
+			var that = this;
+			let item = e.currentTarget.dataset.item;
+			console.log(item);
+		},
+		toProfitLossUserRecord(e) {
+			var that = this;
+			// let item = e.currentTarget.dataset.item;
+			// console.log(item);
 		}
 	},
   lifetimes: {

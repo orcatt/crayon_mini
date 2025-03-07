@@ -2,7 +2,7 @@
   <view class="holdingInfo">
     <view class="holdingInfo-title">
       <view>持仓总览</view>
-      <view>数据统计</view>
+      <view bindtap="toProfitLossUserRecord">数据统计</view>
     </view>
     <view class="holdingInfo-content">
       <view class="content-top">
@@ -57,23 +57,24 @@
             <view class="fund-code">{{item.code}}</view>
           </view>
           <view class="item-right">
-            <view class="profit-amount {{item.daily_profit_loss >= 0 ? 'profit' : 'loss'}}">{{item.daily_profit_loss >= 0 ? '+' : '-'}}{{item.daily_profit_loss}}</view>
-            <view class="profit-rate {{item.price_change_percentage >= 0 ? 'profit' : 'loss'}}"><text style="margin: 0 8rpx;">/</text>{{item.price_change_percentage}}%</view>
+            <view class="profit-amount {{item.dailyData.profit_loss > 0 ? 'profit' : 'loss'}}">{{item.dailyData.profit_loss}}</view>
+            <view class="profit-rate {{item.dailyData.price_change_percentage > 0 ? 'profit' : 'loss'}}"><text style="margin: 0 8rpx;">/</text>{{item.dailyData.price_change_percentage}}%</view>
           </view>
         </view>
         <view class="item-bottom">
           <view class="item-bottom-line"> 
+            
             <view>
-              <view>持仓金额</view>
-              <view>{{item.holding_amount}}</view>
+              <view>平均净值</view>
+              <view>{{item.average_net_value}}</view>
             </view>
             <view>
               <view>持仓数量</view>
               <view>{{item.holding_shares}}</view>
             </view>
             <view>
-              <view>平均净值</view>
-              <view>{{item.average_net_value}}</view>
+              <view>持仓金额</view>
+              <view>{{item.holding_amount}}</view>
             </view>
           </view>
           <view class="item-bottom-line"> 
@@ -83,12 +84,16 @@
             </view>
             <view>
               <view>持有收益率</view>
-              <view>{{item.holding_profit_rate}}</view>
+              <view>{{item.holding_profit_rate*100}}<text style="margin-left: 6rpx;">%</text></view>
             </view>
             <view>
               <view>持有成本</view>
               <view>{{item.holding_cost}}</view>
             </view>
+            <!-- <view>
+              <view>总成本</view>
+              <view>{{item.total_cost}}</view>
+            </view> -->
           </view>
           <view class="item-bottom-line"> 
             <view>
@@ -97,7 +102,7 @@
             </view>
             <view>
               <view>总收益率</view>
-              <view>{{item.total_profit_rate}}</view>
+              <view>{{item.total_profit_rate*100}}<text style="margin-left: 6rpx;">%</text></view>
             </view>
             <view>
               <view>总投入</view>
@@ -112,7 +117,7 @@
           <view bindtap="deleteFund" data-id="{{item.id}}">删除</view>
         </view>
         <view class="item-bottom-record">
-          <view bindtap="showBuySellDrawer" data-item="{{item}}">
+          <view bindtap="toBuySellRecord" data-item="{{item}}">
             <view>
               <image src="/static/image/code.png" mode="widthFix"></image>
             </view>
@@ -121,7 +126,7 @@
               <view>查询历史买卖</view>
             </view>
           </view>
-          <view bindtap="showUpdateProfitDrawer" data-item="{{item}}">
+          <view bindtap="toProfitLossRecord" data-item="{{item}}">
             <view>
               <image src="/static/image/code.png" mode="widthFix"></image>
             </view>
@@ -174,6 +179,7 @@
     </view>
   </view>
 </view>
+
 <!-- 买入卖出弹窗 -->
 <view class="drawer-mask" wx:if="{{showBuySellDrawer}}" bindtap="closeBuySellDrawer"></view>
 <view class="drawer {{showBuySellDrawer ? 'drawer-show' : ''}}">
@@ -258,6 +264,21 @@
           <view class="account-title">基金名称</view>
           <view class="account-input">
             <input type="text" value="{{updateProfitFormData.fund_name}}" disabled placeholder="基金名称" />
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">盈亏</view>
+          <view class="profit-switch">
+            <view class="switch-item">
+              <view class="{{updateProfitFormData.profit_loss_type ? 'active' : ''}}" bindtap="handleProfitSwitch" data-value="{{true}}">
+                盈利
+              </view>
+            </view>
+            <view class="switch-item">
+              <view class="{{!updateProfitFormData.profit_loss_type ? 'active' : ''}}" bindtap="handleProfitSwitch" data-value="{{false}}">
+                亏损
+              </view>
+            </view>
           </view>
         </view>
       </view>

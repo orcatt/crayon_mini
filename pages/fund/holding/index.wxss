@@ -148,6 +148,7 @@
   border-radius: 12rpx;
   padding: 32rpx;
   box-sizing: border-box;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.1);
 }
 
 .list-header {
@@ -325,7 +326,8 @@
 .item-bottom-record>view{
   width: 50%;
   height: 100%;
-  background: #e0e0e0;
+  /* background: #e0e0e0; */
+  border: 2rpx solid #e0e0e0;
   color: #09090B;
   font-size: 28rpx;
   padding: 14rpx 20rpx 0 20rpx;
@@ -502,4 +504,35 @@
 /* 禁用输入框样式 */
 .account-input input:disabled {
   color: #71717a;
+}
+
+.profit-switch {
+  height: 80rpx;
+  line-height: 80rpx;
+  display: flex;
+}
+
+.switch-item {
+  flex: 1;
+  text-align: center;
+  font-size: 28rpx;
+}
+
+.switch-item>view{
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  border-radius: 12rpx;
+}
+
+.profit-switch>view:nth-child(1) .active {
+  background: #ef4444 ;
+  color: #fff;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.1);
+
+}
+.profit-switch>view:nth-child(2) .active {
+  background: #22c55e ;
+  color: #fff;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.1);
+
 }

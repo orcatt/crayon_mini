@@ -17,7 +17,10 @@
     "pages/user/tools/memo/index",
     "pages/user/tools/todo/index",
     "pages/user/my/slave/index",
-    "pages/user/my/setting/index"
+    "pages/user/my/setting/index",
+    "pages/fund/holding/record/buySell/index",
+    "pages/fund/holding/record/profitLoss/index",
+    "pages/fund/holding/record/profitLossUser/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
