@@ -67,11 +67,17 @@ Component({
 				params: postData,
 				success: (res) => {
 					if (res.code === 200) {
+						res.data.forEach(item => {
+							item.current_net_value = ((1 + item.holding_profit_rate) * item.holding_cost).toFixed(4)
+						})
+						
 						that.setData({
 							holdingList: res.data,
 							totalData: {
 							}
 						})
+						console.log(that.data.holdingList);
+						
 					}else{
 						wx.showToast({
 							title: res.message,
