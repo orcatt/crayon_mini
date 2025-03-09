@@ -62,7 +62,7 @@
           </view>
         </view>
 
-        <view class="item-bottom1">
+        <view class="bottom-info-record">
           <view class="holding-info">
             <view>
               <view>
@@ -87,24 +87,40 @@
               
           </view>
           <view class="record">
-            <view>
-              <image src="/static/image/code.png" mode="widthFix"></image>
-            </view>
-            <view>
-              <view>买卖</view>
-              <view>记录</view>
-            </view>
-              
+            <view>买卖记录</view>
+            <image src="/static/image/tools/16.png" mode="widthFix"></image>\
           </view>
-            
         </view>
-          
-        <view class="item-bottom">
-          <view class="item-bottom-line"> 
-            
-            
-            
-           
+        <view class="bottom-info-record" >
+          <view class="holding-info">
+            <view>
+              <view>
+                <view>持有收益</view>
+                <view>{{item.holding_profit}}</view>
+              </view>
+              <view>
+                <view>总收益</view>
+                <view>{{item.total_profit}}</view>
+              </view>
+            </view>
+            <view>
+              <view>
+                <view>持有收益率</view>
+                <view>{{item.holding_profit_rate*100}}<text style="margin-left: 6rpx;">%</text></view>
+              </view>
+              <view>
+                <view>总收益率</view>
+                <view>{{item.total_profit_rate*100}}<text style="margin-left: 6rpx;">%</text></view>
+              </view>
+            </view>
+          </view>
+          <view class="record">
+            <view>收益记录</view>
+            <image src="/static/image/tools/17.png" mode="widthFix"></image>\
+          </view>
+        </view>
+        <view class="item-bottom" >
+          <view class="item-bottom-line">
             <view>
               <view>平均成本</view>
               <view>{{item.holding_cost}}</view>
@@ -113,33 +129,10 @@
               <view>当前净值</view>
               <view>{{item.current_net_value}}</view>
             </view>
-          </view>
-          <view class="item-bottom-line"> 
-            
-            <view>
-              <view>持有收益</view>
-              <view>{{item.holding_profit}}</view>
-            </view>
-            <view>
-              <view>持有收益率</view>
-              <view>{{item.holding_profit_rate*100}}<text style="margin-left: 6rpx;">%</text></view>
-            </view>
             <view>
               <view>平均净值</view>
               <view>{{item.average_net_value}}</view>
             </view>
-            
-          </view>
-          <view class="item-bottom-line"> 
-            <view>
-              <view>总收益</view>
-              <view>{{item.total_profit}}</view>
-            </view>
-            <view>
-              <view>总收益率</view>
-              <view>{{item.total_profit_rate*100}}<text style="margin-left: 6rpx;">%</text></view>
-            </view>
-            
           </view>
         </view>
         <view class="item-bottom-btn">
@@ -148,7 +141,7 @@
           <view bindtap="showFundDrawer" data-type="edit" data-item="{{item}}">编辑</view>
           <view bindtap="deleteFund" data-id="{{item.id}}">删除</view>
         </view>
-        <view class="item-bottom-record">
+        <!-- <view class="item-bottom-record">
           <view bindtap="toBuySellRecord" data-item="{{item}}">
             <view>
               <image src="/static/image/code.png" mode="widthFix"></image>
@@ -167,7 +160,7 @@
               <view>查询历史收益</view>
             </view>
           </view>
-        </view>
+        </view> -->
       </view>
       <view class="add-btn" bindtap="showFundDrawer" data-type="add">新增基金</view>
 

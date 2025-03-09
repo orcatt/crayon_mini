@@ -1,7 +1,7 @@
-var webUrl = "http://192.168.8.112:8081/";
+// var webUrl = "http://192.168.8.112:8081/";
 // var webUrl = "http://192.168.1.5:8081/";
 
-// var webUrl = "https://crayonapi.orcatt.one/";
+var webUrl = "https://crayonapi.orcatt.one/";
 // v=spf1 include:spf.efwd.registrar-servers.com ~all
 //网络请求方法
 function getData(model) {
