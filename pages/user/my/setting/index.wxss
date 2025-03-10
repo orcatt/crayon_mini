@@ -68,10 +68,10 @@
 }
 
 /* 退出登录按钮特殊样式 */
-.menu-item[data-type="logout"] .menu-title {
+/* .menu-item[data-type="logout"] .menu-title {
   color: #ef4444;
 }
 
 .menu-item[data-type="logout"] .menu-desc {
   color: #f87171;
-}
+} */

@@ -86,7 +86,7 @@
             </view>
               
           </view>
-          <view class="record">
+          <view class="record" bindtap="toBuySellRecord" data-item="{{item}}">
             <view>买卖记录</view>
             <image src="/static/image/tools/16.png" mode="widthFix"></image>\
           </view>
@@ -114,7 +114,7 @@
               </view>
             </view>
           </view>
-          <view class="record">
+          <view class="record" bindtap="toProfitLossRecord" data-item="{{item}}">
             <view>收益记录</view>
             <image src="/static/image/tools/17.png" mode="widthFix"></image>\
           </view>
@@ -141,26 +141,6 @@
           <view bindtap="showFundDrawer" data-type="edit" data-item="{{item}}">编辑</view>
           <view bindtap="deleteFund" data-id="{{item.id}}">删除</view>
         </view>
-        <!-- <view class="item-bottom-record">
-          <view bindtap="toBuySellRecord" data-item="{{item}}">
-            <view>
-              <image src="/static/image/code.png" mode="widthFix"></image>
-            </view>
-            <view>
-              <view>买卖记录</view>
-              <view>查询历史买卖</view>
-            </view>
-          </view>
-          <view bindtap="toProfitLossRecord" data-item="{{item}}">
-            <view>
-              <image src="/static/image/code.png" mode="widthFix"></image>
-            </view>
-            <view>
-              <view>收益记录</view>
-              <view>查询历史收益</view>
-            </view>
-          </view>
-        </view> -->
       </view>
       <view class="add-btn" bindtap="showFundDrawer" data-type="add">新增基金</view>
 

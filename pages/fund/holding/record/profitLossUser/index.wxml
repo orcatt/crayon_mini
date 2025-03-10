@@ -1,2 +1,5 @@
-<!--pages/fund/holding/record/profitLossUser/index.wxml-->
-<text>pages/fund/holding/record/profitLossUser/index.wxml</text>
+<!--pages/explore/tools/dict/index.wxml-->
+<header classTitle="center" classColor="true" isBack="true" backgroundColor="#f4f4f5">数据统计</header>
+<view class="mode" style="padding-top: {{tabbarRealHeight + 'px'}}; max-height: calc(100vh - {{tabbarRealHeight  + 'px'}}); overflow-y: auto;">
+  1111
+</view>

@@ -141,8 +141,8 @@
   width: 120rpx;
   height: 100%;
   margin-left: 10rpx;
-  background: #f4f4f5;
-  color: #09090B;
+  background: #ef4444;
+  color: #fff;
   font-size: 28rpx;
   border-radius: 14rpx;
   display: flex;

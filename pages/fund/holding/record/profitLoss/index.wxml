@@ -1,2 +1,49 @@
-<!--pages/fund/holding/record/profitLoss/index.wxml-->
-<text>pages/fund/holding/record/profitLoss/index.wxml</text>
+<!--pages/explore/tools/dict/index.wxml-->
+<header classTitle="center" classColor="true" isBack="true" backgroundColor="#f4f4f5">收益记录</header>
+<view class="mode" style="padding-top: {{tabbarRealHeight + 'px'}}; max-height: calc(100vh - {{tabbarRealHeight  + 'px'}}); overflow-y: auto;">
+  <view class="fund-info">
+    <view class="fund-name">{{fund_name}} <text>{{fund_code}}</text></view>
+    <view class="month-picker">
+      <picker mode="date" fields="month" value="{{currentMonth}}" bindchange="handleMonthChange">
+        <view class="picker-content">
+          <text>{{currentMonth}}</text>
+          <image src="/static/image/arrow-right.png" mode="widthFix"></image>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  
+  <view class="record">
+		<movable-area class="recordItem-wrapper" wx:for="{{buySellList}}" wx:key="index">
+			<movable-view class="recordItem-content" 
+				direction="horizontal" 
+				x="{{item.x}}"
+				damping="20"
+				friction="5"
+				out-of-bounds="{{true}}"
+				inertia="{{false}}"
+				disabled="true"
+			>
+				<view class="recordItem " bind:tap="openCloseRecordMovable" data-index="{{index}}">
+					<view class="record-left">
+            <view class="transaction-type">
+              {{item.profit_loss_type ? '收益' : '亏损'}}
+            </view>
+            <view class="transaction-date">{{item.transaction_date}}</view>
+
+            
+          </view>
+          <view class="record-right">
+            <view class="amount {{item.profit_loss_type ? 'profit' : 'loss'}}">¥{{item.profit_loss}}</view>
+            <view class="percentage {{item.profit_loss_type ? 'profit' : 'loss'}}">{{item.price_change_percentage}}%</view>
+          </view>
+				</view>
+				<view class="recordItem-buttons">
+					<!-- <view class="recordItem-done" bindtap="handlerecordDone" data-id="{{item.id}}" data-done="{{item.done}}">完成</view> -->
+					<view class="recordItem-delete" bindtap="handleRecordDelete" data-id="{{item.id}}">删除</view>
+				</view>
+			</movable-view>
+		</movable-area>
+	</view>
+</view>

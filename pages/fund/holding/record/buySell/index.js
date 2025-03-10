@@ -1,66 +1,105 @@
-// pages/fund/holding/record/buySell/index.js
+// pages/explore/tools/dict/index.js
+var utils = require('../../../../../api/util.js');
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+		tabbarRealHeight: 0,
+    fund_name: '',
+    fund_id: '',
+    fund_code: '',
+    buySellList: [],
+    currentMonth: '',
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad(options) {
-
+		var that = this;
+    let now = new Date();
+    let year = now.getFullYear();
+    let month = (now.getMonth() + 1).toString().padStart(2, '0'); // 月份加 1 并补零
+    
+		that.setData({
+			tabbarRealHeight: wx.getStorageSync('tabbarRealHeight'),
+      fund_name: options.fund_name,
+      fund_id: options.fund_id,
+      fund_code: options.fund_code,
+      currentMonth: `${year}-${month}`
+		})
+    that.getData();
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
+  getData() {
+    var that = this;
+    let postData = {
+      fund_id: that.data.fund_id,
+      transaction_date: that.data.currentMonth,
+    }
+    utils.getData({
+      url: 'fund/holdingTransactions/list',
+      params: postData,
+      success: (res) => {
+        if (res.code === 200) {
+          res.data.forEach(item => {
+            item.shares = parseInt(item.shares).toFixed(2);
+          })
+          that.setData({
+            buySellList: res.data
+          })
+        } else {
+          wx.showToast({
+            title: res.message,
+            icon: 'none'
+          });
+        }
+      }
+    });
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
+  handleMonthChange(e) {
+    var that = this;
+    that.setData({
+      currentMonth: e.detail.value
+    }, () => {
+      that.getData(); // 重新获取数据
+    });
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
+  openCloseRecordMovable(e) {
+    var that = this;
+    let index = e.currentTarget.dataset.index;
+    let buySellList = [...that.data.buySellList];
+    if (buySellList[index].x == -180) {
+      buySellList.forEach(item => {
+        item.x = 0;
+      });
+    } else {
+      buySellList.forEach((item, idx) => {
+        item.x = idx === index ? -180 : 0;
+      });
+    }
+    that.setData({
+      buySellList: buySellList
+    });
   },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
+  handleRecordDelete(e) {
+    var that = this;
+    utils.getData({
+      url: 'fund/holdingTransactions/delete',
+      params: {
+        transaction_id: e.currentTarget.dataset.id
+      },
+      success: (res) => {
+        if (res.code === 200) {
+          wx.showToast({
+            title: '删除成功',
+            icon: 'none'
+          });
+          that.getData();
+        }
+      }
+    });
   },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
-  }
+  onReady() {},
+  onShow() {},
+  onHide() {},
+  onUnload() {},
+  onPullDownRefresh() {},
+  onReachBottom() {},
+  onShareAppMessage() {},
+  
 })

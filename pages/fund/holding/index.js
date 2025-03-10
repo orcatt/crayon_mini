@@ -304,9 +304,8 @@ Component({
 		showUpdateProfitDrawer(e) {
 			var that = this;
 			let item = e.currentTarget.dataset.item;
-			console.log(item);
 			
-			if (item.daily_profit_loss != 0) {
+			if (Object.keys(item.dailyData).length > 0) {
 				wx.showModal({
 					title: '提示',
 					content: '今日已更新收益，是否重新更新？',
@@ -470,17 +469,22 @@ Component({
 		toBuySellRecord(e) {
 			var that = this;
 			let item = e.currentTarget.dataset.item;
-			console.log(item);
+			wx.navigateTo({
+				url: '/pages/fund/holding/record/buySell/index?fund_id=' + item.id + '&fund_name=' + item.fund_name+ '&fund_code=' + item.code,
+			})
 		},
 		toProfitLossRecord(e) {
 			var that = this;
 			let item = e.currentTarget.dataset.item;
-			console.log(item);
+			wx.navigateTo({
+				url: '/pages/fund/holding/record/profitLoss/index?fund_id=' + item.id + '&fund_name=' + item.fund_name+ '&fund_code=' + item.code,
+			})
 		},
 		toProfitLossUserRecord(e) {
 			var that = this;
-			// let item = e.currentTarget.dataset.item;
-			// console.log(item);
+			wx.navigateTo({
+				url: '/pages/fund/holding/record/profitLossUser/index',
+			})
 		}
 	},
   lifetimes: {
@@ -489,6 +493,12 @@ Component({
 			that.setData({
 				tabbarRealHeight: wx.getStorageSync('tabbarRealHeight')
 			})
+			// that.getData();
+		}
+	},
+	pageLifetimes: {
+		show: function () {
+			var that = this;
 			that.getData();
 		}
 	}
