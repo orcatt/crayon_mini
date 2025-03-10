@@ -12,38 +12,86 @@
       </picker>
     </view>
   </view>
+  <view class="profit-info">
+    <view class="profit-info-top">收益总览</view>
+    <view class="profit-info-bottom">
+      <view>
+        <view class="profit-info-bottom-item">
+          <view class="profit-info-bottom-item-title">当月收益</view>
+          <view class="profit-info-bottom-item-amount {{totalProfitLoss > 0 ? 'profit' : totalProfitLoss < 0 ? 'loss' : ''}}">{{totalProfitLoss}}</view>
+        </view>
+      </view>
+      <view class="profit-info-bottom-right">
+        <view class="profit-info-bottom-item">
+          <view class="profit-info-bottom-item-title">今日收益</view>
+          <view class="profit-info-bottom-item-amount {{todayProfitLoss > 0 ? 'profit' : todayProfitLoss < 0 ? 'loss' : ''}}">{{todayProfitLoss}}</view>
+        </view>
+        <view class="profit-info-bottom-item">
+          <view class="profit-info-bottom-item-title">今日收益率</view>
+          <view class="profit-info-bottom-item-amount {{todayPercent > 0 ? 'profit' : todayPercent < 0 ? 'loss' : ''}}">{{todayPercent}}</view>
+        </view>
+      </view>
+        
+    </view>
+  </view>
+  <view class="switch-view">
+    <view class="switch-container">
+      <view class="switch-group">
+        <view class="switch-item {{showType === 'profit' ? 'active' : ''}}" bindtap="switchShowType" data-type="profit">收益</view>
+        <view class="switch-item {{showType === 'percent' ? 'active' : ''}}" bindtap="switchShowType" data-type="percent">收益率</view>
+      </view>
+    </view>
+  </view>
+    
+  <view class="calendar">
+    <view class="calendar-header">
+      <view class="weekday" wx:for="{{weekDays}}" wx:key="*this">{{item}}</view>
+    </view>
+    <view class="calendar-body">
+      <view class="calendar-day empty" wx:for="{{calendarDays[0].week}}" wx:key="*this"></view>
+      <view class="calendar-day {{item.isToday ? 'today' : ''}}" 
+        wx:for="{{calendarDays}}" 
+        wx:key="date"
+        bindtap="showDayDetail"
+        data-index="{{index}}">
+        <view class="day-number ">{{item.isToday ? '今' : item.day}}</view>
+        <view class="amount {{item.profit_loss_type !== undefined ? (item.profit_loss_type === 0 ? 'equal' : item.profit_loss_type === 1 ? 'profit' : 'loss') : ''}}">
+          {{showType === 'profit' ? (item.profit_loss ? item.profit_loss : '0.00') : (item.price_change_percentage + '%')}}
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
 
-  
-  <view class="record">
-		<movable-area class="recordItem-wrapper" wx:for="{{buySellList}}" wx:key="index">
-			<movable-view class="recordItem-content" 
-				direction="horizontal" 
-				x="{{item.x}}"
-				damping="20"
-				friction="5"
-				out-of-bounds="{{true}}"
-				inertia="{{false}}"
-				disabled="true"
-			>
-				<view class="recordItem " bind:tap="openCloseRecordMovable" data-index="{{index}}">
-					<view class="record-left">
-            <view class="transaction-type">
-              {{item.profit_loss_type ? '收益' : '亏损'}}
-            </view>
-            <view class="transaction-date">{{item.transaction_date}}</view>
-
-            
-          </view>
-          <view class="record-right">
-            <view class="amount {{item.profit_loss_type ? 'profit' : 'loss'}}">¥{{item.profit_loss}}</view>
-            <view class="percentage {{item.profit_loss_type ? 'profit' : 'loss'}}">{{item.price_change_percentage}}%</view>
-          </view>
-				</view>
-				<view class="recordItem-buttons">
-					<!-- <view class="recordItem-done" bindtap="handlerecordDone" data-id="{{item.id}}" data-done="{{item.done}}">完成</view> -->
-					<view class="recordItem-delete" bindtap="handleRecordDelete" data-id="{{item.id}}">删除</view>
-				</view>
-			</movable-view>
-		</movable-area>
-	</view>
+<!-- 详情弹窗 -->
+<view class="drawer-mask" wx:if="{{showDetailDrawer}}" bindtap="closeDetailDrawer"></view>
+<view class="drawer {{showDetailDrawer ? 'drawer-show' : ''}}">
+  <view class="drawer-header">
+    <view class="drawer-title">收益详情</view>
+    <view class="drawer-close" bindtap="closeDetailDrawer">×</view>
+  </view>
+  <view class="drawer-content">
+    <view class="detail-group">
+      <view class="detail-item">
+        <view class="detail-label">日期</view>
+        <view class="detail-value">{{selectedDay.date}}</view>
+      </view>
+      <view class="detail-item">
+        <view class="detail-label">收益</view>
+        <view class="detail-value {{selectedDay.profit_loss_type === 1 ? 'profit' : selectedDay.profit_loss_type === -1 ? 'loss' : 'equal'}}">
+          {{selectedDay.profit_loss}}
+        </view>
+      </view>
+      <view class="detail-item">
+        <view class="detail-label">收益率</view>
+        <view class="detail-value {{selectedDay.profit_loss_type === 1 ? 'profit' : selectedDay.profit_loss_type === -1 ? 'loss' : 'equal'}}">
+          {{selectedDay.price_change_percentage}}%
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="btn-group">
+    <view class="wx-login-btn" bindtap="deleteRecord">删除</view>
+    <view class="otherlogin" bindtap="closeDetailDrawer">取消</view>
+  </view>
 </view>
