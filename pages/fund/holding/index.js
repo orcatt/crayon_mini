@@ -43,12 +43,18 @@ Component({
 			fund_name: '', // 用于显示
 			profit_loss_type: true, // 盈亏
 			profit_loss_addOrUpdate: 'add' // 盈亏类型
-		}
+		},
+		count: 0
   },
   methods: {
 		getData(){
 			var that = this;
-
+			if(that.data.count > 0){
+				return;
+			}
+			that.setData({
+				count: that.data.count + 1
+			})
 			let today = new Date();
 			let year = today.getFullYear();
 			let month = String(today.getMonth() + 1).padStart(2, '0');
@@ -77,7 +83,6 @@ Component({
 							holdingList: res.data,
 							totalData: {}
 						})
-						console.log(that.data.holdingList);
 						
 					}else{
 						wx.showToast({
@@ -478,6 +483,9 @@ Component({
 		toBuySellRecord(e) {
 			var that = this;
 			let item = e.currentTarget.dataset.item;
+			that.setData({
+				count: 0
+			})
 			wx.navigateTo({
 				url: '/pages/fund/holding/record/buySell/index?fund_id=' + item.id + '&fund_name=' + item.fund_name+ '&fund_code=' + item.code,
 			})
@@ -485,12 +493,18 @@ Component({
 		toProfitLossRecord(e) {
 			var that = this;
 			let item = e.currentTarget.dataset.item;
+			that.setData({
+				count: 0
+			})
 			wx.navigateTo({
 				url: '/pages/fund/holding/record/profitLoss/index?fund_id=' + item.id + '&fund_name=' + item.fund_name+ '&fund_code=' + item.code,
 			})
 		},
 		toProfitLossUserRecord(e) {
 			var that = this;
+			that.setData({
+				count: 0
+			})
 			wx.navigateTo({
 				url: '/pages/fund/holding/record/profitLossUser/index',
 			})
@@ -500,14 +514,17 @@ Component({
 		attached: function () {
 			var that = this;
 			that.setData({
-				tabbarRealHeight: wx.getStorageSync('tabbarRealHeight')
+				tabbarRealHeight: wx.getStorageSync('tabbarRealHeight'),
+				count: 0
 			})
-			// that.getData();
+			
+			that.getData();
 		}
 	},
 	pageLifetimes: {
 		show: function () {
 			var that = this;
+			
 			that.getData();
 		}
 	}

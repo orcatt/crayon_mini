@@ -41,7 +41,6 @@ Page({
       currentMonth: `${year}-${month}`,
       currentDate: `${year}-${month}-${day}`
 		})
-    console.log(that.data.currentDate);
     
     that.generateCalendar();
   },
@@ -78,7 +77,7 @@ Page({
               };
             }
           });
-          console.log(calendarDays);
+          
           // 计算总收益和今日收益
           let totalProfitLoss = 0;
           let todayProfitLoss = 0;
@@ -179,7 +178,6 @@ Page({
     var that = this;
     const index = e.currentTarget.dataset.index;
     const day = that.data.calendarDays[index];
-    console.log(day);
     
     if(day.profit_loss_id != 0) { // 有收益记录，查看/更新/删除
       that.setData({
@@ -193,7 +191,6 @@ Page({
           profit_loss_type: day.price_change_percentage > 0 ? true : false
         }
       });
-      console.log(111,that.data.updateProfitFormData);
       
     }else{ // 没有收益记录，新增
       that.setData({
@@ -280,7 +277,6 @@ Page({
     that.setData({
       'updateProfitFormData.price_change_percentage': formData.price_change_percentage
     });
-    console.log(that.data.selectedDay);
     
     if(that.data.selectedDay.profit_loss_id != 0) { // 有收益记录，更新
       utils.getData({

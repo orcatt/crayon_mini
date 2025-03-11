@@ -67,7 +67,6 @@ Page({
             }
           });
 
-          console.log(calendarDays);
           // 计算总收益和今日收益
           let totalProfitLoss = 0;
           let todayProfitLoss = 0;
@@ -143,7 +142,6 @@ Page({
     var that = this;
     const index = e.currentTarget.dataset.index;
     const day = that.data.calendarDays[index];
-    console.log('day',day);
     
     if (day.details && day.details.length > 0) {
       that.setData({
@@ -158,7 +156,6 @@ Page({
   changeHoldingProfitDetails(e) {
     var that = this;
     const item = e.currentTarget.dataset.item;
-    console.log('item',item);
     that.setData({
       showUpdateProfitDrawer: true,
       selectedItem: item,
