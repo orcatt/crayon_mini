@@ -292,7 +292,7 @@
         <view class="form-item">
           <view class="account-title">盈亏率<text class="required">*</text></view>
           <view class="account-input">
-            <input type="digit" value="{{updateProfitFormData.price_change_percentage}}" data-field="price_change_percentage" bindinput="handleUpdateProfitInput" placeholder="请输入盈亏率" />
+            <input type="number" value="{{updateProfitFormData.price_change_percentage}}" data-field="price_change_percentage" bindinput="handleUpdateProfitInput" placeholder="请输入盈亏率" />
           </view>
         </view>
         <view class="form-item">

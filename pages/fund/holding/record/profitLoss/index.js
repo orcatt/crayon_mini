@@ -7,7 +7,6 @@ Page({
     fund_name: '',
     fund_id: '',
     fund_code: '',
-    buySellList: [],
     currentMonth: '',
     currentDate: '',
     weekDays: ['日', '一', '二', '三', '四', '五', '六'],
@@ -17,7 +16,9 @@ Page({
     todayPercent: 0,
     showType: 'profit', // 显示类型：profit-收益，percent-收益率
     showDetailDrawer: false,
-    selectedDay: null
+    selectedDay: null,
+    showUpdateProfitDrawer: false,
+    updateProfitFormData: {}
   },
   onLoad(options) {
 		var that = this;
@@ -55,6 +56,7 @@ Page({
             if (profitData) {
               return {
                 ...day,
+                profit_loss_id: profitData.id,
                 profit_loss: profitData.profit_loss,
                 price_change_percentage: profitData.price_change_percentage,
                 profit_loss_type: profitData.price_change_percentage > 0 ? 1 : profitData.price_change_percentage < 0 ? -1 : 0
@@ -62,13 +64,14 @@ Page({
             }else{
               return {
                 ...day,
+                profit_loss_id: 0,
                 profit_loss: '0.00',
                 price_change_percentage: 0,
                 profit_loss_type: 0
               };
             }
           });
-
+          console.log(calendarDays);
           // 计算总收益和今日收益
           let totalProfitLoss = 0;
           let todayProfitLoss = 0;
@@ -107,13 +110,6 @@ Page({
       that.generateCalendar();
     });
   },
-  onReady() {},
-  onShow() {},
-  onHide() {},
-  onUnload() {},
-  onPullDownRefresh() {},
-  onReachBottom() {},
-  onShareAppMessage() {},
   
   // 生成日历数据
   generateCalendar() {
@@ -154,12 +150,17 @@ Page({
     });
   },
   showDayDetail(e) {
+    var that = this;
     const index = e.currentTarget.dataset.index;
-    const day = this.data.calendarDays[index];
-    this.setData({
-      showDetailDrawer: true,
-      selectedDay: day
-    });
+    const day = that.data.calendarDays[index];
+    if(day.profit_loss_id != 0) {
+      that.setData({
+        showDetailDrawer: true,
+        selectedDay: day
+      });
+    }else{
+      that.showUpdateProfitDrawer(day);
+    }
     console.log(day);
   },
   closeDetailDrawer() {
@@ -168,29 +169,133 @@ Page({
       selectedDay: null
     });
   },
-  // deleteRecord() {
-  //   var that = this;
-  //   let postData = {
-  //     profit_loss_id: that.data.selectedDay.profit_loss_id
-  //   }
-  //   utils.getData({
-  //     url: 'fund/holdingShares/deleteProfitLoss',
-  //     params: postData,
-  //     success: (res) => {
-  //       if (res.code === 200) {
-  //         wx.showToast({
-  //           title: res.message,
-  //           icon: 'success'
-  //         });
-  //         that.closeBuySellDrawer();
-  //         that.getData();
-  //       } else {
-  //         wx.showToast({
-  //           title: res.message,
-  //           icon: 'none'
-  //         });
-  //       }
-  //     }
-  //   });
-  // }
+  showUpdateProfitDrawer(day) {
+    var that = this;
+    that.setData({
+      showUpdateProfitDrawer: true,
+      updateProfitFormData: {
+        fund_id: that.data.fund_id,
+        price_change_percentage: '',
+        transaction_date: day.date,
+        fund_name: that.data.fund_name,
+        profit_loss_type: true
+      }
+    });
+  },
+  closeUpdateProfitDrawer() {
+    var that = this;
+    that.setData({
+      showUpdateProfitDrawer: false,
+      updateProfitFormData: {
+        fund_id: '',
+        price_change_percentage: '',
+        transaction_date: '',
+        fund_name: '',
+        profit_loss_type: true
+      }
+    });
+  },
+  handleProfitSwitch(e) {
+    const profit_loss_type = e.currentTarget.dataset.value;
+    this.setData({
+      'updateProfitFormData.profit_loss_type': profit_loss_type
+    });
+  },
+  handleUpdateProfitInput(e) {
+    const field = e.currentTarget.dataset.field;
+    const value = e.detail.value;
+    this.setData({
+      [`updateProfitFormData.${field}`]: value
+    });
+  },
+  handleUpdateProfitDateChange(e) {
+    this.setData({
+      'updateProfitFormData.transaction_date': e.detail.value
+    });
+  },
+  submitUpdateProfit() {
+    var that = this;
+    let formData = that.data.updateProfitFormData;
+    
+    if (!formData.price_change_percentage) {
+      wx.showToast({
+        title: '请输入盈亏率',
+        icon: 'none'
+      });
+      return;
+    } else if (formData.price_change_percentage == 0) {
+      wx.showToast({
+        title: '盈亏率不能为0',
+        icon: 'none'
+      });
+      return;
+    }
+
+    if (!formData.transaction_date) {
+      wx.showToast({
+        title: '请选择交易日期',
+        icon: 'none'
+      });
+      return;
+    }
+
+    // 盈利正数，亏损负数
+    formData.price_change_percentage = formData.profit_loss_type ? 
+      Math.abs(parseFloat(formData.price_change_percentage)) : 
+      -Math.abs(parseFloat(formData.price_change_percentage));
+    
+    utils.getData({
+      url: 'fund/holdingShares/profitLoss',
+      params: formData,
+      success: (res) => {
+        if (res.code === 200) {
+          wx.showToast({
+            title: formData.profit_loss_type ? '盈利已更新' : '亏损已更新',
+            icon: 'success'
+          });
+          that.closeUpdateProfitDrawer();
+          that.getData();
+        } else {
+          wx.showToast({
+            title: res.message,
+            icon: 'none'
+          });
+        }
+      }
+    });
+    
+  },
+  deleteRecord() {
+    var that = this;
+    let postData = {
+      profit_loss_id: that.data.selectedDay.profit_loss_id
+    }
+    utils.getData({
+      url: 'fund/holdingShares/deleteProfitLoss',
+      params: postData,
+      success: (res) => {
+        if (res.code === 200) {
+          wx.showToast({
+            title: res.message,
+            icon: 'success'
+          });
+          that.closeDetailDrawer();
+          that.getData();
+        } else {
+          wx.showToast({
+            title: res.message,
+            icon: 'none'
+          });
+        }
+      }
+    });
+  },
+  
+  onReady() {},
+  onShow() {},
+  onHide() {},
+  onUnload() {},
+  onPullDownRefresh() {},
+  onReachBottom() {},
+  onShareAppMessage() {},
 })

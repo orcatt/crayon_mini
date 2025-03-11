@@ -403,8 +403,8 @@ Component({
 
 			// 盈利正数，亏损负数
 			formData.price_change_percentage = formData.profit_loss_type ? 
-				Math.abs(parseInt(formData.price_change_percentage, 10)) : 
-				-Math.abs(parseInt(formData.price_change_percentage, 10));
+      Math.abs(parseFloat(formData.price_change_percentage)) : 
+      -Math.abs(parseFloat(formData.price_change_percentage));
 			
 			if(formData.profit_loss_addOrUpdate === 'add'){
 				utils.getData({

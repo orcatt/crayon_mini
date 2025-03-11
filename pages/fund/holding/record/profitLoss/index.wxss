@@ -303,7 +303,7 @@ page{
   color: #71717a;
 }
 
-.btn-group {
+.btn-group-delete {
   width: 90%;
   margin: 48rpx auto;
   display: flex;
@@ -311,7 +311,7 @@ page{
   gap: 24rpx;
 }
 
-.wx-login-btn {
+.wx-delete-btn {
   width: 100%;
   height: 88rpx;
   line-height: 88rpx;
@@ -322,8 +322,120 @@ page{
   font-size: 32rpx;
 }
 
+
+
+.form-group {
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  gap: 24rpx;
+  margin-bottom: 32rpx;
+}
+
+.form-item {
+  flex: 1;
+}
+
+.account-title {
+  font-size: 28rpx;
+  color: #09090B;
+  margin-bottom: 12rpx;
+}
+
+.required {
+  color: #ef4444;
+  margin-left: 4rpx;
+}
+
+.account-input {
+  height: 80rpx;
+  padding: 0 24rpx;
+  background: #f4f4f5;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+}
+
+.account-input input {
+  height: 100%;
+  width: 100%;
+  font-size: 28rpx;
+}
+
+.btn-group-submit {
+  margin-top: 48rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.wx-login-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #18181b;
+  color: #ffffff;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+}
+
 .otherlogin {
   color: #71717a;
   font-size: 28rpx;
   text-align: right;
+}
+
+.placeholderClass {
+  color: #a1a1aa;
+  font-size: 28rpx;
+}
+
+.account-input picker {
+  width: 100%;
+  height: 100%;
+}
+
+.account-input picker view {
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 28rpx;
+}
+
+/* 禁用输入框样式 */
+.account-input input:disabled {
+  color: #71717a;
+}
+
+.profit-switch {
+  height: 80rpx;
+  line-height: 80rpx;
+  display: flex;
+}
+
+.profit-switch-item {
+  flex: 1;
+  text-align: center;
+  font-size: 28rpx;
+}
+
+.profit-switch-item>view{
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  border-radius: 12rpx;
+}
+
+.profit-switch>view:nth-child(1) .active {
+  background: #ef4444 ;
+  color: #fff;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.1);
+
+}
+.profit-switch>view:nth-child(2) .active {
+  background: #22c55e ;
+  color: #fff;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.1);
+
 }

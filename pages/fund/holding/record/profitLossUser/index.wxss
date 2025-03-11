@@ -1,1 +1,285 @@
 /* pages/explore/tools/dict/index.wxss */
+page{
+  background-color: #f4f4f5;
+}
+.mode {
+	width: 90%;
+	margin: auto;
+	overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.fund-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32rpx;
+}
+
+.fund-name {
+  font-size: 36rpx;
+  font-family: 'DouyinSansBold';
+  color: #09090B;
+}
+.month-picker {
+  background: #ffffff;
+  padding: 12rpx 24rpx;
+  border-radius: 8rpx;
+}
+
+.picker-content {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  font-size: 28rpx;
+  color: #09090B;
+}
+
+.picker-content image {
+  width: 24rpx;
+  height: 24rpx;
+}
+
+
+.profit-info {
+  background: #ffffff;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  box-sizing: border-box;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.1);
+  margin-bottom: 20rpx;
+}
+.profit-info-top {
+  font-size: 32rpx;
+  font-family: 'DouyinSansBold';
+  color: #09090B;
+  height: 50rpx;
+  line-height: 50rpx;
+}
+.profit-info-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.profit-info-bottom-right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20rpx;
+  text-align: center;
+
+}
+.profit-info-bottom-item{
+  width: 150rpx;
+}
+.profit-info-bottom-item-title {
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 24rpx;
+  color: #71717a;
+}
+
+.profit-info-bottom-item-amount {
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 32rpx;
+  font-family: 'DouyinSansBold';
+  color: #09090B;
+}
+
+.calendar {
+  background: #ffffff;
+  border-radius: 12rpx;
+  padding: 0 8rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.1);
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  padding: 16rpx 0 12rpx 0; 
+  color: #09090B;
+  font-size: 32rpx;
+  font-family: 'DouyinSansBold';
+  border-bottom: 2rpx solid #f4f4f5;
+}
+
+.weekday {
+  font-size: 28rpx;
+  color: #71717a;
+  height: 60rpx;
+  line-height: 60rpx;
+}
+
+.calendar-body {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8rpx;
+  padding: 8rpx 0;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  background: #f4f4f5;
+  border-radius: 8rpx;
+  position: relative;
+}
+
+.calendar-day.empty {
+  background: transparent;
+}
+
+.calendar-day.today {
+  background-color: #e4e4e7;
+}
+
+.day-number {
+  font-size: 28rpx;
+  font-family: 'DouyinSansBold';
+  color: #09090B;
+  text-align: center;
+  height: 40rpx;
+  line-height: 40rpx;
+  margin: 10rpx 0 2rpx 0;
+}
+
+
+.amount {
+  font-size: 24rpx;
+  font-family: 'DouyinSansBold';
+  margin-bottom: 4rpx;
+  text-align: center;
+
+}
+
+.profit {
+  color: #ef4444;
+}
+.loss {
+  color: #22c55e;
+}
+.equal {
+  color: #71717a;
+}
+
+.calendar-day.profit {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.calendar-day.loss {
+  background: rgba(34, 197, 94, 0.1);
+}
+
+/* 弹窗基础样式 */
+.drawer-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+}
+
+.drawer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: 501;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.drawer.drawer-show {
+  transform: translateY(0);
+}
+
+.drawer-header {
+  padding: 32rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2rpx solid #f4f4f5;
+}
+
+.drawer-title {
+  font-size: 36rpx;
+  color: #09090B;
+  font-weight: 600;
+}
+
+.drawer-close {
+  font-size: 40rpx;
+  color: #71717a;
+  padding: 0 20rpx;
+}
+
+.drawer-content {
+  padding: 32rpx;
+}
+
+/* 详情内容样式 */
+.detail-group {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16rpx 0;
+  border-bottom: 2rpx solid #f4f4f5;
+}
+
+.detail-label {
+  font-size: 28rpx;
+  color: #71717a;
+}
+
+.detail-value {
+  font-size: 32rpx;
+  font-family: 'DouyinSansBold';
+  color: #09090B;
+}
+
+.detail-value.profit {
+  color: #ef4444;
+}
+
+.detail-value.loss {
+  color: #22c55e;
+}
+
+.detail-value.equal {
+  color: #71717a;
+}
+
+.btn-group-delete {
+  width: 90%;
+  margin: 48rpx auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.wx-delete-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #ef4444;
+  color: #ffffff;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+}
+
