@@ -5,8 +5,6 @@ page{
 .mode {
 	width: 90%;
 	margin: auto;
-	overflow-y: auto;
-  overflow-x: hidden;
 }
 
 .fund-info {
@@ -44,17 +42,23 @@ page{
 .profit-info {
   background: #ffffff;
   border-radius: 12rpx;
-  padding: 24rpx;
+  padding: 24rpx 40rpx;
   box-sizing: border-box;
   box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.1);
   margin-bottom: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .profit-info-top {
+  width: 40%;
+  height: 50rpx;
+  line-height: 50rpx;
+
   font-size: 32rpx;
   font-family: 'DouyinSansBold';
   color: #09090B;
-  height: 50rpx;
-  line-height: 50rpx;
+
 }
 .profit-info-bottom {
   display: flex;
@@ -63,16 +67,9 @@ page{
 
 }
 
-.profit-info-bottom-right {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20rpx;
-  text-align: center;
-
-}
 .profit-info-bottom-item{
-  width: 150rpx;
+  width: 160rpx;
+  text-align: right;
 }
 .profit-info-bottom-item-title {
   height: 50rpx;
@@ -88,6 +85,10 @@ page{
   font-family: 'DouyinSansBold';
   color: #09090B;
 }
+
+
+
+
 
 .calendar {
   background: #ffffff;
@@ -126,6 +127,7 @@ page{
   background: #f4f4f5;
   border-radius: 8rpx;
   position: relative;
+  transition: all 0.2s ease;
 }
 
 .calendar-day.empty {
@@ -133,6 +135,34 @@ page{
 }
 
 .calendar-day.today {
+  background-color: #e4e4e7;
+
+}
+
+/* 添加选中状态样式 */
+.calendar-day.selected {
+  background-color: #fafafa;
+  box-shadow: 0 0rpx 12rpx rgba(0, 0, 0, 0.2);
+	animation: pulse 5s infinite;
+
+}
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+
+	}
+	50% {
+		transform: scale(1.1);
+
+	}
+	100% {
+		transform: scale(1);
+
+	}
+}
+
+/* 同时选中且是今天的样式 */
+.calendar-day.today.selected {
   background-color: #e4e4e7;
 }
 
@@ -147,7 +177,7 @@ page{
 }
 
 
-.amount {
+.day-amount {
   font-size: 24rpx;
   font-family: 'DouyinSansBold';
   margin-bottom: 4rpx;
@@ -172,6 +202,120 @@ page{
 .calendar-day.loss {
   background: rgba(34, 197, 94, 0.1);
 }
+
+
+
+.record {
+  margin-top: 32rpx;
+  background: #ffffff;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.1);
+}
+
+.record-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 24rpx;
+  border-bottom: 2rpx solid #f4f4f5;
+}
+
+.record-title text {
+  font-size: 28rpx;
+  color: #71717a;
+}
+
+.record-list {
+  margin-top: 24rpx;
+}
+
+.record-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx;
+  background: #f4f4f5;
+  border-radius: 12rpx;
+  margin-bottom: 16rpx;
+}
+
+.record-item:last-child {
+  margin-bottom: 0;
+}
+
+.record-left {
+  flex: 1;
+  margin-right: 24rpx;
+}
+
+.fund-name {
+  font-size: 32rpx;
+  font-family: 'DouyinSansBold';
+  color: #09090B;
+}
+
+.record-right {
+  display: flex;
+}
+
+.profit-amount {
+  font-size: 36rpx;
+  font-family: 'DouyinSansBold';
+  margin-bottom: 4rpx;
+}
+
+.profit-separator {
+  margin: 0 8rpx;
+}
+
+.profit-rate {
+  font-size: 28rpx;
+  font-family: 'DouyinSansBold';
+  margin-top: 8rpx;
+}
+
+.record-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.transaction-type {
+  font-size: 32rpx;
+  font-family: 'DouyinSansBold';
+}
+
+.transaction-type.buy {
+  color: #ef4444;
+}
+
+.transaction-type.sell {
+  color: #22c55e;
+}
+
+.transaction-date {
+  font-size: 24rpx;
+  color: #71717a;
+}
+
+.details {
+  font-size: 24rpx;
+  color: #71717a;
+}
+
+.separator {
+  margin: 0 8rpx;
+}
+
+.no-record {
+  padding: 24rpx;
+  text-align: center;
+  color: #71717a;
+  font-size: 28rpx;
+  margin-top: 20rpx;
+}
+
 
 /* 弹窗基础样式 */
 .drawer-mask {
@@ -281,5 +425,121 @@ page{
   color: #ffffff;
   border-radius: 12rpx;
   font-size: 32rpx;
+}
+
+.form-group {
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  gap: 24rpx;
+  margin-bottom: 32rpx;
+}
+
+.form-item {
+  flex: 1;
+}
+
+.account-title {
+  font-size: 28rpx;
+  color: #09090B;
+  margin-bottom: 12rpx;
+}
+
+.required {
+  color: #ef4444;
+  margin-left: 4rpx;
+}
+
+.account-input {
+  height: 80rpx;
+  padding: 0 24rpx;
+  background: #f4f4f5;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+}
+
+.account-input input {
+  height: 100%;
+  width: 100%;
+  font-size: 28rpx;
+}
+
+.btn-group-submit {
+  margin-top: 48rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.wx-login-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #18181b;
+  color: #ffffff;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+}
+
+.otherlogin {
+  color: #71717a;
+  font-size: 28rpx;
+  text-align: right;
+}
+
+.placeholderClass {
+  color: #a1a1aa;
+  font-size: 28rpx;
+}
+
+.account-input picker {
+  width: 100%;
+  height: 100%;
+}
+
+.account-input picker view {
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 28rpx;
+}
+
+/* 禁用输入框样式 */
+.account-input input:disabled {
+  color: #71717a;
+}
+
+.profit-switch {
+  height: 80rpx;
+  line-height: 80rpx;
+  display: flex;
+}
+
+.profit-switch-item {
+  flex: 1;
+  text-align: center;
+  font-size: 28rpx;
+}
+
+.profit-switch-item>view{
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  border-radius: 12rpx;
+}
+
+.profit-switch>view:nth-child(1) .active {
+  background: #ef4444 ;
+  color: #fff;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.1);
+
+}
+.profit-switch>view:nth-child(2) .active {
+  background: #22c55e ;
+  color: #fff;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.1);
+
 }
 

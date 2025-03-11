@@ -106,11 +106,11 @@
             <view>
               <view>
                 <view>持有收益率</view>
-                <view>{{item.holding_profit_rate*100}}<text style="margin-left: 6rpx;">%</text></view>
+                <view>{{item.holding_profit_rate_percentage}}<text style="margin-left: 6rpx;">%</text></view>
               </view>
               <view>
                 <view>总收益率</view>
-                <view>{{item.total_profit_rate*100}}<text style="margin-left: 6rpx;">%</text></view>
+                <view>{{item.total_profit_rate_percentage}}<text style="margin-left: 6rpx;">%</text></view>
               </view>
             </view>
           </view>

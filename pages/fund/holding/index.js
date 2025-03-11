@@ -69,12 +69,13 @@ Component({
 					if (res.code === 200) {
 						res.data.forEach(item => {
 							item.current_net_value = ((1 + item.holding_profit_rate) * item.holding_cost).toFixed(4)
+							item.holding_profit_rate_percentage = (item.holding_profit_rate * 100).toFixed(2)
+							item.total_profit_rate_percentage = (item.total_profit_rate * 100).toFixed(2)
 						})
 						
 						that.setData({
 							holdingList: res.data,
-							totalData: {
-							}
+							totalData: {}
 						})
 						console.log(that.data.holdingList);
 						
@@ -358,9 +359,14 @@ Component({
 			});
 		},
 		handleProfitSwitch(e) {
+			var that = this;
 			const profit_loss_type = e.currentTarget.dataset.value;
-			this.setData({
-				'updateProfitFormData.profit_loss_type': profit_loss_type
+			let price_change_percentage = profit_loss_type ? 
+				Math.abs(parseFloat(that.data.updateProfitFormData.price_change_percentage)) : 
+				-Math.abs(parseFloat(that.data.updateProfitFormData.price_change_percentage));
+			that.setData({
+				'updateProfitFormData.profit_loss_type': profit_loss_type,
+				'updateProfitFormData.price_change_percentage': price_change_percentage
 			});
 		},
 		handleUpdateProfitInput(e) {
@@ -405,6 +411,9 @@ Component({
 			formData.price_change_percentage = formData.profit_loss_type ? 
       Math.abs(parseFloat(formData.price_change_percentage)) : 
       -Math.abs(parseFloat(formData.price_change_percentage));
+			that.setData({
+				'updateProfitFormData.price_change_percentage': formData.price_change_percentage
+			});
 			
 			if(formData.profit_loss_addOrUpdate === 'add'){
 				utils.getData({

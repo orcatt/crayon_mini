@@ -76,23 +76,44 @@ Page({
       buySellList: buySellList
     });
   },
+  closeRecordMovable() {
+    var that = this;
+    let buySellList = [...that.data.buySellList];
+    buySellList.forEach(item => {
+      item.x = 0;
+    });
+    that.setData({
+      buySellList: buySellList
+    });
+  },
   handleRecordDelete(e) {
     var that = this;
-    utils.getData({
-      url: 'fund/holdingTransactions/delete',
-      params: {
-        transaction_id: e.currentTarget.dataset.id
-      },
+    wx.showModal({
+      title: '提示',
+      content: '是否删除该交易记录？',
       success: (res) => {
-        if (res.code === 200) {
-          wx.showToast({
-            title: '删除成功',
-            icon: 'none'
+        if (res.confirm) {
+          utils.getData({
+            url: 'fund/holdingTransactions/delete',
+            params: {
+              transaction_id: e.currentTarget.dataset.id
+            },
+            success: (res) => {
+              if (res.code === 200) {
+                wx.showToast({
+                  title: '删除成功',
+                  icon: 'none'
+                });
+                that.getData();
+              }
+            }
           });
-          that.getData();
+        } else {
+          that.closeRecordMovable();
         }
       }
     });
+    
   },
   onReady() {},
   onShow() {},

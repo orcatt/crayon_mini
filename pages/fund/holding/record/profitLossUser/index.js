@@ -10,8 +10,17 @@ Page({
     calendarDays: [], // 日历天数
     totalProfitLoss: 0,
     todayProfitLoss: 0,
-    showDetailDrawer: false,
     selectedDay: null,
+    showDetailDrawer: false,
+    selectedItem: null,
+    showUpdateProfitDrawer: false,
+    updateProfitFormData: {
+			fund_id: '',
+			price_change_percentage: '',
+			transaction_date: '',
+			fund_name: '', // 用于显示
+			profit_loss_type: true, // 盈亏
+		}
   },
   onLoad(options) {
 		var that = this;
@@ -45,14 +54,14 @@ Page({
               return {
                 ...day,
                 total_profit_loss: profitData.total_profit_loss,
-                profit_loss_type: parseInt(profitData.total_profit_loss) > 0 ? 1 : parseInt(profitData.total_profit_loss) < 0 ? -1 : 0,
+                profit_loss_noSet: parseInt(profitData.total_profit_loss) > 0 ? 1 : parseInt(profitData.total_profit_loss) < 0 ? -1 : 0,
                 details: profitData.details
               };
             }else{
               return {
                 ...day,
                 total_profit_loss: 0,
-                profit_loss_type: 0,
+                profit_loss_noSet: 0,
                 details: []
               };
             }
@@ -62,12 +71,14 @@ Page({
           // 计算总收益和今日收益
           let totalProfitLoss = 0;
           let todayProfitLoss = 0;
+          let selectedDay = null;
           calendarDays.forEach(day => {
             // 累加总收益
             totalProfitLoss += parseFloat(day.total_profit_loss);
             // 获取今日收益
             if(day.isToday) {
               todayProfitLoss = parseFloat(day.total_profit_loss);
+              selectedDay = day;
             }
           });
           
@@ -75,6 +86,7 @@ Page({
             calendarDays: calendarDays,
             totalProfitLoss: totalProfitLoss.toFixed(2),
             todayProfitLoss: todayProfitLoss.toFixed(2),
+            selectedDay: selectedDay,
           });
         } else {
           wx.showToast({
@@ -127,23 +139,183 @@ Page({
     return `${year}-${month}-${day}`;
   },
 
-  showDayDetail(e) {
+  showAllHoldingProfit(e) {
     var that = this;
     const index = e.currentTarget.dataset.index;
     const day = that.data.calendarDays[index];
+    console.log('day',day);
+    
+    if (day.details && day.details.length > 0) {
+      that.setData({
+        selectedDay: day
+      });
+    }else{
+      that.setData({
+        selectedDay: null
+      });
+    }
+  },
+  changeHoldingProfitDetails(e) {
+    var that = this;
+    const item = e.currentTarget.dataset.item;
+    console.log('item',item);
     that.setData({
-      showDetailDrawer: true,
-      selectedDay: day
+      showUpdateProfitDrawer: true,
+      selectedItem: item,
+      updateProfitFormData: {
+        fund_id: item.fund_id,
+        price_change_percentage: item.price_change_percentage,
+        transaction_date: that.data.selectedDay.date,
+        fund_name: item.fund_name,
+        profit_loss_type: item.price_change_percentage > 0 ? true : false
+      }
     });
-    console.log(day);
+    
   },
-  closeDetailDrawer() {
+  closeUpdateProfitDrawer() {
     this.setData({
-      showDetailDrawer: false,
-      selectedDay: null
+      showUpdateProfitDrawer: false,
+      selectedItem: null,
+      updateProfitFormData: {
+        fund_id: '',
+        price_change_percentage: '',
+        transaction_date: '',
+        fund_name: '',
+        profit_loss_type: true
+      }
     });
   },
-  
+
+  handleProfitSwitch(e) {
+    var that = this;
+    const profit_loss_type = e.currentTarget.dataset.value;
+    let price_change_percentage = profit_loss_type ? 
+      Math.abs(parseFloat(that.data.updateProfitFormData.price_change_percentage)) : 
+      -Math.abs(parseFloat(that.data.updateProfitFormData.price_change_percentage));
+    that.setData({
+      'updateProfitFormData.profit_loss_type': profit_loss_type,
+      'updateProfitFormData.price_change_percentage': price_change_percentage
+    });
+  },
+  handleUpdateProfitInput(e) {
+    const field = e.currentTarget.dataset.field;
+    const value = e.detail.value;
+    this.setData({
+      [`updateProfitFormData.${field}`]: value
+    });
+  },
+  handleUpdateProfitDateChange(e) {
+    wx.showToast({
+      title: '前往收益记录即可修改',
+      icon: 'none'
+    });
+  },
+  submitUpdateProfit() {
+    var that = this;
+    let formData = that.data.updateProfitFormData;
+    
+    if (!formData.price_change_percentage) {
+      wx.showToast({
+        title: '请输入盈亏率',
+        icon: 'none'
+      });
+      return;
+    } else if (formData.price_change_percentage == 0) {
+      wx.showToast({
+        title: '盈亏率不能为0',
+        icon: 'none'
+      });
+      return;
+    }
+
+    if (!formData.transaction_date) {
+      wx.showToast({
+        title: '请选择交易日期',
+        icon: 'none'
+      });
+      return;
+    }
+
+    // 盈利正数，亏损负数
+    formData.price_change_percentage = formData.profit_loss_type ? 
+      Math.abs(parseFloat(formData.price_change_percentage)) : 
+      -Math.abs(parseFloat(formData.price_change_percentage));
+    
+    that.setData({
+      'updateProfitFormData.price_change_percentage': formData.price_change_percentage
+    });
+
+    utils.getData({
+      url: 'fund/holdingShares/deleteProfitLoss',
+      params: {
+        profit_loss_id: that.data.selectedItem.id
+      },
+      success: (res) => {
+        if (res.code === 200) {
+          utils.getData({
+            url: 'fund/holdingShares/profitLoss',
+            params: formData,
+            success: (res) => {
+              if (res.code === 200) {
+                wx.showToast({
+                  title: formData.profit_loss_type ? '盈利已更新' : '亏损已更新',
+                  icon: 'success'
+                });
+                that.closeUpdateProfitDrawer();
+                that.getData();
+              } else {
+                wx.showToast({
+                  title: res.message,
+                  icon: 'none'
+                });
+              }
+            }
+          });
+        } else {
+          wx.showToast({
+            title: res.message,
+            icon: 'none'
+          });
+        }
+      }
+    });
+    
+    
+  },
+  deleteRecord() {
+    var that = this;
+    let postData = {
+      profit_loss_id: that.data.selectedItem.id
+    }
+    wx.showModal({
+      title: '提示',
+      content: '是否删除该收益记录？',
+      success: (res) => {
+        if (res.confirm) {
+          utils.getData({
+            url: 'fund/holdingShares/deleteProfitLoss',
+            params: postData,
+            success: (res) => {
+              if (res.code === 200) {
+                wx.showToast({
+                  title: '删除成功',
+                  icon: 'success'
+                });
+                that.closeUpdateProfitDrawer();
+                that.getData();
+              } else {
+                wx.showToast({
+                  title: res.message,
+                  icon: 'none'
+                });
+              }
+            }
+          });
+        }
+      }
+    });
+    
+  },
   onReady() {},
   onShow() {},
   onHide() {},
