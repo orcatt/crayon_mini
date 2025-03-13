@@ -27,7 +27,7 @@
   border-radius: 8rpx 0 0 0;
   padding: 0 30rpx;
   box-sizing: border-box;
-  font-size: 28rpx;
+  font-size: 32rpx;
   font-family: 'DouyinSansBold';
   color: #09090B;
 }
@@ -62,73 +62,98 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 48rpx;
+  margin-bottom: 20rpx;
 }
 
 .content-top-left {
   flex: 1;
-}
-
-.total-amount {
-  font-size: 48rpx;
+  font-size: 60rpx;
   font-family: 'DouyinSansBold';
   color: #09090B;
-  margin-bottom: 8rpx;
 }
 
-.total-profit {
-  font-size: 32rpx;
-  font-family: 'DouyinSansBold';
-}
+
 
 .content-top-right {
-  width: 200rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.content-top-right>view:nth-child(1){
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 24rpx;
+  color: #71717a;
+}
+.content-top-right>view:nth-child(2){
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 32rpx;
+  font-family: 'DouyinSansBold';
+  color: #09090B;
 }
 
-.content-top-right-line1 {
+
+.content-bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16rpx;
 }
 
-.content-top-right-line1>view:first-child {
-  font-size: 28rpx;
-  color: #71717a;
-}
-
-.content-top-right-line2 {
-  display: flex;
-  justify-content: space-between;
-  font-size: 28rpx;
-  color: #09090B;
-}
-
-.content-top-right-line2>view>text {
-  font-family: 'DouyinSansBold';
-  margin-left: 8rpx;
-}
-
-.content-bottom-line {
-  display: flex;
-  justify-content: space-between;
-  text-align: center;
-}
-
-.content-bottom-line>view>view:first-child {
+.content-bottom>view>view:first-child {
+  height: 50rpx;
+  line-height: 50rpx;
   font-size: 24rpx;
   color: #71717a;
-  margin-bottom: 8rpx;
 }
 
-.content-bottom-line>view>view:last-child {
-  font-size: 28rpx;
+.content-bottom>view>view:last-child {
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 32rpx;
+  font-family: 'DouyinSansBold';
   color: #09090B;
 }
 
-.content-bottom-line>view>view:last-child text {
+.content-bottom>view>view:last-child text {
   font-family: 'DouyinSansBold';
   margin-right: 4rpx;
+}
+
+
+.content-process {
+  width: 100%;
+  margin-top: 30rpx;
+}
+
+.process-bar {
+  width: 100%;
+  height: 12rpx;
+  background: #f4f4f5;
+  border-radius: 999rpx;
+  overflow: hidden;
+  margin-bottom: 12rpx;
+}
+
+.process-bar-inner {
+  height: 100%;
+  background: linear-gradient(90deg, #18181b 0%, #27272a 100%);
+  border-radius: 999rpx;
+  transition: width 0.3s ease;
+}
+
+.process-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 24rpx;
+  color: #71717a;
+}
+
+.process-text text:last-child {
+  font-family: 'DouyinSansBold';
+  color: #18181b;
 }
 
 .profit {
@@ -614,4 +639,61 @@
   color: #fff;
   box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.1);
 
+}
+
+.operation-steps {
+  width: 100%;
+  /* padding: 32rpx 32rpx 10rpx 32rpx;
+  box-sizing: border-box;
+  background: #ffffff;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.1); */
+}
+
+.operation-steps-title {
+  font-size: 32rpx;
+  color: #09090B;
+  font-family: 'DouyinSansBold';
+  margin-bottom: 32rpx;
+  text-align: center;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  padding: 24rpx 0;
+  border-bottom: 2rpx solid #f4f4f5;
+}
+
+.step:last-child {
+  border-bottom: none;
+}
+
+.step-title {
+  width: 120rpx;
+  font-size: 28rpx;
+  color: #18181b;
+  font-family: 'DouyinSansBold';
+  padding: 8rpx 16rpx;
+  background: #f4f4f5;
+  border-radius: 8rpx;
+  text-align: center;
+  margin-right: 24rpx;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-content-title {
+  font-size: 30rpx;
+  color: #18181b;
+  font-family: 'DouyinSansBold';
+  margin-bottom: 8rpx;
+}
+
+.step-content-desc {
+  font-size: 26rpx;
+  color: #71717a;
+  line-height: 1.5;
 }

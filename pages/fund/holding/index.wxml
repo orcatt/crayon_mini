@@ -6,39 +6,34 @@
     </view>
     <view class="holdingInfo-content">
       <view class="content-top">
-        <view class="content-top-left">
-          <view class="total-amount">¥{{totalData.totalAmount}}</view>
-          <view class="total-profit {{totalData.totalProfit >= 0 ? 'profit' : 'loss'}}">
-            {{totalData.totalProfit >= 0 ? '+' : ''}}{{totalData.totalProfit}}
-          </view>
-        </view>
+        <view class="content-top-left {{userTotalInfo.total_profit_user_today >= 0 ? 'profit' : 'loss'}}">¥{{userTotalInfo.total_profit_user_today}}</view>
         <view class="content-top-right">
-          <view class="content-top-right-line1">
-            <view>收益率</view>
-            <view class="{{totalData.profitRate >= 0 ? 'profit' : 'loss'}}">
-              {{totalData.profitRate}}%
-            </view>
-          </view>
-          <view class="content-top-right-line2">
-            <view>持仓数<text>{{totalData.holdingCount}}</text></view>
-            <view>均价<text>{{totalData.avgCost}}</text></view>
-          </view>
+          <view>总盈亏</view>
+          <view>{{userTotalInfo.total_profit_user}}</view>
         </view>
       </view>
+      
       <view class="content-bottom">
-        <view class="content-bottom-line">
-          <view>
-            <view>最大收益</view>
-            <view class="profit">+{{totalData.maxProfit}}</view>
-          </view>
-          <view>
-            <view>最大亏损</view>
-            <view class="loss">{{totalData.maxLoss}}</view>
-          </view>
-          <view>
-            <view>平均持有</view>
-            <view><text>{{totalData.avgHoldingDays}}</text>天</view>
-          </view>
+        <view>
+          <view>总资产</view>
+          <view>{{userTotalInfo.total_assets_user}}</view>
+        </view>
+        <view>
+          <view>总市值</view>
+          <view>{{userTotalInfo.total_market_value_user}}</view>
+        </view>
+        <view>
+          <view>可用</view>
+          <view>{{userTotalInfo.available_user}}</view>
+        </view>
+      </view>
+      <view class="content-process">
+        <view class="process-bar">
+          <view class="process-bar-inner" style="width: {{userTotalInfo.holding_position_user}}%"></view>
+        </view>
+        <view class="process-text">
+          <text>仓位</text>
+          <text>{{userTotalInfo.holding_position_user}}%</text>
         </view>
       </view>
     </view>
@@ -149,6 +144,65 @@
 </view>
 
 
+<!-- 欢迎弹窗 -->
+<view class="drawer-mask" wx:if="{{showWelcomeDrawer}}" bindtap="closeWelcomeDrawer"></view>
+<view class="drawer {{showWelcomeDrawer ? 'drawer-show' : ''}}">
+  <view class="drawer-header">
+    <view class="drawer-title">{{ welcomeStep === 1 ? '欢迎使用' : '开始第一步' }}</view>
+    <view class="drawer-close" bindtap="closeWelcomeDrawer">×</view>
+  </view>
+  <view class="drawer-content" wx:if="{{welcomeStep === 1}}">
+    <view class="operation-steps">
+      <view class="operation-steps-title">你将启用投资量化助手，开始你的理财之旅吧！</view>
+      <view class="step">
+        <view class="step-title">第一步</view>
+        <view class="step-content">
+          <view class="step-content-title">设定本金</view>
+          <view class="step-content-desc">先设定一笔用于投资的本金。</view>
+        </view>
+      </view>
+      <view class="step">
+        <view class="step-title">第二步</view>
+        <view class="step-content">
+          <view class="step-content-title">添加基金</view>
+          <view class="step-content-desc">新增一支基金，作为你投资的开始。</view>
+        </view>
+      </view>
+      <view class="step">
+        <view class="step-title">第三步</view>
+        <view class="step-content">
+          <view class="step-content-title">买入卖出</view>
+          <view class="step-content-desc">导入你的买卖记录，我们会记录它。</view>
+        </view>
+      </view>
+      <view class="step">
+        <view class="step-title">第四步</view>
+        <view class="step-content">
+          <view class="step-content-title">更新收益</view>
+          <view class="step-content-desc">更新你的收益情况，交给系统帮你量化。</view>
+        </view>
+      </view>
+    </view>
+    <view class="btn-group">
+      <view class="wx-login-btn" bindtap="welcomeToNextStep" data-step="1">我准备好了</view>
+      <view style="height: 20rpx;"></view>
+    </view>
+  </view>
+  <view class="drawer-content" wx:if="{{welcomeStep === 2}}">
+    <view class="form-row">
+      <view class="form-item">
+        <view class="account-title">设定本金<text class="required">*</text></view>
+        <view class="account-input">
+          <input type="number" value="{{userTotalInfo.total_assets_user}}" data-field="total_assets_user" bindinput="setTotalAssetsUser" placeholder="请输入本金" />
+        </view>
+      </view>
+    </view>
+    <view class="btn-group">
+      <view class="wx-login-btn" bindtap="welcomeToNextStep" data-step="2">就这样</view>
+      <view style="height: 20rpx;"></view>
+    </view>
+  </view>
+</view>
 
 <!-- 新增/编辑基金弹窗 -->
 <view class="drawer-mask" wx:if="{{showAddUpdateFundDrawer}}" bindtap="closeFundDrawer"></view>

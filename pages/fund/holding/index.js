@@ -7,17 +7,17 @@ Component({
   data: {
 		tabbarRealHeight: 0,
 		currentDate: '',
-		holdingList: [],
-		totalData: {
-			totalAmount: 0, // 总金额
-			totalProfit: 0, // 总收益
-			profitRate: 0, // 收益率
-			holdingCount: 0, // 持仓数量
-			avgCost: 0, // 平均成本
-			maxProfit: 0, // 最大收益
-			maxLoss: 0, // 最大亏损
-			avgHoldingDays: 0 // 平均持有天数
+		welcomeStep: 1,
+		userInfo: {},
+		userTotalInfo: {
+			total_assets_user: '', // 总资产
+			total_market_value_user: '', // 总市值
+			available_user: '', // 可用
+			total_profit_user_today: '', // 当日总盈亏
+			total_profit_user: '', // 总盈亏
+			holding_position_user: '', // 仓位
 		},
+		holdingList: [],
 		showAddUpdateFundDrawer: false,
 		fundFormData: {
 			fund_name: '',
@@ -73,16 +73,35 @@ Component({
 				params: postData,
 				success: (res) => {
 					if (res.code === 200) {
+						let userTotalInfo = {
+							total_assets_user: that.data.userInfo.total_assets_user, // 总资产
+							total_market_value_user: 0, // 总市值
+							available_user: 0, // 可用
+							total_profit_user_today: 0, // 当日总盈亏
+							total_profit_user: 0, // 总盈亏
+							holding_position_user: 0, // 仓位
+						}
+						
 						res.data.forEach(item => {
 							item.current_net_value = ((1 + item.holding_profit_rate) * item.holding_cost).toFixed(4)
 							item.holding_profit_rate_percentage = (item.holding_profit_rate * 100).toFixed(2)
 							item.total_profit_rate_percentage = (item.total_profit_rate * 100).toFixed(2)
+							userTotalInfo.total_market_value_user += item.holding_amount*1
+							userTotalInfo.total_profit_user_today += item.dailyData.profit_loss*1
+							userTotalInfo.total_profit_user += item.holding_profit*1
 						})
+						userTotalInfo.total_market_value_user = parseFloat(userTotalInfo.total_market_value_user).toFixed(2)
+						userTotalInfo.total_profit_user_today = parseFloat(userTotalInfo.total_profit_user_today).toFixed(2)
+						userTotalInfo.total_profit_user = parseFloat(userTotalInfo.total_profit_user).toFixed(2)
+						userTotalInfo.available_user = parseFloat((userTotalInfo.total_assets_user*1 - userTotalInfo.total_market_value_user*1)).toFixed(2)
+						userTotalInfo.holding_position_user = parseFloat((userTotalInfo.total_market_value_user*1 / userTotalInfo.total_assets_user * 100)).toFixed(2)
+						console.log(userTotalInfo);
 						
 						that.setData({
 							holdingList: res.data,
-							totalData: {}
+							userTotalInfo: userTotalInfo
 						})
+						
 						
 					}else{
 						wx.showToast({
@@ -92,6 +111,70 @@ Component({
 					}
 				}
 			});
+		},
+		// ? ------ 欢迎弹窗 ------
+		showWelcomeDrawer() {
+			var that = this;
+			that.triggerEvent('toggleTabBar', { show: false }, {});
+			that.setData({
+				showWelcomeDrawer: true,
+				welcomeStep: 1
+			});
+		},
+		closeWelcomeDrawer() {
+			var that = this;
+			that.triggerEvent('toggleTabBar', { show: true }, {});
+			that.setData({
+				showWelcomeDrawer: false,
+				welcomeStep: 1
+			});
+		},
+		setTotalAssetsUser(e) {
+			var that = this;
+			that.setData({
+				'userTotalInfo.total_assets_user': e.detail.value
+			})
+		},
+		welcomeToNextStep() {
+			var that = this;
+			if(that.data.welcomeStep === 1){
+				that.setData({
+					welcomeStep: 2
+				});
+			}else{
+				if(that.data.userTotalInfo.total_assets_user == ''){
+					wx.showToast({
+						title: '请输入本金',
+						icon: 'none'
+					});
+					return;
+				}
+				let total_assets_user = parseFloat(that.data.userTotalInfo.total_assets_user).toFixed(2);
+				let postData = {
+					total_assets_user: total_assets_user
+				}
+				that.setData({
+					'userTotalInfo.total_assets_user': total_assets_user
+				})
+				utils.getData({
+					url: 'auth/updateUserInfo',
+					params: postData,
+					success: function (res) {
+						if (res.code == 200) {
+							wx.setStorageSync('userInfo', res.data);
+							that.setData({
+								userInfo: res.data,
+								showWelcomeDrawer: false,
+								welcomeStep: 1,
+								count: 0
+							})
+
+							that.getData();
+						}
+					}
+				})
+			}
+			
 		},
 		// ? ------ 新增/编辑/删除基金 ------
 		showFundDrawer(e) {
@@ -160,6 +243,9 @@ Component({
 							title: res.message,
 							icon: 'success'
 						});
+						that.setData({
+							count: 0
+						})
 						that.closeFundDrawer();
 						that.getData();
 					} else {
@@ -190,6 +276,9 @@ Component({
 										title: res.message,
 										icon: 'success'
 									});
+									that.setData({
+										count: 0
+									})
 									that.getData();
 								}
 							}
@@ -295,6 +384,9 @@ Component({
 							title: res.message,
 							icon: 'success'
 						});
+						that.setData({
+							count: 0
+						})
 						that.closeBuySellDrawer();
 						that.getData();
 					} else {
@@ -430,6 +522,9 @@ Component({
 								title: formData.profit_loss_type ? '盈利已更新' : '亏损已更新',
 								icon: 'success'
 							});
+							that.setData({
+								count: 0
+							})
 							that.closeUpdateProfitDrawer();
 							that.getData();
 						} else {
@@ -458,8 +553,12 @@ Component({
 											title: formData.profit_loss_type ? '盈利已更新' : '亏损已更新',
 											icon: 'success'
 										});
+										that.setData({
+											count: 0
+										})
 										that.closeUpdateProfitDrawer();
 										that.getData();
+										
 									} else {
 										wx.showToast({
 											title: res.message,
@@ -515,9 +614,13 @@ Component({
 			var that = this;
 			that.setData({
 				tabbarRealHeight: wx.getStorageSync('tabbarRealHeight'),
-				count: 0
+				count: 0,
+				userInfo: wx.getStorageSync('userInfo')
 			})
-			
+			if(that.data.userInfo.total_assets_user == '0.00'){
+				that.showWelcomeDrawer();
+				return;
+			}
 			that.getData();
 		}
 	},
