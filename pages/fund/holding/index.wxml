@@ -14,8 +14,8 @@
       </view>
       
       <view class="content-bottom">
-        <view>
-          <view>总资产</view>
+        <view bindtap="updateTotalAssetsUser">
+          <view>总投入</view>
           <view>{{userTotalInfo.total_assets_user}}</view>
         </view>
         <view>
@@ -75,7 +75,7 @@
                 <view>{{item.total_cost}}</view>
               </view>
               <view>
-                <view>总投入</view>
+                <view>累计投入</view>
                 <view>{{item.total_amount}}</view>
               </view>
             </view>

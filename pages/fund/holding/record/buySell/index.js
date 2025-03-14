@@ -9,19 +9,34 @@ Page({
     fund_code: '',
     buySellList: [],
     currentMonth: '',
+    currentDate: '',
+    
+		showBuySellDrawer: false,
+		buySellFormData: {
+			fund_id: '',
+			transaction_type: 'buy',
+			shares: '',
+			net_value: '',
+			amount: '',
+			transaction_date: '',
+			fund_name: '' // 用于显示
+		},
+		transactionTypes: ['buy', 'sell'],
   },
   onLoad(options) {
 		var that = this;
     let now = new Date();
     let year = now.getFullYear();
     let month = (now.getMonth() + 1).toString().padStart(2, '0'); // 月份加 1 并补零
+    let day = String(now.getDate()).padStart(2, '0');
     
 		that.setData({
 			tabbarRealHeight: wx.getStorageSync('tabbarRealHeight'),
       fund_name: options.fund_name,
       fund_id: options.fund_id,
       fund_code: options.fund_code,
-      currentMonth: `${year}-${month}`
+      currentMonth: `${year}-${month}`,
+      currentDate: `${year}-${month}-${day}`
 		})
     that.getData();
   },
@@ -114,6 +129,114 @@ Page({
       }
     });
     
+  },
+  // ? ------ 买入卖出 ------
+  showBuySellDrawer() {
+    var that = this;
+    that.setData({
+      showBuySellDrawer: true,
+      buySellFormData: {
+        fund_id: that.data.fund_id,
+        transaction_type: 'buy',
+        shares: '',
+        net_value: '',
+        amount: '',
+        transaction_date: that.data.currentDate,
+        fund_name: that.data.fund_name
+      }
+    });
+  },
+  closeBuySellDrawer() {
+    var that = this;
+    that.triggerEvent('toggleTabBar', { show: true }, {});
+    that.setData({
+      showBuySellDrawer: false,
+      buySellFormData: {
+        fund_id: '',
+        transaction_type: 'buy',
+        shares: '',
+        net_value: '',
+        amount: '',
+        transaction_date: '',
+        fund_name: ''
+      }
+    });
+  },
+  handleBuySellInput(e) {
+    const field = e.currentTarget.dataset.field;
+    const value = e.detail.value;
+    this.setData({
+      [`buySellFormData.${field}`]: value
+    });
+
+    // 如果修改了份额或净值,自动计算金额
+    if (field === 'shares' || field === 'net_value') {
+      let shares = this.data.buySellFormData.shares || 0;
+      let netValue = this.data.buySellFormData.net_value || 0;
+      let amount = (parseFloat(shares) * parseFloat(netValue)).toFixed(4);
+      this.setData({
+        'buySellFormData.amount': amount
+      });
+    }
+  },
+  handleTransactionTypeChange(e) {
+    this.setData({
+      'buySellFormData.transaction_type': this.data.transactionTypes[e.detail.value]
+    });
+  },
+  handleTransactionDateChange(e) {
+    this.setData({
+      'buySellFormData.transaction_date': e.detail.value
+    });
+  },
+  submitBuySell() {
+    var that = this;
+    let formData = that.data.buySellFormData;
+    
+    if (!formData.shares) {
+      wx.showToast({
+        title: '请输入份额',
+        icon: 'none'
+      });
+      return;
+    }
+    if (!formData.net_value) {
+      wx.showToast({
+        title: '请输入净值',
+        icon: 'none'
+      });
+      return;
+    }
+    if (!formData.transaction_date) {
+      wx.showToast({
+        title: '请选择交易日期',
+        icon: 'none'
+      });
+      return;
+    }
+    
+    utils.getData({
+      url: 'fund/holdingTransactions/buysell',
+      params: formData,
+      success: (res) => {
+        if (res.code === 200) {
+          wx.showToast({
+            title: res.message,
+            icon: 'success'
+          });
+          that.setData({
+            count: 0
+          })
+          that.closeBuySellDrawer();
+          that.getData();
+        } else {
+          wx.showToast({
+            title: res.message,
+            icon: 'none'
+          });
+        }
+      }
+    });
   },
   onReady() {},
   onShow() {},

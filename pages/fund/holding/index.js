@@ -135,9 +135,9 @@ Component({
 				'userTotalInfo.total_assets_user': e.detail.value
 			})
 		},
-		welcomeToNextStep() {
+		welcomeToNextStep(e) {
 			var that = this;
-			if(that.data.welcomeStep === 1){
+			if(e.currentTarget.dataset.step === 1){
 				that.setData({
 					welcomeStep: 2
 				});
@@ -175,6 +175,14 @@ Component({
 				})
 			}
 			
+		},
+		updateTotalAssetsUser() {
+			var that = this;
+			that.triggerEvent('toggleTabBar', { show: false }, {});
+			that.setData({
+				welcomeStep: 2,
+				showWelcomeDrawer: true
+			})
 		},
 		// ? ------ 新增/编辑/删除基金 ------
 		showFundDrawer(e) {
