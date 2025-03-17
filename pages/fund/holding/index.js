@@ -86,17 +86,24 @@ Component({
 							item.current_net_value = ((1 + item.holding_profit_rate) * item.holding_cost).toFixed(4)
 							item.holding_profit_rate_percentage = (item.holding_profit_rate * 100).toFixed(2)
 							item.total_profit_rate_percentage = (item.total_profit_rate * 100).toFixed(2)
+							item.holding_shares = parseFloat(item.holding_shares).toFixed(2)
 							userTotalInfo.total_market_value_user += item.holding_amount*1
 							userTotalInfo.total_profit_user_today += item.dailyData.profit_loss*1
 							userTotalInfo.total_profit_user += item.holding_profit*1
+
+							// 个股仓位
+							item.holding_position = parseFloat((item.holding_amount*1 / userTotalInfo.total_market_value_user * 100)).toFixed(2)
 						})
-						userTotalInfo.total_market_value_user = parseFloat(userTotalInfo.total_market_value_user).toFixed(2)
+						if(isNaN(userTotalInfo.total_profit_user_today)){
+							userTotalInfo.total_profit_user_today = 0;
+						}
 						userTotalInfo.total_profit_user_today = parseFloat(userTotalInfo.total_profit_user_today).toFixed(2)
+						userTotalInfo.total_market_value_user = parseFloat(userTotalInfo.total_market_value_user).toFixed(2)
 						userTotalInfo.total_profit_user = parseFloat(userTotalInfo.total_profit_user).toFixed(2)
 						userTotalInfo.available_user = parseFloat((userTotalInfo.total_assets_user*1 - userTotalInfo.total_market_value_user*1)).toFixed(2)
 						userTotalInfo.holding_position_user = parseFloat((userTotalInfo.total_market_value_user*1 / userTotalInfo.total_assets_user * 100)).toFixed(2)
-						console.log(userTotalInfo);
-						
+						console.log(userTotalInfo, res.data);
+
 						that.setData({
 							holdingList: res.data,
 							userTotalInfo: userTotalInfo

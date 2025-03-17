@@ -1,0 +1,23 @@
+<view class="mode" style="margin-top: {{tabbarRealHeight  + 'px'}}; height: calc(100vh - {{tabbarRealHeight +90 + 'px'}});">
+  <view class="modetitle">
+		<view class="top">计算器</view>
+		<view class="bottom">利用它们，提升你的收益</view>
+		<!-- <view class="opt" bind:tap="addCountdown">
+			<image src="/static/image/add.png"></image>
+		</view> -->
+	</view>
+	<view class="toolsList">
+		<view class="toolsItem" wx:for="{{toolsList}}" wx:key="id" bindtap="goToPage" data-url="{{item.url}}">
+			<view>
+				<image src="{{item.icon}}"></image>
+			</view>
+			<view class="desc">
+				<view>{{item.title}}</view>
+				<view>{{item.desc}}</view>
+			</view>
+		</view>
+	</view>
+	<view></view>
+		
+		
+</view>

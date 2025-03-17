@@ -15,7 +15,7 @@
 		<Holding wx:if="{{activeIndex == 0}}" bindtoggleTabBar="toggleTabBar"></Holding>
   </swiper-item>
   <swiper-item>
-		<CalculateProfit wx:if="{{activeIndex == 1}}" bindtoggleTabBar="toggleTabBar"></CalculateProfit>
+		<Tools wx:if="{{activeIndex == 1}}" bindtoggleTabBar="toggleTabBar"></Tools>
   </swiper-item>
   <swiper-item>
 		<SetProfitThreshold wx:if="{{activeIndex == 2}}" bindtoggleTabBar="toggleTabBar"></SetProfitThreshold>

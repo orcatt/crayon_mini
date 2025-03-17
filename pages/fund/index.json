@@ -2,7 +2,8 @@
   "usingComponents": {
 		"customheader":"/components/CustomHeader/index",
 		"TabBar": "/components/tabBar/index",
-    "Holding": "/pages/fund/holding/index"
+    "Holding": "/pages/fund/holding/index",
+    "Tools": "/pages/fund/tools/index"
   },
   "navigationStyle": "custom"
 
