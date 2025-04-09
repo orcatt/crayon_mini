@@ -505,6 +505,86 @@
 .item-bottom-record>view>view:nth-child(2)>view:nth-child(2){
   font-size: 24rpx;
 }
+
+
+.item-omit{
+  /* width: 100%;
+  height: 100rpx;
+  display: flex;
+  align-items: center; */
+}
+
+
+.omit-top{
+  height: 50rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.omit-right {
+  display: flex;
+  height: 50rpx;
+}
+
+.omit-amount {
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 48rpx;
+  font-family: 'DouyinSansBold';
+  margin-bottom: 4rpx;
+}
+
+.omit-rate {
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 28rpx;
+  font-family: 'DouyinSansBold';
+}
+
+.omit-bottom{
+  width: 100%;
+  height: 90rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10rpx;
+}
+
+.omit-bottom-line{
+  width: 100%;
+  height: 90rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}
+.omit-bottom-line>view{
+  /* width: calc(100% / 3); */
+  height: 90rpx;
+  text-align: center;
+
+}
+.omit-bottom-line>view:nth-child(2){
+  width: 40%;
+  border-left: 2rpx solid #e0e0e0;
+  border-right: 2rpx solid #e0e0e0;
+}
+.omit-bottom-line>view>view:nth-child(1){
+  height: 40rpx;
+  line-height: 40rpx;
+  font-size: 24rpx;
+  color: #71717a;
+}
+.omit-bottom-line>view>view:nth-child(2){
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 28rpx;
+  font-family: 'DouyinSansBold';
+  color: #09090B;
+}
+
+
 /* 新增弹窗样式 */
 
 .add-btn {
@@ -730,7 +810,7 @@
 }
 
 .step-content-title {
-  font-size: 30rpx;
+  font-size: 32rpx;
   color: #18181b;
   font-family: 'DouyinSansBold';
   margin-bottom: 8rpx;

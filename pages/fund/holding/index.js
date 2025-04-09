@@ -204,7 +204,8 @@ Component({
 				let item = {
 					id: e.currentTarget.dataset.item.id,
 					fund_name: e.currentTarget.dataset.item.fund_name,
-					code: e.currentTarget.dataset.item.code
+					code: e.currentTarget.dataset.item.code,
+					index_code: e.currentTarget.dataset.item.index_code
 				}
 				that.setData({
 					showAddUpdateFundDrawer: true,
@@ -220,7 +221,8 @@ Component({
 				showAddUpdateFundDrawer: false,
 				fundFormData: {
 					fund_name: '',
-					code: ''
+					code: '',
+					index_code: ''
 				},
 				addUpdateFundType: 'add'
 			});
