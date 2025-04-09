@@ -180,6 +180,8 @@
 }
 
 .list-header {
+  height: 40rpx;
+  line-height: 40rpx;
   display: flex;
   justify-content: space-between;
   padding-bottom: 24rpx;
@@ -190,6 +192,12 @@
 .list-header>view {
   font-size: 28rpx;
   color: #71717a;
+}
+
+.list-header>view:nth-child(2){
+  font-size: 24rpx;
+  font-family: 'DouyinSansBold';
+  margin-top: 2rpx;
 }
 
 .list-sort{

@@ -197,6 +197,12 @@ Component({
 			// console.log(type, sort, that.data.sortType, that.data.holdingList);
 			
 		},
+		toggleFundExpand(e) {
+			const fundId = e.currentTarget.dataset.id;
+			this.setData({
+				expandedFundId: this.data.expandedFundId === fundId ? null : fundId
+			});
+		},
 		// ? ------ 欢迎弹窗 ------
 		showWelcomeDrawer() {
 			var that = this;
@@ -702,13 +708,11 @@ Component({
 				url: '/pages/fund/holding/record/profitLossUser/index',
 			})
 		},
-		// ? ------ 页面逻辑 ------
-		toggleFundExpand(e) {
-			const fundId = e.currentTarget.dataset.id;
-			this.setData({
-				expandedFundId: this.data.expandedFundId === fundId ? null : fundId
-			});
-		}
+		toLLMAnalysis(e) {
+			var that = this;
+			let item = e.currentTarget.dataset.item;
+			console.log(item);
+		},
 	},
   lifetimes: {
 		attached: function () {

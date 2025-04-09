@@ -46,7 +46,7 @@
   <view class="holding-list">
     <view class="list-header">
       <view>基金名称</view>
-      <view>持仓收益</view>
+      <view>批量操作</view>
     </view>
     <view class="list-sort">
       <view wx:for="{{sortType}}" wx:key="id" bindtap="handleSortTypeChange" data-type="{{item.type}}" data-sort="{{item.sort}}">
@@ -159,7 +159,7 @@
                   <text>{{item.holding_position}}%</text>
                 </view>
               </view>
-              <view>
+              <view bindtap="toLLMAnalysis" data-item="{{item}}">
                 <image src="/static/image/google_small.svg" mode="widthFix"></image>  
                 <view>量化大模型</view>
               </view>
