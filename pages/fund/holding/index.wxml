@@ -7,16 +7,20 @@
     <view class="holdingInfo-content">
       <view class="content-top">
         <view class="content-top-left {{userTotalInfo.total_profit_user_today >= 0 ? 'profit' : 'loss'}}">¥{{userTotalInfo.total_profit_user_today}}</view>
-        <view class="content-top-right">
-          <view>总盈亏</view>
-          <view>{{userTotalInfo.total_profit_user}}</view>
+        <view class="content-top-right" bindtap="updateTotalAssetsUser">
+           <view>总投入</view>
+          <view>{{userTotalInfo.total_assets_user}}</view>
         </view>
       </view>
       
       <view class="content-bottom">
-        <view bindtap="updateTotalAssetsUser">
-          <view>总投入</view>
-          <view>{{userTotalInfo.total_assets_user}}</view>
+        <view>
+          <view>总资产</view>
+          <view>{{userTotalInfo.total_available_assets_user}}</view>
+        </view>
+        <view>
+          <view>总盈亏</view>
+          <view>{{userTotalInfo.total_profit_user}}</view>
         </view>
         <view>
           <view>总市值</view>
@@ -44,10 +48,24 @@
       <view>基金名称</view>
       <view>持仓收益</view>
     </view>
+    <view class="list-sort">
+      <view wx:for="{{sortType}}" wx:key="id" bindtap="handleSortTypeChange" data-type="{{item.type}}" data-sort="{{item.sort}}">
+        <view>{{item.name}}</view>
+        <view>
+          <image src="/static/image/uptriangleactive.png" mode="widthFix" wx:if="{{item.sort === 'up'}}"></image>
+          <image src="/static/image/uptriangle.png" mode="widthFix" wx:else></image>
+          <image src="/static/image/downtriangleactive.png" mode="widthFix" wx:if="{{item.sort === 'down'}}"></image>
+          <image src="/static/image/downtriangle.png" mode="widthFix" wx:else></image>
+        </view>
+      </view>
+      
+    </view>
+      
     <view class="list-content">
       <view class="list-item" wx:for="{{holdingList}}" wx:key="id" >
-        <!-- <view class="item-complete">
-          <view class="item-top">
+        <!-- 完整显示 -->
+        <view class="item-complete" wx:if="{{expandedFundId === item.id}}">
+          <view class="item-top" bindtap="toggleFundExpand" data-id="{{item.id}}">
             <view class="item-left">
               <view class="fund-name">{{item.fund_name}}</view>
               <view class="fund-code">{{item.code}}</view>
@@ -141,7 +159,10 @@
                   <text>{{item.holding_position}}%</text>
                 </view>
               </view>
-              <view>量化分析</view>
+              <view>
+                <image src="/static/image/google_small.svg" mode="widthFix"></image>  
+                <view>量化大模型</view>
+              </view>
             </view>
           </view>
           <view class="item-bottom-btn">
@@ -150,9 +171,9 @@
             <view bindtap="showFundDrawer" data-type="edit" data-item="{{item}}">编辑</view>
             <view bindtap="deleteFund" data-id="{{item.id}}">删除</view>
           </view>
-        </view> -->
-          
-        <view class="item-omit">
+        </view>
+        <!-- 缩略显示 -->
+        <view class="item-omit" wx:else bindtap="toggleFundExpand" data-id="{{item.id}}">
           <view class="omit-top">
             <view class="fund-name">{{item.fund_name}}</view>
             <view class="omit-right">
@@ -164,7 +185,7 @@
             <view class="omit-bottom-line">
               <view>
                 <view>金额 / 数量</view>
-                <view>{{item.holding_amount}}/{{item.holding_shares}}</view>
+                <view>{{item.holding_amount}} / {{item.holding_shares}}</view>
               </view>
               <view>
                 <view>成本 / 现价</view>
@@ -311,9 +332,9 @@
         <view class="form-item">
           <view class="account-title">交易类型<text class="required">*</text></view>
           <view class="account-input">
-            <picker mode="selector" range="{{transactionTypes}}" bindchange="handleTransactionTypeChange">
+            <picker mode="selector" range="{{transactionTypes}}" range-key="name" bindchange="handleTransactionTypeChange">
               <view class="{{buySellFormData.transaction_type ? '' : 'placeholderClass'}}">
-                {{buySellFormData.transaction_type || '请选择交易类型'}}
+                {{buySellFormData.transaction_type ? buySellFormData.transaction_type == 'buy' ? '买入' : '卖出' : '请选择交易类型'}}
               </view>
             </picker>
           </view>

@@ -192,6 +192,45 @@
   color: #71717a;
 }
 
+.list-sort{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.list-sort>view{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8rpx;
+}
+
+.list-sort>view>view:nth-child(1){
+  font-size: 24rpx;
+  color: #71717a;
+}
+
+.list-sort>view>view:nth-child(2){
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.list-sort>view>view:nth-child(2)>image{
+  width: 18rpx;
+  height: 18rpx;
+}
+
+.list-sort>view>view:nth-child(2)>image:nth-child(1){
+  margin-bottom: -4rpx;
+}
+
+.list-sort>view>view:nth-child(2)>image:nth-child(2){
+  margin-top: -2rpx;
+}
+
+
 .list-content {
   display: flex;
   flex-direction: column;
@@ -414,6 +453,15 @@
   font-size: 28rpx;
   border-radius: 12rpx;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10rpx;
+}
+.item-composite>view:nth-child(2)>image{
+  width: 34rpx;
+  height: 34rpx;
+  vertical-align: sub;
 }
 
 .item-bottom-btn{
@@ -463,58 +511,8 @@
   
 }
 
-.item-bottom-record{
-  margin-top: 20rpx;
-  width: 100%;
-  height: 120rpx;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20rpx;
-}
-.item-bottom-record>view{
-  width: 50%;
-  height: 100%;
-  border: 2rpx solid #e0e0e0;
-  color: #09090B;
-  font-size: 28rpx;
-  padding: 14rpx 20rpx 0 20rpx;
-  box-sizing: border-box;
-  border-radius: 12rpx;
 
-  display: flex;
-  gap: 10rpx;
-}
-.item-bottom-record>view>view:nth-child(1){
-  width: 40rpx;
-  height: 50rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.item-bottom-record>view>view:nth-child(1)>image{
-  width: 32rpx;
-  height: 32rpx;
-}
-.item-bottom-record>view>view:nth-child(2)>view:nth-child(1){
-  height: 50rpx;
-  line-height: 50rpx;
-  font-size: 28rpx;
-  color: #09090B;
-}
-.item-bottom-record>view>view:nth-child(2)>view:nth-child(2){
-  font-size: 24rpx;
-}
-
-
-.item-omit{
-  /* width: 100%;
-  height: 100rpx;
-  display: flex;
-  align-items: center; */
-}
-
-
+/* 缩略显示 */
 .omit-top{
   height: 50rpx;
   display: flex;
@@ -530,7 +528,7 @@
 .omit-amount {
   height: 50rpx;
   line-height: 50rpx;
-  font-size: 48rpx;
+  font-size: 40rpx;
   font-family: 'DouyinSansBold';
   margin-bottom: 4rpx;
 }
@@ -579,7 +577,7 @@
 .omit-bottom-line>view>view:nth-child(2){
   height: 50rpx;
   line-height: 50rpx;
-  font-size: 28rpx;
+  font-size: 26rpx;
   font-family: 'DouyinSansBold';
   color: #09090B;
 }

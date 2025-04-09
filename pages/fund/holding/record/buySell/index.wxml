@@ -70,12 +70,12 @@
       </view>
 
       <view class="form-row">
-        <view class="form-item">
+         <view class="form-item">
           <view class="account-title">交易类型<text class="required">*</text></view>
           <view class="account-input">
-            <picker mode="selector" range="{{transactionTypes}}" bindchange="handleTransactionTypeChange">
+            <picker mode="selector" range="{{transactionTypes}}" range-key="name" bindchange="handleTransactionTypeChange">
               <view class="{{buySellFormData.transaction_type ? '' : 'placeholderClass'}}">
-                {{buySellFormData.transaction_type || '请选择交易类型'}}
+                {{buySellFormData.transaction_type ? buySellFormData.transaction_type == 'buy' ? '买入' : '卖出' : '请选择交易类型'}}
               </view>
             </picker>
           </view>

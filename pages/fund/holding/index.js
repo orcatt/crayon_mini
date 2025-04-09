@@ -10,12 +10,13 @@ Component({
 		welcomeStep: 1,
 		userInfo: {},
 		userTotalInfo: {
-			total_assets_user: '', // 总资产
-			total_market_value_user: '', // 总市值
-			available_user: '', // 可用
-			total_profit_user_today: '', // 当日总盈亏
-			total_profit_user: '', // 总盈亏
-			holding_position_user: '', // 仓位
+			total_assets_user: '', // 原始投入（本金）
+			total_available_assets_user: '', // 总资产=原始投入+-总盈亏
+			total_market_value_user: '', // 总市值=所有持仓市值之和
+			available_user: '', // 可用=总资产-总市值
+			total_profit_user_today: '', // 当日总盈亏=所有持仓当日盈亏之和
+			total_profit_user: '', // 总盈亏=所有持仓盈亏之和
+			holding_position_user: '', // 仓位=总市值/总资产
 		},
 		holdingList: [],
 		showAddUpdateFundDrawer: false,
@@ -34,7 +35,16 @@ Component({
 			transaction_date: '',
 			fund_name: '' // 用于显示
 		},
-		transactionTypes: ['buy', 'sell'],
+		transactionTypes: [
+			{
+				name: '买入',
+				value: 'buy'
+			},
+			{
+				name: '卖出',
+				value: 'sell'
+			}
+		],
 		showUpdateProfitDrawer: false,
 		updateProfitFormData: {
 			fund_id: '',
@@ -44,7 +54,29 @@ Component({
 			profit_loss_type: true, // 盈亏
 			profit_loss_addOrUpdate: 'add' // 盈亏类型
 		},
-		count: 0
+		count: 0,
+		expandedFundId: null,
+		sortType: [{
+			name: '金额',
+			type: 'amount',
+			sort: null
+		},{
+			name: '数量',
+			type: 'shares',
+			sort: null
+		},{
+			name: '仓位',
+			type: 'position',
+			sort: null
+		},{
+			name: '盈亏',
+			type: 'profit',
+			sort: null
+		},{
+			name: '当日盈亏',
+			type: 'daily_profit',
+			sort: null
+		}],
   },
   methods: {
 		getData(){
@@ -74,7 +106,8 @@ Component({
 				success: (res) => {
 					if (res.code === 200) {
 						let userTotalInfo = {
-							total_assets_user: that.data.userInfo.total_assets_user, // 总资产
+							total_assets_user: that.data.userInfo.total_assets_user, // 原始投入（本金）
+							total_available_assets_user: that.data.userInfo.total_assets_user, // 总资产=原始投入+-总盈亏
 							total_market_value_user: 0, // 总市值
 							available_user: 0, // 可用
 							total_profit_user_today: 0, // 当日总盈亏
@@ -83,26 +116,33 @@ Component({
 						}
 						
 						res.data.forEach(item => {
-							item.current_net_value = ((1 + item.holding_profit_rate) * item.holding_cost).toFixed(4)
+							item.holding_cost = parseFloat(item.holding_cost).toFixed(3)
+							item.current_net_value = ((1 + item.holding_profit_rate) * item.holding_cost).toFixed(3)
 							item.holding_profit_rate_percentage = (item.holding_profit_rate * 100).toFixed(2)
 							item.total_profit_rate_percentage = (item.total_profit_rate * 100).toFixed(2)
-							item.holding_shares = parseFloat(item.holding_shares).toFixed(2)
+							item.holding_shares = parseFloat(item.holding_shares).toFixed(0)
 							userTotalInfo.total_market_value_user += item.holding_amount*1
 							userTotalInfo.total_profit_user_today += item.dailyData.profit_loss*1
 							userTotalInfo.total_profit_user += item.holding_profit*1
 
+						})
+
+						res.data.forEach(item => {
 							// 个股仓位
 							item.holding_position = parseFloat((item.holding_amount*1 / userTotalInfo.total_market_value_user * 100)).toFixed(2)
 						})
+
 						if(isNaN(userTotalInfo.total_profit_user_today)){
 							userTotalInfo.total_profit_user_today = 0;
 						}
 						userTotalInfo.total_profit_user_today = parseFloat(userTotalInfo.total_profit_user_today).toFixed(2)
 						userTotalInfo.total_market_value_user = parseFloat(userTotalInfo.total_market_value_user).toFixed(2)
 						userTotalInfo.total_profit_user = parseFloat(userTotalInfo.total_profit_user).toFixed(2)
-						userTotalInfo.available_user = parseFloat((userTotalInfo.total_assets_user*1 - userTotalInfo.total_market_value_user*1)).toFixed(2)
-						userTotalInfo.holding_position_user = parseFloat((userTotalInfo.total_market_value_user*1 / userTotalInfo.total_assets_user * 100)).toFixed(2)
+						userTotalInfo.total_available_assets_user = parseFloat(userTotalInfo.total_available_assets_user*1 + userTotalInfo.total_profit_user*1).toFixed(2)
+						userTotalInfo.available_user = parseFloat((userTotalInfo.total_available_assets_user*1 - userTotalInfo.total_market_value_user*1)).toFixed(2)
+						userTotalInfo.holding_position_user = parseFloat((userTotalInfo.total_market_value_user*1 / userTotalInfo.total_available_assets_user * 100)).toFixed(2)
 						console.log(userTotalInfo, res.data);
+						
 
 						that.setData({
 							holdingList: res.data,
@@ -118,6 +158,44 @@ Component({
 					}
 				}
 			});
+		},
+		// 排序
+		handleSortTypeChange(e){
+			var that = this;
+			let type = e.currentTarget.dataset.type;
+			let sort = !e.currentTarget.dataset.sort ? 'down' : e.currentTarget.dataset.sort === 'down' ? 'up' : null;
+
+			that.setData({
+				expandedFundId: null,
+				sortType: that.data.sortType.map(item => ({...item, sort: item.type === type ? sort : null}))
+			})
+
+			if(type === 'amount'){
+				that.data.holdingList.sort((a, b) => {
+					return sort === 'up' ? a.holding_amount - b.holding_amount : b.holding_amount - a.holding_amount
+				})
+			}else if(type === 'shares'){
+				that.data.holdingList.sort((a, b) => {
+					return sort === 'up' ? a.holding_shares - b.holding_shares : b.holding_shares - a.holding_shares
+				})
+			}else if(type === 'position'){
+				that.data.holdingList.sort((a, b) => {
+					return sort === 'up' ? a.holding_position - b.holding_position : b.holding_position - a.holding_position
+				})
+			}else if(type === 'profit'){
+				that.data.holdingList.sort((a, b) => {
+					return sort === 'up' ? a.holding_profit - b.holding_profit : b.holding_profit - a.holding_profit
+				})
+			}else if(type === 'daily_profit'){
+				that.data.holdingList.sort((a, b) => {
+					return sort === 'up' ? a.dailyData.profit_loss - b.dailyData.profit_loss : b.dailyData.profit_loss - a.dailyData.profit_loss
+				})
+			}
+			that.setData({
+				holdingList: that.data.holdingList
+			})
+			// console.log(type, sort, that.data.sortType, that.data.holdingList);
+			
 		},
 		// ? ------ 欢迎弹窗 ------
 		showWelcomeDrawer() {
@@ -358,7 +436,7 @@ Component({
 		},
 		handleTransactionTypeChange(e) {
 			this.setData({
-				'buySellFormData.transaction_type': this.data.transactionTypes[e.detail.value]
+				'buySellFormData.transaction_type': this.data.transactionTypes[e.detail.value].value
 			});
 		},
 		handleTransactionDateChange(e) {
@@ -369,7 +447,6 @@ Component({
 		submitBuySell() {
 			var that = this;
 			let formData = that.data.buySellFormData;
-			
 			if (!formData.shares) {
 				wx.showToast({
 					title: '请输入份额',
@@ -624,6 +701,13 @@ Component({
 			wx.navigateTo({
 				url: '/pages/fund/holding/record/profitLossUser/index',
 			})
+		},
+		// ? ------ 页面逻辑 ------
+		toggleFundExpand(e) {
+			const fundId = e.currentTarget.dataset.id;
+			this.setData({
+				expandedFundId: this.data.expandedFundId === fundId ? null : fundId
+			});
 		}
 	},
   lifetimes: {

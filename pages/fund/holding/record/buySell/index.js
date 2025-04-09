@@ -21,7 +21,16 @@ Page({
 			transaction_date: '',
 			fund_name: '' // 用于显示
 		},
-		transactionTypes: ['buy', 'sell'],
+		transactionTypes: [
+			{
+				name: '买入',
+				value: 'buy'
+			},
+			{
+				name: '卖出',
+				value: 'sell'
+			}
+		],
   },
   onLoad(options) {
 		var that = this;
@@ -181,7 +190,7 @@ Page({
   },
   handleTransactionTypeChange(e) {
     this.setData({
-      'buySellFormData.transaction_type': this.data.transactionTypes[e.detail.value]
+      'buySellFormData.transaction_type': this.data.transactionTypes[e.detail.value].value
     });
   },
   handleTransactionDateChange(e) {
