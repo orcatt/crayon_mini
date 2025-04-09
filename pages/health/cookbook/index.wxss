@@ -379,20 +379,43 @@
   height: 400rpx;
 }
 
-.recipe-image image {
+.recipe-image>image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 .edit-detail {
   position: absolute;
+  width: 90rpx;
+  height: 52rpx;
   bottom: 30rpx;
   right: 30rpx;
   color: #fff;
   font-size: 24rpx;
   background: rgba(0, 0, 0, 0.5);
-  padding: 10rpx 20rpx;
+  padding: 10rpx;
+  box-sizing: border-box;
   border-radius: 12rpx;
+  text-align: center;
+}
+
+.delete-detail {
+  position: absolute;
+  width: 52rpx;
+  height: 52rpx;
+  bottom: 30rpx;
+  right: 130rpx;
+  color: #fff;
+  font-size: 24rpx;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 6rpx;
+  box-sizing: border-box;
+  border-radius: 12rpx;
+  text-align: center;
+}
+.delete-detail>image{
+  width: 40rpx;
+  height: 40rpx;
 }
 
 .close-detail {

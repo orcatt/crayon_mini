@@ -6,7 +6,7 @@ Component({
 
   },
   data: {
-		tabbarRealHeight: 0,
+    tabbarRealHeight: 0,
     cookbookList: [],
     page: 1,
     limit: 20,
@@ -20,7 +20,7 @@ Component({
       image_path: ''
     },
     currentTag: '',
-		recipe_id: "",
+    recipe_id: "",
     ingredients: [],
     unitList: [
       { value: '1', label: '克' },
@@ -40,35 +40,34 @@ Component({
     getCookbookList() {
       var that = this;
       const postData = {
-				page: that.data.page,
-				limit: that.data.limit
-			};
-			utils.getData({
-				url: 'health/recipes/list',
-				params: postData,
-				success: (res) => {
-					if (res.code === 200) {
+        page: that.data.page,
+        limit: that.data.limit
+      };
+      utils.getData({
+        url: 'health/recipes/list',
+        params: postData,
+        success: (res) => {
+          if (res.code === 200) {
             res.data.data.forEach(item => {
               item.tags = item.tags.split(',')
             });
             that.setData({
               cookbookList: res.data.data
             })
-            console.log(res.data.data)
-					} else {
-						wx.showToast({
-							title: res.message,
-							icon: 'none'
-						});
-					}
-				}
-			});
+          } else {
+            wx.showToast({
+              title: res.message,
+              icon: 'none'
+            });
+          }
+        }
+      });
     },
 
-		// ? ---- 新增菜品 ----
+    // ? ---- 新增菜品 ----
     addRecipe() {
-			var that = this;
-			that.triggerEvent('toggleTabBar', { show: false }, {});
+      var that = this;
+      that.triggerEvent('toggleTabBar', { show: false }, {});
       that.setData({
         showAddDrawer: true,
         formData: {
@@ -81,8 +80,8 @@ Component({
     },
     closeAddDrawer() {
       var that = this;
-      console.log(that.data.isEditStatus, that.data.formData);
-      if(!that.data.isEditStatus && that.data.formData.image_path){
+      // console.log(that.data.isEditStatus, that.data.formData);
+      if (!that.data.isEditStatus && that.data.formData.image_path) {
         that.deleteImage();
       }
       that.triggerEvent('toggleTabBar', { show: true }, {});
@@ -98,8 +97,8 @@ Component({
         },
         ingredients: []
       });
-      
-      
+
+
     },
     handleNameInput(e) {
       this.setData({
@@ -146,7 +145,7 @@ Component({
         'formData.tags': that.data.formData.tags
       });
     },
-		nextStepTo2() {
+    nextStepTo2() {
       var that = this;
       if (!that.data.formData.name.trim()) {
         wx.showToast({
@@ -155,7 +154,7 @@ Component({
         });
         return;
       }
-      
+
       if (that.data.formData.tags.length === 0) {
         wx.showToast({
           title: '请至少添加一个标签',
@@ -164,9 +163,9 @@ Component({
         return;
       }
 
-			let formData = that.data.formData;      
-			formData.tags = formData.tags.join(',');
-      
+      let formData = that.data.formData;
+      formData.tags = formData.tags.join(',');
+
       const postData = {
         name: formData.name,
         tags: formData.tags,
@@ -174,7 +173,7 @@ Component({
         is_pinned: formData.is_pinned,
         image_path: formData.image_path
       };
-      
+
       if (that.data.isEditStatus) {
         postData.id = formData.id;
         utils.getData({
@@ -194,15 +193,15 @@ Component({
               });
               that.setData({
                 step: 2,
-                recipe_id: res.data.id,
+                recipe_id: res.data.data.id,
                 ingredients: ingredients
               })
-              console.log(that.data.ingredients);
+              
               that.getCookbookList()
             }
           }
         });
-      }else{
+      } else {
         utils.getData({
           url: 'health/recipes/add',
           params: postData,
@@ -210,8 +209,10 @@ Component({
             if (res.code === 200) {
               that.setData({
                 step: 2,
-                recipe_id: res.data.id
+                recipe_id: res.data.data.id,
+                recipeDetail: res.data.data
               })
+              
               that.getCookbookList()
             } else {
               wx.showToast({
@@ -224,7 +225,7 @@ Component({
       }
     },
 
-		// ? ---- 补充食材 ----
+    // ? ---- 补充食材 ----
     addIngredient() {
       const ingredients = this.data.ingredients;
       ingredients.push({
@@ -347,7 +348,7 @@ Component({
       });
     },
 
-		// ? ---- 补充步骤 ----
+    // ? ---- 补充步骤 ----
     closeStepsDrawer() {
       var that = this;
       that.triggerEvent('toggleTabBar', { show: true }, {});
@@ -440,21 +441,20 @@ Component({
       });
     },
 
-		// ? ---- 查看菜谱 ----
+    // ? ---- 查看菜谱 ----
     viewRecipeDetail(e) {
       const recipeId = e.currentTarget.dataset.id;
       var that = this;
       that.triggerEvent('toggleTabBar', { show: false }, {});
       // recipeId去匹配cookbookList
-			that.data.cookbookList.forEach(item => {
-				if (item.recipe_id === recipeId) {
-					console.log(item)
-					that.setData({
-						recipeDetail: item,
-						showDetailDrawer: true
-					})
-				}
-			})
+      that.data.cookbookList.forEach(item => {
+        if (item.recipe_id === recipeId) {
+          that.setData({
+            recipeDetail: item,
+            showDetailDrawer: true
+          })
+        }
+      })
     },
     closeDetailDrawer() {
       var that = this;
@@ -464,7 +464,8 @@ Component({
         recipeDetail: null
       });
     },
-		// ? ---- 编辑菜谱 ----
+
+    // ? ---- 编辑菜谱 ----
     editDetail() {
       var that = this;
       that.setData({
@@ -482,11 +483,39 @@ Component({
         }
       });
     },
+    deleteRecipe() {
+      var that = this;
+      wx.showModal({
+        title: '提示',
+        content: '确定删除该菜谱吗？',
+        success: (res) => {
+          if (res.confirm) {
+            utils.getData({
+              url: 'health/recipes/delete',
+              params: {
+                id: that.data.recipeDetail.recipe_id
+              },
+              success: (res) => {
+                if (res.code === 200) {
+                  that.closeDetailDrawer();
+                  that.getCookbookList();
+                } else {
+                  wx.showToast({
+                    title: res.message,
+                    icon: 'none'
+                  });
+                }
+              }
+            });
+          }
+        }
+      });
+    },
     chooseImage() {
       var that = this;
       wx.showActionSheet({
         itemList: ['拍照', '从相册选择'],
-        success: function(res) {
+        success: function (res) {
           if (!res.cancel) {
             const sourceType = res.tapIndex === 0 ? ['camera'] : ['album'];
             wx.chooseMedia({
@@ -516,14 +545,11 @@ Component({
           'Authorization': 'Bearer ' + wx.getStorageSync('token')
         },
         success: (res) => {
-          console.log(res);
           let data = JSON.parse(res.data);
           if (data.code == 200) {
-            console.log(data.data);
             that.setData({
               'formData.image_path': data.data.image_path
             });
-            console.log(that.data.formData);
           } else {
             wx.showToast({
               title: res.message || '上传失败',
@@ -555,7 +581,7 @@ Component({
             that.setData({
               'formData.image_path': ''
             });
-          }else{
+          } else {
             wx.showToast({
               title: res.message,
               icon: 'none'
@@ -565,13 +591,13 @@ Component({
       });
     },
   },
-	lifetimes: {
-		attached: function () {
-			var that = this;
-			that.setData({
-				tabbarRealHeight: wx.getStorageSync('tabbarRealHeight'),
-			})
+  lifetimes: {
+    attached: function () {
+      var that = this;
+      that.setData({
+        tabbarRealHeight: wx.getStorageSync('tabbarRealHeight'),
+      })
       that.getCookbookList()
-		}
-	}
+    }
+  }
 })
