@@ -223,8 +223,8 @@
           <view class="step-row" wx:for="{{recipeDetail.steps}}" wx:key="step_id">
             <view class="step-number">{{item.step_number}}</view>
             <view class="step-content">
-              <text>{{item.step_content}}</text>
-              <image wx:if="{{item.step_image_path}}" src="{{item.step_image_path}}" mode="aspectFill"></image>
+              <text>{{item.content}}</text>
+              <image wx:if="{{item.image_path}}" src="{{item.image_path}}" mode="aspectFill"></image>
             </view>
           </view>
         </view>

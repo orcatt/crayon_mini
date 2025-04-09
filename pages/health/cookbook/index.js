@@ -193,7 +193,6 @@ Component({
               });
               that.setData({
                 step: 2,
-                recipe_id: res.data.data.id,
                 ingredients: ingredients
               })
               
@@ -321,8 +320,8 @@ Component({
               that.data.recipeDetail.steps.forEach(item => {
                 let obj = {
                   step_number: item.step_number,
-                  content: item.step_content,
-                  image_path: item.step_image_path
+                  content: item.content,
+                  image_path: item.image_path
                 }
                 steps.push(obj);
               });
@@ -473,6 +472,7 @@ Component({
         showAddDrawer: true,
         showDetailDrawer: false,
         step: 1,
+        recipe_id: that.data.recipeDetail.recipe_id,
         formData: {
           id: that.data.recipeDetail.recipe_id,
           name: that.data.recipeDetail.recipe_name,
