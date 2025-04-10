@@ -171,6 +171,29 @@ Page({
       }
     });
   },
+  addReduceSharesHundred(e) {
+    var that = this;
+    let type = e.currentTarget.dataset.type;
+    let shares = that.data.buySellFormData.shares;
+    if (type === 'reduce') {
+      shares = shares*1 - 100;
+      if (shares < 0) {
+        wx.showToast({
+          title: '份额不能小于0',
+          icon: 'none'
+        });
+        return;
+      }
+    } else {
+      shares = shares*1 + 100;
+    }
+    let netValue = that.data.buySellFormData.net_value;
+    let amount = (parseFloat(shares) * parseFloat(netValue)).toFixed(2);
+    that.setData({
+      'buySellFormData.shares': shares,
+      'buySellFormData.amount': amount
+    });
+  },
   handleBuySellInput(e) {
     const field = e.currentTarget.dataset.field;
     const value = e.detail.value;
@@ -182,15 +205,16 @@ Page({
     if (field === 'shares' || field === 'net_value') {
       let shares = this.data.buySellFormData.shares || 0;
       let netValue = this.data.buySellFormData.net_value || 0;
-      let amount = (parseFloat(shares) * parseFloat(netValue)).toFixed(4);
+      let amount = (parseFloat(shares) * parseFloat(netValue)).toFixed(2);
       this.setData({
         'buySellFormData.amount': amount
       });
     }
   },
   handleTransactionTypeChange(e) {
-    this.setData({
-      'buySellFormData.transaction_type': this.data.transactionTypes[e.detail.value].value
+    var that = this;
+    that.setData({
+      'buySellFormData.transaction_type': that.data.buySellFormData.transaction_type === 'buy' ? 'sell' : 'buy'
     });
   },
   handleTransactionDateChange(e) {

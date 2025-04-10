@@ -827,3 +827,19 @@
   color: #71717a;
   line-height: 1.5;
 }
+
+
+.shares-input{
+  padding: 0 15rpx !important;
+}
+.shares-input>input{
+  text-align: center;
+  padding: 0 10rpx;
+  box-sizing: border-box;
+}
+
+.shares-input>image{
+  width: 60rpx;
+  height: 60rpx;
+  vertical-align: sub;
+}

@@ -423,26 +423,51 @@ Component({
 				}
 			});
 		},
+		addReduceSharesHundred(e) {
+			var that = this;
+			let type = e.currentTarget.dataset.type;
+			let shares = that.data.buySellFormData.shares;
+			if (type === 'reduce') {
+				shares = shares*1 - 100;
+				if (shares < 0) {
+					wx.showToast({
+						title: '份额不能小于0',
+						icon: 'none'
+					});
+					return;
+				}
+			} else {
+				shares = shares*1 + 100;
+			}
+			let netValue = that.data.buySellFormData.net_value;
+			let amount = (parseFloat(shares) * parseFloat(netValue)).toFixed(2);
+			that.setData({
+				'buySellFormData.shares': shares,
+				'buySellFormData.amount': amount
+			});
+		},
 		handleBuySellInput(e) {
+			var that = this;
 			const field = e.currentTarget.dataset.field;
 			const value = e.detail.value;
-			this.setData({
+			that.setData({
 				[`buySellFormData.${field}`]: value
 			});
 
 			// 如果修改了份额或净值,自动计算金额
 			if (field === 'shares' || field === 'net_value') {
-				let shares = this.data.buySellFormData.shares || 0;
-				let netValue = this.data.buySellFormData.net_value || 0;
-				let amount = (parseFloat(shares) * parseFloat(netValue)).toFixed(4);
-				this.setData({
+				let shares = that.data.buySellFormData.shares || 0;
+				let netValue = that.data.buySellFormData.net_value || 0;
+				let amount = (parseFloat(shares) * parseFloat(netValue)).toFixed(2);
+				that.setData({
 					'buySellFormData.amount': amount
 				});
 			}
 		},
 		handleTransactionTypeChange(e) {
-			this.setData({
-				'buySellFormData.transaction_type': this.data.transactionTypes[e.detail.value].value
+			var that = this;
+			that.setData({
+				'buySellFormData.transaction_type': that.data.buySellFormData.transaction_type === 'buy' ? 'sell' : 'buy'
 			});
 		},
 		handleTransactionDateChange(e) {
@@ -577,6 +602,47 @@ Component({
 			this.setData({
 				'updateProfitFormData.transaction_date': e.detail.value
 			});
+		},
+		deleteUpdateProfit() {
+			var that = this;
+			if(that.data.selectedDay.profit_loss_id == 0) {
+				wx.showToast({
+					title: '没有收益记录',
+					icon: 'none'
+				});
+				return;
+			}
+			wx.showModal({
+				title: '提示',
+				content: '确定删除该收益记录吗？',
+				success: (res) => {
+					if (res.confirm) {
+						let postData = {
+							profit_loss_id: that.data.updateProfitFormData.profit_loss_id
+						}
+						utils.getData({
+							url: 'fund/holdingShares/deleteProfitLoss',
+							params: postData,
+							success: (res) => {
+								if (res.code === 200) {
+									wx.showToast({
+										title: '删除成功',
+										icon: 'success'
+									});
+									that.closeUpdateProfitDrawer();
+									that.getData();
+								} else {
+									wx.showToast({
+										title: res.message,
+										icon: 'none'
+									});
+								}
+							}
+						});
+					}
+				}
+			})
+			
 		},
 		submitUpdateProfit() {
 			var that = this;

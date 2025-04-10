@@ -243,6 +243,47 @@ Page({
       'updateProfitFormData.transaction_date': e.detail.value
     });
   },
+  deleteUpdateProfit() {
+    var that = this;
+    if(that.data.selectedDay.profit_loss_id == 0) {
+      wx.showToast({
+        title: '没有收益记录',
+        icon: 'none'
+      });
+      return;
+    }
+    wx.showModal({
+      title: '提示',
+      content: '确定删除该收益记录吗？',
+      success: (res) => {
+        if (res.confirm) {
+          let postData = {
+            profit_loss_id: that.data.selectedDay.profit_loss_id
+          }
+          utils.getData({
+            url: 'fund/holdingShares/deleteProfitLoss',
+            params: postData,
+            success: (res) => {
+              if (res.code === 200) {
+                wx.showToast({
+                  title: '删除成功',
+                  icon: 'success'
+                });
+                that.closeUpdateProfitDrawer();
+                that.getData();
+              } else {
+                wx.showToast({
+                  title: res.message,
+                  icon: 'none'
+                });
+              }
+            }
+          });
+        }
+      }
+    })
+    
+  },
   submitUpdateProfit() {
     var that = this;
     let formData = that.data.updateProfitFormData;
@@ -336,39 +377,6 @@ Page({
     }
     
     
-  },
-  deleteRecord() {
-    var that = this;
-    let postData = {
-      profit_loss_id: that.data.selectedDay.profit_loss_id
-    }
-    wx.showModal({
-      title: '提示',
-      content: '是否删除该收益记录？',
-      success: (res) => {
-        if (res.confirm) {
-          utils.getData({
-            url: 'fund/holdingShares/deleteProfitLoss',
-            params: postData,
-            success: (res) => {
-              if (res.code === 200) {
-                wx.showToast({
-                  title: res.message,
-                  icon: 'success'
-                });
-                that.closeDetailDrawer();
-                that.getData();
-              } else {
-                wx.showToast({
-                  title: res.message,
-                  icon: 'none'
-                });
-              }
-            }
-          });
-        }
-      }
-    });
   },
   
   onReady() {},

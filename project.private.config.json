@@ -9,11 +9,18 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/fund/index",
+          "pathName": "pages/fund/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/user/my/slave/index",
           "pathName": "pages/user/my/slave/index",
           "query": "",
-          "scene": null,
-          "launchMode": "default"
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

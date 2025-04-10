@@ -118,7 +118,7 @@
 
     <view class="btn-group-submit">
       <view class="wx-login-btn" bindtap="submitUpdateProfit">提交</view>
-      <view class="otherlogin" bindtap="closeUpdateProfitDrawer">取消</view>
+      <view class="otherlogin" bindtap="deleteUpdateProfit">删除</view>
     </view>
   </view>
 </view>

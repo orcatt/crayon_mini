@@ -296,3 +296,18 @@ page{
 .account-input input:disabled {
   color: #71717a;
 }
+
+.shares-input{
+  padding: 0 15rpx !important;
+}
+.shares-input>input{
+  text-align: center;
+  padding: 0 10rpx;
+  box-sizing: border-box;
+}
+
+.shares-input>image{
+  width: 60rpx;
+  height: 60rpx;
+  vertical-align: sub;
+}

@@ -331,12 +331,10 @@
       <view class="form-row">
         <view class="form-item">
           <view class="account-title">交易类型<text class="required">*</text></view>
-          <view class="account-input">
-            <picker mode="selector" range="{{transactionTypes}}" range-key="name" bindchange="handleTransactionTypeChange">
-              <view class="{{buySellFormData.transaction_type ? '' : 'placeholderClass'}}">
-                {{buySellFormData.transaction_type ? buySellFormData.transaction_type == 'buy' ? '买入' : '卖出' : '请选择交易类型'}}
-              </view>
-            </picker>
+          <view class="account-input" bindtap="handleTransactionTypeChange">
+            <view wx:for="{{transactionTypes}}" wx:key="id">
+              <view wx:if="{{item.value === buySellFormData.transaction_type}}">{{item.name}}</view>
+            </view>
           </view>
         </view>
         <view class="form-item">
@@ -353,15 +351,17 @@
 
       <view class="form-row">
         <view class="form-item">
-          <view class="account-title">份额<text class="required">*</text></view>
-          <view class="account-input">
-            <input type="digit" value="{{buySellFormData.shares}}" data-field="shares" bindinput="handleBuySellInput" placeholder="请输入份额" />
-          </view>
-        </view>
-        <view class="form-item">
           <view class="account-title">净值<text class="required">*</text></view>
           <view class="account-input">
             <input type="digit" value="{{buySellFormData.net_value}}" data-field="net_value" bindinput="handleBuySellInput" placeholder="请输入净值" />
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">份额<text class="required">*</text></view>
+          <view class="account-input shares-input" style="padding-right: 0;">
+            <image src="/static/image/reduce.png" mode="widthFix" bindtap="addReduceSharesHundred" data-type="reduce" />
+            <input type="digit" value="{{buySellFormData.shares}}" data-field="shares" bindinput="handleBuySellInput" placeholder="份额" />
+            <image src="/static/image/add.png" mode="widthFix" bindtap="addReduceSharesHundred" data-type="add" />
           </view>
         </view>
         <view class="form-item">
@@ -435,7 +435,7 @@
 
     <view class="btn-group">
       <view class="wx-login-btn" bindtap="submitUpdateProfit">提交</view>
-      <view class="otherlogin" bindtap="closeUpdateProfitDrawer">取消</view>
+      <view class="otherlogin" bindtap="deleteUpdateProfit">删除</view>
     </view>
   </view>
 </view>
