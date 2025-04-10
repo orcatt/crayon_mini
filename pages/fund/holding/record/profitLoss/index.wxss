@@ -389,7 +389,7 @@ page{
 }
 
 .placeholderClass {
-  color: #a1a1aa;
+  color: #71717a;
   font-size: 28rpx;
 }
 

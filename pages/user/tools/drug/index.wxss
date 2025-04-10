@@ -61,7 +61,7 @@
 }
 
 .placeholder-style {
-  color: #A1A1AA;
+  color: #71717a;
   font-size: 28rpx;
 }
 

@@ -20,7 +20,9 @@
     "pages/user/my/setting/index",
     "pages/fund/holding/record/buySell/index",
     "pages/fund/holding/record/profitLoss/index",
-    "pages/fund/holding/record/profitLossUser/index"
+    "pages/fund/holding/record/profitLossUser/index",
+    "pages/fund/holding/analysis/index",
+    "pages/user/my/slave/passport/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

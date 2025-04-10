@@ -710,8 +710,10 @@ Component({
 		},
 		toLLMAnalysis(e) {
 			var that = this;
-			let item = e.currentTarget.dataset.item;
-			console.log(item);
+			let item = JSON.stringify(e.currentTarget.dataset.item);
+			wx.navigateTo({
+				url: '/pages/fund/holding/analysis/index?item=' + item,
+			})
 		},
 	},
   lifetimes: {

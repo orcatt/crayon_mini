@@ -117,7 +117,7 @@
 
 .result-item .label {
   font-size: 28rpx;
-  color: #A1A1AA;
+  color: #71717a;
   width: 100rpx;
 }
 

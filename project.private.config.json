@@ -9,11 +9,11 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/health/index",
-          "pathName": "pages/health/index",
+          "name": "pages/user/my/slave/index",
+          "pathName": "pages/user/my/slave/index",
           "query": "",
-          "launchMode": "default",
-          "scene": null
+          "scene": null,
+          "launchMode": "default"
         }
       ]
     }
