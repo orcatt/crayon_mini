@@ -215,7 +215,7 @@ Page({
       success: (res) => {
         if (res.confirm) {
           let postData = {
-            profit_loss_id: that.data.updateProfitFormData.profit_loss_id
+            profit_loss_id: that.data.updateProfitFormData.id
           }
           utils.getData({
             url: 'fund/holdingShares/deleteProfitLoss',
