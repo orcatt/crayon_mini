@@ -39,7 +39,8 @@ Page({
       daily_task_title: '骨外肌训练3分钟',
       daily_task_content: '骨外肌训练3分钟，保持肌肉紧张，放松，重复，动作标准',
       daily_task_completed: false,
-      control_count: 0,
+      control_count: 4,
+      control_status: '控制',
       water_intake: '2000',
       water_completed: true,
       other_tools: '',
@@ -354,7 +355,7 @@ Page({
       score -= that.data.passportData.touch_count;
     }
     
-    if(that.data.passportData.control_count ==  ){
+    if(that.data.passportData.control_count == 0 ){
       score += 10;
     }
 
