@@ -117,9 +117,10 @@ Component({
 						
 						res.data.forEach(item => {
 							item.holding_cost = parseFloat(item.holding_cost).toFixed(3)
+							
 							item.current_net_value = ((1 + item.holding_profit_rate) * item.holding_cost).toFixed(3)
+							
 							item.holding_profit_rate_percentage = (item.holding_profit_rate * 100).toFixed(2)
-							item.total_profit_rate_percentage = (item.total_profit_rate * 100).toFixed(2)
 							item.holding_shares = parseFloat(item.holding_shares).toFixed(0)
 							userTotalInfo.total_market_value_user += item.holding_amount*1
 							userTotalInfo.total_profit_user_today += item.dailyData.profit_loss*1
@@ -523,7 +524,7 @@ Component({
 				}
 			});
 		},
-		// ? ------ 更新收益 ------
+		// ? ------ 更新盈亏 ------
 		showUpdateProfitDrawer(e) {
 			var that = this;
 			let item = e.currentTarget.dataset.item;
@@ -531,7 +532,7 @@ Component({
 			if (Object.keys(item.dailyData).length > 0) {
 				wx.showModal({
 					title: '提示',
-					content: '今日已更新收益，是否重新更新？',
+					content: '今日已更新盈亏，是否重新更新？',
 					success: (res) => {
 						if (res.confirm) {
 							that.triggerEvent('toggleTabBar', { show: false }, {});
@@ -605,16 +606,16 @@ Component({
 		},
 		deleteUpdateProfit() {
 			var that = this;
-			if(that.data.selectedDay.profit_loss_id == 0) {
+			if(that.data.updateProfitFormData.profit_loss_id == 0) {
 				wx.showToast({
-					title: '没有收益记录',
+					title: '没有盈亏记录',
 					icon: 'none'
 				});
 				return;
 			}
 			wx.showModal({
 				title: '提示',
-				content: '确定删除该收益记录吗？',
+				content: '确定删除该盈亏记录吗？',
 				success: (res) => {
 					if (res.confirm) {
 						let postData = {
@@ -630,7 +631,11 @@ Component({
 										icon: 'success'
 									});
 									that.closeUpdateProfitDrawer();
-									that.getData();
+									that.setData({
+										count: 0
+									}, () => {
+										that.getData();
+									});
 								} else {
 									wx.showToast({
 										title: res.message,

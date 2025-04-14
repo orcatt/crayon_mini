@@ -58,7 +58,6 @@
           <image src="/static/image/downtriangle.png" mode="widthFix" wx:else></image>
         </view>
       </view>
-      
     </view>
       
     <view class="list-content">
@@ -76,81 +75,28 @@
             </view>
           </view>
           <view class="bottom-detail">
-            <view class="bottom-info-record">
-              <view class="holding-info">
-                <view>
-                  <view>
-                    <view>持仓金额</view>
-                    <view>{{item.holding_amount}}</view>
-                  </view>
-                  <view>
-                    <view>持仓数量</view>
-                    <view>{{item.holding_shares}}</view>
-                  </view>
-                </view>
-                <view>
-                  <view>
-                    <view>总成本</view>
-                    <view>{{item.total_cost}}</view>
-                  </view>
-                  <view>
-                    <view>累计投入</view>
-                    <view>{{item.total_amount}}</view>
-                  </view>
-                </view>
-                  
+            <view class="bottom-detail-line">
+              <view>
+                <view>持有市值 / 总成本</view>
+                <view>{{item.holding_amount}}<text>元</text> / {{item.total_cost}}<text>元</text></view>
               </view>
-              <view class="record" bindtap="toBuySellRecord" data-item="{{item}}">
-                <view>买卖记录</view>
-                <image src="/static/image/tools/16.png" mode="widthFix"></image>
+              <view>
+                <view>成本 / 现价</view>
+                <view>{{item.holding_cost}}<text>元</text> / {{item.current_net_value}}<text>元</text></view>
               </view>
             </view>
-            <view class="bottom-info-record" >
-              <view class="holding-info">
-                <view>
-                  <view>
-                    <view>持有收益</view>
-                    <view>{{item.holding_profit}}</view>
-                  </view>
-                  <view>
-                    <view>总收益</view>
-                    <view>{{item.total_profit}}</view>
-                  </view>
-                </view>
-                <view>
-                  <view>
-                    <view>持有收益率</view>
-                    <view>{{item.holding_profit_rate_percentage}}<text style="margin-left: 6rpx;">%</text></view>
-                  </view>
-                  <view>
-                    <view>总收益率</view>
-                    <view>{{item.total_profit_rate_percentage}}<text style="margin-left: 6rpx;">%</text></view>
-                  </view>
-                </view>
+            <view class="bottom-detail-line">
+              <view>
+                <view> 份额 / 仓位</view>
+                <view>{{item.holding_shares}}<text>股</text> / {{item.holding_position}}<text>%</text></view>
               </view>
-              <view class="record" bindtap="toProfitLossRecord" data-item="{{item}}">
-                <view>收益记录</view>
-                <image src="/static/image/tools/17.png" mode="widthFix"></image>\
+              <view>
+                <view>持有盈亏 / 盈亏率</view>
+                <view>{{item.holding_profit}}<text>元</text> / {{item.holding_profit_rate_percentage}}<text>%</text></view>
               </view>
             </view>
-            <view class="item-bottom" >
-              <view class="item-bottom-line">
-                <view>
-                  <view>平均成本</view>
-                  <view>{{item.holding_cost}}</view>
-                </view>
-                <view>
-                  <view>当前净值</view>
-                  <view>{{item.current_net_value}}</view>
-                </view>
-                <view>
-                  <view>平均净值</view>
-                  <view>{{item.average_net_value}}</view>
-                </view>
-              </view>
-            </view>
-            <view class="item-composite">
-              <view class="item-process">
+            <view class="bottom-detail-process">
+              <view class="bottom-detail-process-left">
                 <view class="process-block">
                   <view class="process-block-inner" style="width: {{item.holding_position}}%"></view>
                 </view>
@@ -159,15 +105,32 @@
                   <text>{{item.holding_position}}%</text>
                 </view>
               </view>
+              <view class="bottom-detail-process-right">
+                <view>累计盈亏</view>
+                <view>{{item.total_profit}}</view>
+              </view>
+              
+            </view>
+            <view class="item-mode">
+              <view bindtap="toBuySellRecord" data-item="{{item}}">
+                <view>买卖记录</view>
+                <image src="/static/image/tools/24.png" mode="widthFix"></image>
+              </view>
+              <view bindtap="toProfitLossRecord" data-item="{{item}}">
+                <view>盈亏记录</view>
+                <image src="/static/image/tools/23.png" mode="widthFix"></image>
+              </view>
               <view bindtap="toLLMAnalysis" data-item="{{item}}">
-                <image src="/static/image/google_small.svg" mode="widthFix"></image>  
-                <view>量化大模型</view>
+                <view>量化模型</view>
+                <image src="/static/image/tools/22.png" mode="widthFix"></image>
               </view>
             </view>
+              
+            
           </view>
-          <view class="item-bottom-btn">
+          <view class="bottom-detail-btn">
             <view bindtap="showBuySellDrawer" data-item="{{item}}">买入卖出</view>
-            <view bindtap="showUpdateProfitDrawer" data-item="{{item}}">更新收益</view>
+            <view bindtap="showUpdateProfitDrawer" data-item="{{item}}">更新盈亏</view>
             <view bindtap="showFundDrawer" data-type="edit" data-item="{{item}}">编辑</view>
             <view bindtap="deleteFund" data-id="{{item.id}}">删除</view>
           </view>
@@ -184,7 +147,7 @@
           <view class="omit-bottom">
             <view class="omit-bottom-line">
               <view>
-                <view>金额 / 数量</view>
+                <view>市值 / 份额</view>
                 <view>{{item.holding_amount}} / {{item.holding_shares}}</view>
               </view>
               <view>
@@ -241,8 +204,8 @@
       <view class="step">
         <view class="step-title">第四步</view>
         <view class="step-content">
-          <view class="step-content-title">更新收益</view>
-          <view class="step-content-desc">更新你的收益情况，交给系统帮你量化。</view>
+          <view class="step-content-title">更新盈亏</view>
+          <view class="step-content-desc">更新你的盈亏情况，交给系统帮你量化。</view>
         </view>
       </view>
     </view>
@@ -380,11 +343,11 @@
   </view>
 </view>
 
-<!-- 更新收益弹窗 -->
+<!-- 更新盈亏弹窗 -->
 <view class="drawer-mask" wx:if="{{showUpdateProfitDrawer}}" bindtap="closeUpdateProfitDrawer"></view>
 <view class="drawer {{showUpdateProfitDrawer ? 'drawer-show' : ''}}">
   <view class="drawer-header">
-    <view class="drawer-title">更新收益</view>
+    <view class="drawer-title">更新盈亏</view>
     <view class="drawer-close" bindtap="closeUpdateProfitDrawer">×</view>
   </view>
   <view class="drawer-content">
@@ -417,7 +380,7 @@
         <view class="form-item">
           <view class="account-title">盈亏率<text class="required">*</text></view>
           <view class="account-input">
-            <input type="number" value="{{updateProfitFormData.price_change_percentage}}" data-field="price_change_percentage" bindinput="handleUpdateProfitInput" placeholder="请输入盈亏率" />
+            <input type="digit" value="{{updateProfitFormData.price_change_percentage}}" data-field="price_change_percentage" bindinput="handleUpdateProfitInput" placeholder="请输入盈亏率" />
           </view>
         </view>
         <view class="form-item">

@@ -46,9 +46,9 @@ Page({
       params: postData,
       success: (res) => {
         if (res.code === 200) {
-          // 将收益数据合并到日历数据中
+          // 将盈亏数据合并到日历数据中
           let calendarDays = that.data.calendarDays.map(day => {
-            // 查找当前日期是否有收益数据
+            // 查找当前日期是否有盈亏数据
             const profitData = res.data.find(item => item.transaction_date === day.date);
             if (profitData) {
               return {
@@ -67,14 +67,14 @@ Page({
             }
           });
 
-          // 计算总收益和今日收益
+          // 计算总盈亏和今日盈亏
           let totalProfitLoss = 0;
           let todayProfitLoss = 0;
           let selectedDay = null;
           calendarDays.forEach(day => {
-            // 累加总收益
+            // 累加总盈亏
             totalProfitLoss += parseFloat(day.total_profit_loss);
-            // 获取今日收益
+            // 获取今日盈亏
             if(day.isToday) {
               todayProfitLoss = parseFloat(day.total_profit_loss);
               selectedDay = day;
@@ -203,7 +203,7 @@ Page({
   },
   handleUpdateProfitDateChange(e) {
     wx.showToast({
-      title: '前往收益记录即可修改',
+      title: '前往盈亏记录即可修改',
       icon: 'none'
     });
   },
@@ -211,7 +211,7 @@ Page({
     var that = this;
     wx.showModal({
       title: '提示',
-      content: '确定删除该收益记录吗？',
+      content: '确定删除该盈亏记录吗？',
       success: (res) => {
         if (res.confirm) {
           let postData = {

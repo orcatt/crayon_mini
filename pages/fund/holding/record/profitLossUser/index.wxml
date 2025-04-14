@@ -13,14 +13,14 @@
     </view>
   </view>
   <view class="profit-info">
-    <view class="profit-info-top">收益总览</view>
+    <view class="profit-info-top">盈亏总览</view>
     <view class="profit-info-bottom">
       <view class="profit-info-bottom-item">
-        <view class="profit-info-bottom-item-title">当月收益</view>
+        <view class="profit-info-bottom-item-title">当月盈亏</view>
         <view class="profit-info-bottom-item-amount {{totalProfitLoss > 0 ? 'profit' : totalProfitLoss < 0 ? 'loss' : ''}}">{{totalProfitLoss}}</view>
       </view>
       <view class="profit-info-bottom-item">
-        <view class="profit-info-bottom-item-title">今日收益</view>
+        <view class="profit-info-bottom-item-title">今日盈亏</view>
         <view class="profit-info-bottom-item-amount {{todayProfitLoss > 0 ? 'profit' : todayProfitLoss < 0 ? 'loss' : ''}}">{{todayProfitLoss}}</view>
       </view>
     </view>
@@ -46,7 +46,7 @@
   </view>
   <view class="record" wx:if="{{selectedDay.details && selectedDay.details.length > 0}}">
     <view class="record-title">
-      <text>收益明细</text>
+      <text>盈亏明细</text>
       <text class="record-date">{{selectedDay.date}}</text>
     </view>
     <view class="record-list">
@@ -63,18 +63,18 @@
     </view>
   </view>
   <view class="no-record" wx:if="{{!selectedDay.details || selectedDay.details.length === 0}}">
-    <view class="no-record-text">暂无收益记录</view>
+    <view class="no-record-text">暂无盈亏记录</view>
   </view>
   <view style="height: 200rpx;"></view> 
 </view>
 
 
 
-<!-- 更新收益弹窗 -->
+<!-- 更新盈亏弹窗 -->
 <view class="drawer-mask" wx:if="{{showUpdateProfitDrawer}}" bindtap="closeUpdateProfitDrawer"></view>
 <view class="drawer {{showUpdateProfitDrawer ? 'drawer-show' : ''}}">
   <view class="drawer-header">
-    <view class="drawer-title">更新收益</view>
+    <view class="drawer-title">更新盈亏</view>
     <view class="drawer-close" bindtap="closeUpdateProfitDrawer">×</view>
   </view>
   <view class="drawer-content">
@@ -107,7 +107,7 @@
         <view class="form-item">
           <view class="account-title">盈亏率<text class="required">*</text></view>
           <view class="account-input">
-            <input type="number" value="{{updateProfitFormData.price_change_percentage}}" data-field="price_change_percentage" bindinput="handleUpdateProfitInput" placeholder="请输入盈亏率" />
+            <input type="digit" value="{{updateProfitFormData.price_change_percentage}}" data-field="price_change_percentage" bindinput="handleUpdateProfitInput" placeholder="请输入盈亏率" />
           </view>
         </view>
         <view class="form-item">

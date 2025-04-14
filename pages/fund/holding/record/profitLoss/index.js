@@ -14,7 +14,7 @@ Page({
     totalProfitLoss: 0,
     todayProfitLoss: 0,
     todayPercent: 0,
-    showType: 'profit', // 显示类型：profit-收益，percent-收益率
+    showType: 'profit', // 显示类型：profit-盈亏，percent-盈亏率
     showDetailDrawer: false,
     selectedDay: null,
     showUpdateProfitDrawer: false,
@@ -55,9 +55,9 @@ Page({
       params: postData,
       success: (res) => {
         if (res.code === 200) {
-          // 将收益数据合并到日历数据中
+          // 将盈亏数据合并到日历数据中
           let calendarDays = that.data.calendarDays.map(day => {
-            // 查找当前日期是否有收益数据
+            // 查找当前日期是否有盈亏数据
             const profitData = res.data.find(item => item.transaction_date === day.date);
             if (profitData) {
               return {
@@ -78,15 +78,15 @@ Page({
             }
           });
           
-          // 计算总收益和今日收益
+          // 计算总盈亏和今日盈亏
           let totalProfitLoss = 0;
           let todayProfitLoss = 0;
           let todayPercent = 0;
           calendarDays.forEach(day => {
-            // 累加总收益
+            // 累加总盈亏
             totalProfitLoss += parseFloat(day.profit_loss);
             
-            // 获取今日收益
+            // 获取今日盈亏
             if(day.isToday) {
               todayProfitLoss = parseFloat(day.profit_loss);
               todayPercent = day.price_change_percentage;
@@ -179,7 +179,7 @@ Page({
     const index = e.currentTarget.dataset.index;
     const day = that.data.calendarDays[index];
     
-    if(day.profit_loss_id != 0) { // 有收益记录，查看/更新/删除
+    if(day.profit_loss_id != 0) { // 有盈亏记录，查看/更新/删除
       that.setData({
         showUpdateProfitDrawer: true,
         selectedDay: day,
@@ -192,7 +192,7 @@ Page({
         }
       });
       
-    }else{ // 没有收益记录，新增
+    }else{ // 没有盈亏记录，新增
       that.setData({
         showUpdateProfitDrawer: true,
         selectedDay: day,
@@ -247,14 +247,14 @@ Page({
     var that = this;
     if(that.data.selectedDay.profit_loss_id == 0) {
       wx.showToast({
-        title: '没有收益记录',
+        title: '没有盈亏记录',
         icon: 'none'
       });
       return;
     }
     wx.showModal({
       title: '提示',
-      content: '确定删除该收益记录吗？',
+      content: '确定删除该盈亏记录吗？',
       success: (res) => {
         if (res.confirm) {
           let postData = {
@@ -319,7 +319,7 @@ Page({
       'updateProfitFormData.price_change_percentage': formData.price_change_percentage
     });
     
-    if(that.data.selectedDay.profit_loss_id != 0) { // 有收益记录，更新
+    if(that.data.selectedDay.profit_loss_id != 0) { // 有盈亏记录，更新
       utils.getData({
         url: 'fund/holdingShares/deleteProfitLoss',
         params: {
@@ -354,7 +354,7 @@ Page({
           }
         }
       });
-    }else{ // 无收益记录，新增
+    }else{ // 无盈亏记录，新增
       utils.getData({
         url: 'fund/holdingShares/profitLoss',
         params: formData,
