@@ -48,11 +48,10 @@ Component({
 		showUpdateProfitDrawer: false,
 		updateProfitFormData: {
 			fund_id: '',
-			price_change_percentage: '',
+			current_net_value: '',
 			transaction_date: '',
 			fund_name: '', // 用于显示
-			profit_loss_type: true, // 盈亏
-			profit_loss_addOrUpdate: 'add' // 盈亏类型
+			profit_loss_addOrUpdate: 'add' // 盈亏操作类型
 		},
 		count: 0,
 		expandedFundId: null,
@@ -468,7 +467,7 @@ Component({
 		handleTransactionTypeChange(e) {
 			var that = this;
 			that.setData({
-				'buySellFormData.transaction_type': that.data.buySellFormData.transaction_type === 'buy' ? 'sell' : 'buy'
+				'buySellFormData.transaction_type': e.currentTarget.dataset.value
 			});
 		},
 		handleTransactionDateChange(e) {
@@ -540,11 +539,10 @@ Component({
 								showUpdateProfitDrawer: true,
 								updateProfitFormData: {
 									fund_id: item.id,
-									price_change_percentage: item.dailyData.price_change_percentage,
+									current_net_value: item.dailyData.current_net_value,
 									transaction_date: that.data.currentDate,
 									fund_name: item.fund_name,
 									profit_loss_id: item.dailyData.id,
-									profit_loss_type: item.dailyData.profit_loss > 0 ? true : false,
 									profit_loss_addOrUpdate: 'update'
 								}
 							});
@@ -558,10 +556,9 @@ Component({
 				showUpdateProfitDrawer: true,
 				updateProfitFormData: {
 					fund_id: item.id,
-					price_change_percentage: '',
+					current_net_value: '',
 					transaction_date: that.data.currentDate,
 					fund_name: item.fund_name,
-					profit_loss_type: true,
 					profit_loss_addOrUpdate: 'add'
 				}
 			});
@@ -573,25 +570,14 @@ Component({
 				showUpdateProfitDrawer: false,
 				updateProfitFormData: {
 					fund_id: '',
-					price_change_percentage: '',
+					current_net_value: '',
 					transaction_date: '',
 					fund_name: '',
-					profit_loss_type: true,
 					profit_loss_addOrUpdate: 'add'
 				}
 			});
 		},
-		handleProfitSwitch(e) {
-			var that = this;
-			const profit_loss_type = e.currentTarget.dataset.value;
-			let price_change_percentage = profit_loss_type ? 
-				Math.abs(parseFloat(that.data.updateProfitFormData.price_change_percentage)) : 
-				-Math.abs(parseFloat(that.data.updateProfitFormData.price_change_percentage));
-			that.setData({
-				'updateProfitFormData.profit_loss_type': profit_loss_type,
-				'updateProfitFormData.price_change_percentage': price_change_percentage
-			});
-		},
+
 		handleUpdateProfitInput(e) {
 			const field = e.currentTarget.dataset.field;
 			const value = e.detail.value;
@@ -653,15 +639,15 @@ Component({
 			var that = this;
 			let formData = that.data.updateProfitFormData;
 			
-			if (!formData.price_change_percentage) {
+			if (!formData.current_net_value) {
 				wx.showToast({
-					title: '请输入盈亏率',
+					title: '请输入现价',
 					icon: 'none'
 				});
 				return;
-			} else if (formData.price_change_percentage == 0) {
+			} else if (formData.current_net_value == 0) {
 				wx.showToast({
-					title: '盈亏率不能为0',
+					title: '现价不能为0',
 					icon: 'none'
 				});
 				return;
@@ -674,14 +660,8 @@ Component({
 				});
 				return;
 			}
-
-			// 盈利正数，亏损负数
-			formData.price_change_percentage = formData.profit_loss_type ? 
-      Math.abs(parseFloat(formData.price_change_percentage)) : 
-      -Math.abs(parseFloat(formData.price_change_percentage));
-			that.setData({
-				'updateProfitFormData.price_change_percentage': formData.price_change_percentage
-			});
+			console.log(formData);
+			
 			
 			if(formData.profit_loss_addOrUpdate === 'add'){
 				utils.getData({

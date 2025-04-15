@@ -8,7 +8,10 @@ Page({
     fund_id: '',
     fund_code: '',
     buySellList: [],
-    currentMonth: '',
+    startDate: '',
+    endDate: '',
+    startDateText: '',
+    endDateText: '',
     currentDate: '',
     
 		showBuySellDrawer: false,
@@ -39,12 +42,29 @@ Page({
     let month = (now.getMonth() + 1).toString().padStart(2, '0'); // 月份加 1 并补零
     let day = String(now.getDate()).padStart(2, '0');
     
+    // 计算近三个月的日期范围
+    let endDate = `${year}-${month}-${day}`; // 结束日期为当天
+    
+    // 计算开始日期（往前3个月的月份的1号）
+    let startDate = new Date(now);
+    startDate.setMonth(now.getMonth() - 3);
+    let startYear = startDate.getFullYear();
+    let startMonth = (startDate.getMonth() + 1).toString().padStart(2, '0');
+    startDate = `${startYear}-${startMonth}-01`; // 设置为1号
+    
+    // 格式化显示文本
+    let startDateText = `${startYear}年${startMonth}月`;
+    let endDateText = `${year}年${month}月`;
+    
 		that.setData({
 			tabbarRealHeight: wx.getStorageSync('tabbarRealHeight'),
       fund_name: options.fund_name,
       fund_id: options.fund_id,
       fund_code: options.fund_code,
-      currentMonth: `${year}-${month}`,
+      startDate: startDate,
+      endDate: endDate,
+      startDateText: startDateText,
+      endDateText: endDateText,
       currentDate: `${year}-${month}-${day}`
 		})
     that.getData();
@@ -53,7 +73,8 @@ Page({
     var that = this;
     let postData = {
       fund_id: that.data.fund_id,
-      transaction_date: that.data.currentMonth,
+      start_date: that.data.startDate,
+      end_date: that.data.endDate
     }
     utils.getData({
       url: 'fund/holdingTransactions/list',
@@ -75,14 +96,75 @@ Page({
       }
     });
   },
-  handleMonthChange(e) {
+  handleStartMonthChange(e) {
     var that = this;
-    that.setData({
-      currentMonth: e.detail.value
-    }, () => {
-      that.getData(); // 重新获取数据
-    });
+    // 解析选择的日期
+    let selectedDate = new Date(e.detail.value);
+    let year = selectedDate.getFullYear();
+    let month = (selectedDate.getMonth() + 1).toString().padStart(2, '0');
+    
+    // 设置开始日期为选择月份的第1天
+    let startDate = `${year}-${month}-01`;
+    
+    // 格式化显示文本
+    let startDateText = `${year}年${month}月`;
+    
+    // 检查开始日期是否晚于结束日期
+    let endDateObj = new Date(that.data.endDate);
+    let startDateObj = new Date(startDate);
+    
+    if (startDateObj > endDateObj) {
+      // 如果开始日期晚于结束日期，将结束日期设置为开始日期
+      that.setData({
+        startDate: startDate,
+        startDateText: startDateText,
+        endDate: startDate,
+        endDateText: startDateText
+      });
+    } else {
+      that.setData({
+        startDate: startDate,
+        startDateText: startDateText
+      });
+    }
+    
+    that.getData(); // 重新获取数据
   },
+  handleEndMonthChange(e) {
+    var that = this;
+    // 解析选择的日期
+    let selectedDate = new Date(e.detail.value);
+    let year = selectedDate.getFullYear();
+    let month = (selectedDate.getMonth() + 1).toString().padStart(2, '0');
+    
+    // 设置结束日期为选择月份的第1天
+    let endDate = `${year}-${month}-01`;
+    
+    // 格式化显示文本
+    let endDateText = `${year}年${month}月`;
+    
+    // 检查结束日期是否早于开始日期
+    let startDateObj = new Date(that.data.startDate);
+    let endDateObj = new Date(endDate);
+    
+    if (endDateObj < startDateObj) {
+      // 如果结束日期早于开始日期，将开始日期设置为结束日期
+      that.setData({
+        endDate: endDate,
+        endDateText: endDateText,
+        startDate: endDate,
+        startDateText: endDateText
+      });
+    } else {
+      that.setData({
+        endDate: endDate,
+        endDateText: endDateText
+      });
+    }
+    
+    that.getData(); // 重新获取数据
+  },
+  
   openCloseRecordMovable(e) {
     var that = this;
     let index = e.currentTarget.dataset.index;

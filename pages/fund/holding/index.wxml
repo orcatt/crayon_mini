@@ -8,7 +8,7 @@
       <view class="content-top">
         <view class="content-top-left {{userTotalInfo.total_profit_user_today >= 0 ? 'profit' : 'loss'}}">¥{{userTotalInfo.total_profit_user_today}}</view>
         <view class="content-top-right" bindtap="updateTotalAssetsUser">
-           <view>总投入</view>
+          <view>总投入</view>
           <view>{{userTotalInfo.total_assets_user}}</view>
         </view>
       </view>
@@ -294,9 +294,9 @@
       <view class="form-row">
         <view class="form-item">
           <view class="account-title">交易类型<text class="required">*</text></view>
-          <view class="account-input" bindtap="handleTransactionTypeChange">
-            <view wx:for="{{transactionTypes}}" wx:key="id">
-              <view wx:if="{{item.value === buySellFormData.transaction_type}}">{{item.name}}</view>
+          <view class="profit-switch">
+            <view class="switch-item" wx:for="{{transactionTypes}}" wx:key="id" bindtap="handleTransactionTypeChange" data-value="{{item.value}}">
+              <view class="{{item.value === buySellFormData.transaction_type ? 'active' : ''}}">{{item.name}}</view>
             </view>
           </view>
         </view>
@@ -359,28 +359,13 @@
             <input type="text" value="{{updateProfitFormData.fund_name}}" disabled placeholder="基金名称" />
           </view>
         </view>
-        <view class="form-item">
-          <view class="account-title">盈亏</view>
-          <view class="profit-switch">
-            <view class="switch-item">
-              <view class="{{updateProfitFormData.profit_loss_type ? 'active' : ''}}" bindtap="handleProfitSwitch" data-value="{{true}}">
-                盈利
-              </view>
-            </view>
-            <view class="switch-item">
-              <view class="{{!updateProfitFormData.profit_loss_type ? 'active' : ''}}" bindtap="handleProfitSwitch" data-value="{{false}}">
-                亏损
-              </view>
-            </view>
-          </view>
-        </view>
       </view>
 
       <view class="form-row">
         <view class="form-item">
-          <view class="account-title">盈亏率<text class="required">*</text></view>
+          <view class="account-title">现价<text class="required">*</text></view>
           <view class="account-input">
-            <input type="digit" value="{{updateProfitFormData.price_change_percentage}}" data-field="price_change_percentage" bindinput="handleUpdateProfitInput" placeholder="请输入盈亏率" />
+            <input type="digit" value="{{updateProfitFormData.current_net_value}}" data-field="current_net_value" bindinput="handleUpdateProfitInput" placeholder="请输入盈亏率" />
           </view>
         </view>
         <view class="form-item">

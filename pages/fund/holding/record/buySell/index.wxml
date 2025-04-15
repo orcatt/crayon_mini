@@ -4,12 +4,19 @@
   <view class="fund-info">
     <view class="fund-name">{{fund_name}} <text>{{fund_code}}</text></view>
     <view class="month-picker">
-      <picker mode="date" fields="month" value="{{currentMonth}}" bindchange="handleMonthChange">
-        <view class="picker-content">
-          <text>{{currentMonth}}</text>
-          <image src="/static/image/arrow-right.png" mode="widthFix"></image>
-        </view>
-      </picker>
+      <view class="date-range-picker">
+        <picker mode="date" fields="month" value="{{startDate}}" bindchange="handleStartMonthChange">
+          <view class="picker-content">
+            <text>{{startDateText}}</text>
+          </view>
+        </picker>
+        <text class="date-separator">至</text>
+        <picker mode="date" fields="month" value="{{endDate}}" bindchange="handleEndMonthChange">
+          <view class="picker-content">
+            <text>{{endDateText}}</text>
+          </view>
+        </picker>
+      </view>
     </view>
   </view>
 
@@ -72,9 +79,9 @@
       <view class="form-row">
         <view class="form-item">
           <view class="account-title">交易类型<text class="required">*</text></view>
-          <view class="account-input" bindtap="handleTransactionTypeChange">
-            <view wx:for="{{transactionTypes}}" wx:key="id">
-              <view wx:if="{{item.value === buySellFormData.transaction_type}}">{{item.name}}</view>
+          <view class="profit-switch">
+            <view class="switch-item" wx:for="{{transactionTypes}}" wx:key="id" bindtap="handleTransactionTypeChange" data-value="{{item.value}}">
+              <view class="{{item.value === buySellFormData.transaction_type ? 'active' : ''}}">{{item.name}}</view>
             </view>
           </view>
         </view>
