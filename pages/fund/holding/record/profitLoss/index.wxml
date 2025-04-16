@@ -55,7 +55,7 @@
         bindtap="showUpdateProfitDrawer"
         data-index="{{index}}">
         <view class="day-number ">{{item.isToday ? '今' : item.day}}</view>
-        <view class="amount {{item.profit_loss_noSet !== undefined ? (item.profit_loss_noSet === 0 ? 'equal' : item.profit_loss_noSet === 1 ? 'profit' : 'loss') : ''}}">
+        <view class="amount {{item.profit_loss === '0.00' ? 'equal' : item.profit_loss > 0 ? 'profit' : 'loss'}}">
           {{showType === 'profit' ? (item.profit_loss ? item.profit_loss : '0.00') : (item.price_change_percentage + '%')}}
         </view>
       </view>

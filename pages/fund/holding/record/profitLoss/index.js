@@ -64,8 +64,7 @@ Page({
                 ...day,
                 profit_loss_id: profitData.id,
                 profit_loss: profitData.profit_loss,
-                price_change_percentage: profitData.price_change_percentage,
-                profit_loss_noSet: profitData.price_change_percentage > 0 ? 1 : profitData.price_change_percentage < 0 ? -1 : 0
+                current_net_value: profitData.current_net_value,
               };
             }else{
               return {
@@ -73,7 +72,6 @@ Page({
                 profit_loss_id: 0,
                 profit_loss: '0.00',
                 price_change_percentage: 0,
-                profit_loss_noSet: 0
               };
             }
           });
@@ -92,7 +90,7 @@ Page({
               todayPercent = day.price_change_percentage;
             }
           });
-          
+          console.log(calendarDays);
           that.setData({
             calendarDays: calendarDays,
             totalProfitLoss: totalProfitLoss.toFixed(2),
