@@ -44,7 +44,7 @@
             <view class="details">
               <text>{{item.shares}}份</text>
               <text class="separator">/</text>
-              <text>{{item.net_value}}净值</text>
+              <text>{{item.net_value}}现价</text>
             </view>
           </view>
 				</view>
@@ -99,9 +99,9 @@
 
       <view class="form-row">
         <view class="form-item">
-          <view class="account-title">净值<text class="required">*</text></view>
+          <view class="account-title">现价<text class="required">*</text></view>
           <view class="account-input">
-            <input type="digit" value="{{buySellFormData.net_value}}" data-field="net_value" bindinput="handleBuySellInput" placeholder="请输入净值" />
+            <input type="digit" value="{{buySellFormData.net_value}}" data-field="net_value" bindinput="handleBuySellInput" placeholder="请输入现价" />
           </view>
         </view>
         <view class="form-item">

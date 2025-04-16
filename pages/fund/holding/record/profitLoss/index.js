@@ -13,17 +13,16 @@ Page({
     calendarDays: [], // 日历天数
     totalProfitLoss: 0,
     todayProfitLoss: 0,
-    todayPercent: 0,
+    current_net_value: 0,
     showType: 'profit', // 显示类型：profit-盈亏，percent-盈亏率
-    showDetailDrawer: false,
     selectedDay: null,
     showUpdateProfitDrawer: false,
     updateProfitFormData: {
       fund_id: '',
-      price_change_percentage: '',
+      current_net_value: '',
       transaction_date: '',
       fund_name: '',
-      profit_loss_type: true,
+      profit_loss_addOrUpdate: 'add',
       
     }
   },
@@ -64,22 +63,22 @@ Page({
                 ...day,
                 profit_loss_id: profitData.id,
                 profit_loss: profitData.profit_loss,
-                current_net_value: profitData.current_net_value,
+                current_net_value: parseFloat(profitData.current_net_value).toFixed(3),
               };
             }else{
               return {
                 ...day,
                 profit_loss_id: 0,
                 profit_loss: '0.00',
-                price_change_percentage: 0,
+                current_net_value: '0.000',
               };
             }
           });
-          
+          console.log(calendarDays);
           // 计算总盈亏和今日盈亏
           let totalProfitLoss = 0;
           let todayProfitLoss = 0;
-          let todayPercent = 0;
+          let current_net_value = 0;
           calendarDays.forEach(day => {
             // 累加总盈亏
             totalProfitLoss += parseFloat(day.profit_loss);
@@ -87,7 +86,7 @@ Page({
             // 获取今日盈亏
             if(day.isToday) {
               todayProfitLoss = parseFloat(day.profit_loss);
-              todayPercent = day.price_change_percentage;
+              current_net_value = parseFloat(day.current_net_value);
             }
           });
           console.log(calendarDays);
@@ -95,7 +94,7 @@ Page({
             calendarDays: calendarDays,
             totalProfitLoss: totalProfitLoss.toFixed(2),
             todayProfitLoss: todayProfitLoss.toFixed(2),
-            todayPercent: todayPercent.toFixed(2)
+            current_net_value: current_net_value.toFixed(2)
           });
         } else {
           wx.showToast({
@@ -153,25 +152,7 @@ Page({
       showType: type
     });
   },
-  showDayDetail(e) {
-    var that = this;
-    const index = e.currentTarget.dataset.index;
-    const day = that.data.calendarDays[index];
-    if(day.profit_loss_id != 0) {
-      that.setData({
-        showDetailDrawer: true,
-        selectedDay: day
-      });
-    }else{
-      that.showUpdateProfitDrawer(day);
-    }
-  },
-  closeDetailDrawer() {
-    this.setData({
-      showDetailDrawer: false,
-      selectedDay: null
-    });
-  },
+ 
   showUpdateProfitDrawer(e) {
     var that = this;
     const index = e.currentTarget.dataset.index;
@@ -183,10 +164,11 @@ Page({
         selectedDay: day,
         updateProfitFormData: {
           fund_id: that.data.fund_id,
-          price_change_percentage: day.price_change_percentage,
+          current_net_value: day.current_net_value,
           transaction_date: day.date,
           fund_name: that.data.fund_name,
-          profit_loss_type: day.price_change_percentage > 0 ? true : false
+          profit_loss_id: day.profit_loss_id,
+          profit_loss_addOrUpdate: 'update'
         }
       });
       
@@ -196,10 +178,10 @@ Page({
         selectedDay: day,
         updateProfitFormData: {
           fund_id: that.data.fund_id,
-          price_change_percentage: '',
+          current_net_value: '',
           transaction_date: day.date,
           fund_name: that.data.fund_name,
-          profit_loss_type: true
+          profit_loss_addOrUpdate: 'add'
         }
       });
     }
@@ -211,22 +193,11 @@ Page({
       selectedDay: null,
       updateProfitFormData: {
         fund_id: '',
-        price_change_percentage: '',
+        current_net_value: '',
         transaction_date: '',
         fund_name: '',
-        profit_loss_type: true
+        profit_loss_addOrUpdate: 'add'
       }
-    });
-  },
-  handleProfitSwitch(e) {
-    var that = this;
-    const profit_loss_type = e.currentTarget.dataset.value;
-    let price_change_percentage = profit_loss_type ? 
-      Math.abs(parseFloat(that.data.updateProfitFormData.price_change_percentage)) : 
-      -Math.abs(parseFloat(that.data.updateProfitFormData.price_change_percentage));
-    that.setData({
-      'updateProfitFormData.profit_loss_type': profit_loss_type,
-      'updateProfitFormData.price_change_percentage': price_change_percentage
     });
   },
   handleUpdateProfitInput(e) {
@@ -286,15 +257,9 @@ Page({
     var that = this;
     let formData = that.data.updateProfitFormData;
     
-    if (!formData.price_change_percentage) {
+    if (!formData.current_net_value) {
       wx.showToast({
-        title: '请输入盈亏率',
-        icon: 'none'
-      });
-      return;
-    } else if (formData.price_change_percentage == 0) {
-      wx.showToast({
-        title: '盈亏率不能为0',
+        title: '请输入现价',
         icon: 'none'
       });
       return;
@@ -308,14 +273,6 @@ Page({
       return;
     }
 
-    // 盈利正数，亏损负数
-    formData.price_change_percentage = formData.profit_loss_type ? 
-      Math.abs(parseFloat(formData.price_change_percentage)) : 
-      -Math.abs(parseFloat(formData.price_change_percentage));
-
-    that.setData({
-      'updateProfitFormData.price_change_percentage': formData.price_change_percentage
-    });
     
     if(that.data.selectedDay.profit_loss_id != 0) { // 有盈亏记录，更新
       utils.getData({
@@ -331,7 +288,7 @@ Page({
               success: (res) => {
                 if (res.code === 200) {
                   wx.showToast({
-                    title: formData.profit_loss_type ? '盈利已更新' : '亏损已更新',
+                    title: '盈亏已更新',
                     icon: 'success'
                   });
                   that.closeUpdateProfitDrawer();
@@ -359,7 +316,7 @@ Page({
         success: (res) => {
           if (res.code === 200) {
             wx.showToast({
-              title: formData.profit_loss_type ? '盈利已更新' : '亏损已更新',
+              title: '盈亏已更新',
               icon: 'success'
             });
             that.closeUpdateProfitDrawer();
@@ -373,7 +330,6 @@ Page({
         }
       });
     }
-    
     
   },
   

@@ -283,7 +283,7 @@ Page({
       [`buySellFormData.${field}`]: value
     });
 
-    // 如果修改了份额或净值,自动计算金额
+    // 如果修改了份额或现价,自动计算金额
     if (field === 'shares' || field === 'net_value') {
       let shares = this.data.buySellFormData.shares || 0;
       let netValue = this.data.buySellFormData.net_value || 0;
@@ -317,7 +317,7 @@ Page({
     }
     if (!formData.net_value) {
       wx.showToast({
-        title: '请输入净值',
+        title: '请输入现价',
         icon: 'none'
       });
       return;

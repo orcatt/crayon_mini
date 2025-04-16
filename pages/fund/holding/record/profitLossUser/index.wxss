@@ -243,70 +243,24 @@ page{
 .record-item:last-child {
   margin-bottom: 0;
 }
-
 .record-left {
-  flex: 1;
-  margin-right: 24rpx;
-}
-
-.fund-name {
-  font-size: 32rpx;
-  font-family: 'DouyinSansBold';
-  color: #09090B;
-}
-
-.record-right {
-  display: flex;
-}
-
-.profit-amount {
-  font-size: 36rpx;
-  font-family: 'DouyinSansBold';
-  margin-bottom: 4rpx;
-}
-
-.profit-separator {
-  margin: 0 8rpx;
-}
-
-.profit-rate {
   font-size: 28rpx;
   font-family: 'DouyinSansBold';
-  margin-top: 8rpx;
 }
-
-.record-left {
+.record-right {
   display: flex;
-  flex-direction: column;
-  gap: 8rpx;
+  align-items: center;
+  gap: 10rpx;
 }
-
-.transaction-type {
-  font-size: 32rpx;
+.record-right view{
+  font-size: 24rpx;
+  color: #71717a;
+}
+.record-right view text{
+  font-size: 28rpx;
   font-family: 'DouyinSansBold';
 }
 
-.transaction-type.buy {
-  color: #ef4444;
-}
-
-.transaction-type.sell {
-  color: #22c55e;
-}
-
-.transaction-date {
-  font-size: 24rpx;
-  color: #71717a;
-}
-
-.details {
-  font-size: 24rpx;
-  color: #71717a;
-}
-
-.separator {
-  margin: 0 8rpx;
-}
 
 .no-record {
   padding: 24rpx;

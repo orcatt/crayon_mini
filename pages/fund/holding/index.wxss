@@ -195,11 +195,23 @@
   color: #71717a;
 }
 
-.list-header>view:nth-child(2){
+.list-batch{
   font-size: 24rpx;
   font-family: 'DouyinSansBold';
   margin-top: 2rpx;
+  display: flex;
+  gap: 24rpx;
 }
+.list-batch>view{
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+.list-batch>view>image{
+  width: 30rpx;
+  height: 30rpx;
+}
+
 
 .list-sort{
   display: flex;
@@ -362,7 +374,7 @@
 
 }
 .bottom-detail-process-left{
-  width: 66% ;
+  width: 65% ;
 }
 .process-block{
   height: 20rpx;

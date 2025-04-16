@@ -45,59 +45,25 @@ page{
   height: 24rpx;
 }
 
-
-.profit-info {
-  background: #ffffff;
-  border-radius: 12rpx;
-  padding: 24rpx;
-  box-sizing: border-box;
-  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.1);
+.profit-switch-view {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20rpx;
 }
-.profit-info-top {
-  font-size: 32rpx;
-  font-family: 'DouyinSansBold';
-  color: #09090B;
-  height: 50rpx;
-  line-height: 50rpx;
-}
-.profit-info-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-}
-
-.profit-info-bottom-right {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20rpx;
-  text-align: center;
-
-}
-.profit-info-bottom-item{
-  width: 150rpx;
-}
-.profit-info-bottom-item-title {
-  height: 50rpx;
-  line-height: 50rpx;
+.profit-amount-month {
   font-size: 24rpx;
-  color: #71717a;
-}
-
-.profit-info-bottom-item-amount {
-  height: 50rpx;
-  line-height: 50rpx;
-  font-size: 32rpx;
   font-family: 'DouyinSansBold';
   color: #09090B;
+  text-align: center;
+}
+.profit-amount-month text {
+  font-size: 24rpx;
+  font-family: 'DouyinSansBold';
+  margin: 0 8rpx;
 }
 
 
-.switch-view {
-  margin-bottom: 20rpx;
-}
 
 .switch-container {
   display: flex;
@@ -173,7 +139,25 @@ page{
 
 .calendar-day.today {
   background-color: #e4e4e7;
+  box-shadow: 0 0rpx 12rpx rgba(0, 0, 0, 0.2);
+	animation: pulse 5s infinite;
 }
+
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+
+	}
+	50% {
+		transform: scale(1.1);
+
+	}
+	100% {
+		transform: scale(1);
+
+	}
+}
+
 
 .day-number {
   font-size: 28rpx;
@@ -211,6 +195,7 @@ page{
 .calendar-day.loss {
   background: rgba(34, 197, 94, 0.1);
 }
+
 
 /* 弹窗基础样式 */
 .drawer-mask {

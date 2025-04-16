@@ -16,10 +16,10 @@ Page({
     showUpdateProfitDrawer: false,
     updateProfitFormData: {
 			fund_id: '',
-			price_change_percentage: '',
+			current_net_value: '',
 			transaction_date: '',
 			fund_name: '', // 用于显示
-			profit_loss_type: true, // 盈亏
+      profit_loss_id: '',
 		}
   },
   onLoad(options) {
@@ -51,6 +51,9 @@ Page({
             // 查找当前日期是否有盈亏数据
             const profitData = res.data.find(item => item.transaction_date === day.date);
             if (profitData) {
+              profitData.details.forEach(item => {
+                item.current_net_value = parseFloat(item.current_net_value).toFixed(3);
+              });
               return {
                 ...day,
                 total_profit_loss: profitData.total_profit_loss,
@@ -72,7 +75,7 @@ Page({
           let todayProfitLoss = 0;
           let selectedDay = null;
           calendarDays.forEach(day => {
-            // 累加总盈亏
+            // 累加总计盈亏
             totalProfitLoss += parseFloat(day.total_profit_loss);
             // 获取今日盈亏
             if(day.isToday) {
@@ -87,6 +90,7 @@ Page({
             todayProfitLoss: todayProfitLoss.toFixed(2),
             selectedDay: selectedDay,
           });
+          console.log(calendarDays);
         } else {
           wx.showToast({
             title: res.message,
@@ -153,7 +157,7 @@ Page({
       });
     }
   },
-  changeHoldingProfitDetails(e) {
+  showUpdateProfitDrawer(e) {
     var that = this;
     const item = e.currentTarget.dataset.item;
     that.setData({
@@ -161,10 +165,11 @@ Page({
       selectedItem: item,
       updateProfitFormData: {
         fund_id: item.fund_id,
-        price_change_percentage: item.price_change_percentage,
+        current_net_value: item.current_net_value,
         transaction_date: that.data.selectedDay.date,
         fund_name: item.fund_name,
-        profit_loss_type: item.price_change_percentage > 0 ? true : false
+        profit_loss_id: item.id,
+
       }
     });
     
@@ -175,25 +180,14 @@ Page({
       selectedItem: null,
       updateProfitFormData: {
         fund_id: '',
-        price_change_percentage: '',
+        current_net_value: '',
         transaction_date: '',
         fund_name: '',
-        profit_loss_type: true
+        profit_loss_id: '',
       }
     });
   },
 
-  handleProfitSwitch(e) {
-    var that = this;
-    const profit_loss_type = e.currentTarget.dataset.value;
-    let price_change_percentage = profit_loss_type ? 
-      Math.abs(parseFloat(that.data.updateProfitFormData.price_change_percentage)) : 
-      -Math.abs(parseFloat(that.data.updateProfitFormData.price_change_percentage));
-    that.setData({
-      'updateProfitFormData.profit_loss_type': profit_loss_type,
-      'updateProfitFormData.price_change_percentage': price_change_percentage
-    });
-  },
   handleUpdateProfitInput(e) {
     const field = e.currentTarget.dataset.field;
     const value = e.detail.value;
@@ -203,7 +197,7 @@ Page({
   },
   handleUpdateProfitDateChange(e) {
     wx.showToast({
-      title: '前往盈亏记录即可修改',
+      title: '日期不能修改',
       icon: 'none'
     });
   },
@@ -215,7 +209,7 @@ Page({
       success: (res) => {
         if (res.confirm) {
           let postData = {
-            profit_loss_id: that.data.updateProfitFormData.id
+            profit_loss_id: that.data.updateProfitFormData.profit_loss_id
           }
           utils.getData({
             url: 'fund/holdingShares/deleteProfitLoss',
@@ -245,15 +239,9 @@ Page({
     var that = this;
     let formData = that.data.updateProfitFormData;
     
-    if (!formData.price_change_percentage) {
+    if (!formData.current_net_value) {
       wx.showToast({
-        title: '请输入盈亏率',
-        icon: 'none'
-      });
-      return;
-    } else if (formData.price_change_percentage == 0) {
-      wx.showToast({
-        title: '盈亏率不能为0',
+        title: '请输入现价',
         icon: 'none'
       });
       return;
@@ -267,19 +255,10 @@ Page({
       return;
     }
 
-    // 盈利正数，亏损负数
-    formData.price_change_percentage = formData.profit_loss_type ? 
-      Math.abs(parseFloat(formData.price_change_percentage)) : 
-      -Math.abs(parseFloat(formData.price_change_percentage));
-    
-    that.setData({
-      'updateProfitFormData.price_change_percentage': formData.price_change_percentage
-    });
-
     utils.getData({
       url: 'fund/holdingShares/deleteProfitLoss',
       params: {
-        profit_loss_id: that.data.selectedItem.id
+        profit_loss_id: that.data.updateProfitFormData.profit_loss_id
       },
       success: (res) => {
         if (res.code === 200) {
@@ -289,7 +268,7 @@ Page({
             success: (res) => {
               if (res.code === 200) {
                 wx.showToast({
-                  title: formData.profit_loss_type ? '盈利已更新' : '亏损已更新',
+                  title: '盈亏已更新',
                   icon: 'success'
                 });
                 that.closeUpdateProfitDrawer();
@@ -310,8 +289,6 @@ Page({
         }
       }
     });
-    
-    
   },
   onReady() {},
   onShow() {},

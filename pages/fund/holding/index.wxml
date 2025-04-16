@@ -46,7 +46,16 @@
   <view class="holding-list">
     <view class="list-header">
       <view>基金名称</view>
-      <view>批量操作</view>
+      <view class="list-batch">
+        <view bindtap="toBatchBuySell">
+          <image src="/static/image/buysell.png" mode="widthFix"></image>
+          <view>批量买卖</view>
+        </view>
+        <view bindtap="batchUpdateProfit">
+          <image src="/static/image/profitloss.png" mode="widthFix"></image>
+          <view>自动盈亏</view>
+        </view>
+      </view>
     </view>
     <view class="list-sort">
       <view wx:for="{{sortType}}" wx:key="id" bindtap="handleSortTypeChange" data-type="{{item.type}}" data-sort="{{item.sort}}">
@@ -71,7 +80,6 @@
             </view>
             <view class="item-right">
               <view class="profit-amount {{item.dailyData.profit_loss > 0 ? 'profit' : 'loss'}}">{{item.dailyData.profit_loss ? item.dailyData.profit_loss : '--'}}</view>
-              <view class="profit-rate {{item.dailyData.price_change_percentage > 0 ? 'profit' : 'loss'}}"><text style="margin: 0 8rpx;">/</text>{{item.dailyData.price_change_percentage ? item.dailyData.price_change_percentage : '--'}}%</view>
             </view>
           </view>
           <view class="bottom-detail">
@@ -106,10 +114,13 @@
                 </view>
               </view>
               <view class="bottom-detail-process-right">
+                <view>卖出盈亏</view>
+                <view>{{item.sell_profit}}</view>
+              </view>
+              <view class="bottom-detail-process-right">
                 <view>累计盈亏</view>
                 <view>{{item.total_profit}}</view>
               </view>
-              
             </view>
             <view class="item-mode">
               <view bindtap="toBuySellRecord" data-item="{{item}}">
@@ -141,7 +152,6 @@
             <view class="fund-name">{{item.fund_name}}</view>
             <view class="omit-right">
               <view class="omit-amount {{item.dailyData.profit_loss > 0 ? 'profit' : 'loss'}}">{{item.dailyData.profit_loss ? item.dailyData.profit_loss : '--'}}</view>
-              <view class="omit-rate {{item.dailyData.price_change_percentage > 0 ? 'profit' : 'loss'}}"><text style="margin: 0 8rpx;">/</text>{{item.dailyData.price_change_percentage ? item.dailyData.price_change_percentage : '--'}}%</view>
             </view>
           </view>
           <view class="omit-bottom">
@@ -152,11 +162,11 @@
               </view>
               <view>
                 <view>成本 / 现价</view>
-                <view>{{item.holding_cost}}/{{item.current_net_value}}</view>
+                <view>{{item.holding_cost}} / {{item.current_net_value}}</view>
               </view>
               <view>
                 <view>盈亏 / 盈亏率</view>
-                <view>{{item.holding_profit}}/{{item.holding_profit_rate_percentage}}</view>
+                <view>{{item.holding_profit}} / {{item.holding_profit_rate_percentage}}</view>
               </view>
             </view>
           </view>
@@ -314,9 +324,9 @@
 
       <view class="form-row">
         <view class="form-item">
-          <view class="account-title">净值<text class="required">*</text></view>
+          <view class="account-title">现价<text class="required">*</text></view>
           <view class="account-input">
-            <input type="digit" value="{{buySellFormData.net_value}}" data-field="net_value" bindinput="handleBuySellInput" placeholder="请输入净值" />
+            <input type="digit" value="{{buySellFormData.net_value}}" data-field="net_value" bindinput="handleBuySellInput" placeholder="请输入现价" />
           </view>
         </view>
         <view class="form-item">
@@ -365,7 +375,7 @@
         <view class="form-item">
           <view class="account-title">现价<text class="required">*</text></view>
           <view class="account-input">
-            <input type="digit" value="{{updateProfitFormData.current_net_value}}" data-field="current_net_value" bindinput="handleUpdateProfitInput" placeholder="请输入盈亏率" />
+            <input type="digit" value="{{updateProfitFormData.current_net_value}}" data-field="current_net_value" bindinput="handleUpdateProfitInput" placeholder="请输入现价" />
           </view>
         </view>
         <view class="form-item">
