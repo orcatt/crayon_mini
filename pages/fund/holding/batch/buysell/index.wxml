@@ -18,12 +18,12 @@
       <view class="item-omit">
         <view class="omit-top">
           <view class="fund-name">{{fundItem.fund_name}}</view>
-          <view class="omit-close" bindtap="deleteFund" data-id="{{fundItem.id}}">
+          <view class="omit-close" bindtap="removeFund" data-id="{{fundItem.id}}">
             <image src="/static/image/my/close.png" mode="widthFix"></image>
           </view>
             
         </view>
-         <view class="form-row">
+        <view class="form-row">
           <view class="form-item">
             <view class="account-title">交易类型<text class="required">*</text></view>
             <view class="profit-switch">
@@ -37,15 +37,15 @@
           <view class="form-item">
             <view class="account-title">现价<text class="required">*</text></view>
             <view class="account-input">
-              <input type="digit" value="{{buySellFormDataList[fundIndex].net_value}}" data-field="net_value" bindinput="handleBuySellInput" placeholder="现价" />
+              <input type="digit" value="{{buySellFormDataList[fundIndex].net_value}}" data-field="net_value" data-fundid="{{fundItem.id}}" bindinput="handleBuySellInput" placeholder="现价" />
             </view>
           </view>
           <view class="form-item">
             <view class="account-title">份额<text class="required">*</text></view>
             <view class="account-input shares-input" style="padding-right: 0;">
-              <image src="/static/image/reduce.png" mode="widthFix" bindtap="addReduceSharesHundred" data-type="reduce" />
-              <input type="digit" value="{{buySellFormDataList[fundIndex].shares}}" data-field="shares" bindinput="handleBuySellInput" placeholder="份额" />
-              <image src="/static/image/add.png" mode="widthFix" bindtap="addReduceSharesHundred" data-type="add" />
+              <image src="/static/image/reduce.png" mode="widthFix" bindtap="addReduceSharesHundred" data-type="reduce" data-fundid="{{fundItem.id}}" />
+              <input type="digit" value="{{buySellFormDataList[fundIndex].shares}}" data-field="shares" data-fundid="{{fundItem.id}}" bindinput="handleBuySellInput" placeholder="份额" />
+              <image src="/static/image/add.png" mode="widthFix" bindtap="addReduceSharesHundred" data-type="add" data-fundid="{{fundItem.id}}" />
             </view>
           </view>
           <view class="form-item">
@@ -58,6 +58,8 @@
       </view>
     </view>
   </view>
-  <view style="height: 100rpx;"></view>
+  <view style="height: 150rpx;"></view>
     
 </view>
+<view class="wx-login-btn" bindtap="submitBatch">就这样</view>
+  

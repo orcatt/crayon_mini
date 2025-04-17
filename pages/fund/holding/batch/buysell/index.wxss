@@ -193,3 +193,19 @@ page{
   height: 60rpx;
   vertical-align: sub;
 }
+
+.wx-login-btn {
+  width: 40%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #18181b;
+  color: #ffffff;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+  position: fixed;
+  bottom: 44rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}

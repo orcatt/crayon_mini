@@ -197,6 +197,108 @@ page{
 }
 
 
+
+/* 缩略显示 */
+.item-omit{
+  width: 100%;
+  height: auto;
+  background: #ffffff;
+  border-radius: 12rpx;
+  padding: 12rpx;
+  box-sizing: border-box;
+  margin-top: 30rpx;
+}
+.omit-top{
+  height: 50rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.omit-right {
+  display: flex;
+  height: 50rpx;
+}
+
+.omit-amount {
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 40rpx;
+  font-family: 'DouyinSansBold';
+  margin-bottom: 4rpx;
+}
+
+.omit-rate {
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 28rpx;
+  font-family: 'DouyinSansBold';
+}
+
+.omit-bottom{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10rpx;
+}
+.market-info{
+  width: 100%;
+}
+.market-info-item{
+  width: 100%;
+  height: 70rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.market-info-item>view{
+  color: #71717a;
+  font-size: 24rpx;
+}
+.market-info-item>view>text{
+  color: #09090B;
+  font-size: 28rpx;
+  font-family: 'DouyinSansBold';
+}
+
+
+.omit-bottom-line{
+  width: 100%;
+  height: 90rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}
+.omit-bottom-line>view{
+  /* width: calc(100% / 3); */
+  height: 90rpx;
+  text-align: center;
+
+}
+.omit-bottom-line>view:nth-child(2){
+  width: 40%;
+  border-left: 2rpx solid #e0e0e0;
+  border-right: 2rpx solid #e0e0e0;
+}
+.omit-bottom-line>view>view:nth-child(1){
+  height: 40rpx;
+  line-height: 40rpx;
+  font-size: 24rpx;
+  color: #71717a;
+}
+.omit-bottom-line>view>view:nth-child(2){
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 26rpx;
+  font-family: 'DouyinSansBold';
+  color: #09090B;
+}
+
+
+
 /* 弹窗基础样式 */
 .drawer-mask {
   position: fixed;

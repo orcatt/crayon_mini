@@ -33,7 +33,7 @@
       <view class="calendar-day {{item.isToday ? 'today' : ''}} {{selectedDay.date === item.date ? 'selected' : ''}}" 
         wx:for="{{calendarDays}}" 
         wx:key="date"
-        bindtap="showUpdateProfitDrawer"
+        bindtap="updateSelectedDay"
         data-index="{{index}}">
         <view class="day-number ">{{item.isToday ? '今' : item.day}}</view>
         <view class="amount {{item.profit_loss === '0.00' ? 'equal' : item.profit_loss > 0 ? 'profit' : 'loss'}}">
@@ -42,7 +42,35 @@
       </view>
     </view>
   </view>
-
+  <view class="item-omit" >
+    <view class="omit-top">
+      <view class="fund-name">{{selectedDay.date}}行情</view>
+      <view class="omit-right">
+        <view class="omit-amount {{selectedDay.profit_loss > 0 ? 'profit' : 'loss'}}">{{selectedDay.profit_loss ? selectedDay.profit_loss : '--'}}</view>
+      </view>
+    </view>
+    <view class="omit-bottom">
+      <view class="market-info">
+        <view class="market-info-item">
+          <view>开盘：<text>{{selectedDay.market_info.open}}</text></view>
+          <view>收盘：<text>{{selectedDay.market_info.close}}</text></view>
+          <view>最低：<text>{{selectedDay.market_info.low}}</text></view>
+          <view>最高：<text>{{selectedDay.market_info.high}}</text></view>
+        </view>
+        <view class="market-info-item">
+          <view>涨跌额：<text>{{selectedDay.market_info.change_amount}}</text></view>
+          <view>涨跌幅：<text>{{selectedDay.market_info.change_percentage}}</text></view>
+          <view>振幅：<text>{{selectedDay.market_info.amplitude}}</text></view>
+          <view>换手率：<text>{{selectedDay.market_info.turnover_rate}}</text></view>
+        </view>
+        <view class="market-info-item" style="justify-content: start;gap: 40rpx;">
+          <view>成交量：<text>{{selectedDay.market_info.volume}}</text></view>
+          <view>成交额：<text>{{selectedDay.market_info.turnover}}</text></view>
+        </view>
+      </view>
+    </view>
+  </view>
+    
 </view>
 
 <!-- 更新盈亏弹窗 -->

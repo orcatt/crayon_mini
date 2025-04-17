@@ -763,15 +763,15 @@ Component({
 		toBatchBuySell() {
 			var that = this;
 			wx.navigateTo({
-				url: '/pages/fund/holding/batch/index',
+				url: '/pages/fund/holding/batch/buysell/index',
 			})
 		},
-		// batchUpdateProfit() {
-		// 	var that = this;
-		// 	that.setData({
-		// 		showBatchUpdateProfitDrawer: true
-		// 	})
-		// },
+		batchUpdateProfit() {
+			var that = this;
+			that.setData({
+				showBatchUpdateProfitDrawer: true
+			})
+		},
 		
 	},
   lifetimes: {

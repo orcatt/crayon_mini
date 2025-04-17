@@ -12,8 +12,6 @@ Page({
     weekDays: ['日', '一', '二', '三', '四', '五', '六'],
     calendarDays: [], // 日历天数
     totalProfitLoss: 0,
-    todayProfitLoss: 0,
-    current_net_value: 0,
     showType: 'profit', // 显示类型：profit-盈亏，percent-盈亏率
     selectedDay: null,
     showUpdateProfitDrawer: false,
@@ -43,68 +41,7 @@ Page({
     
     that.generateCalendar();
   },
-  getData() {
-    var that = this;
-    let postData = {
-      fund_id: that.data.fund_id,
-      transaction_date: that.data.currentMonth,
-    }
-    utils.getData({
-      url: 'fund/holdingShares/profitList',
-      params: postData,
-      success: (res) => {
-        if (res.code === 200) {
-          // 将盈亏数据合并到日历数据中
-          let calendarDays = that.data.calendarDays.map(day => {
-            // 查找当前日期是否有盈亏数据
-            const profitData = res.data.find(item => item.transaction_date === day.date);
-            if (profitData) {
-              return {
-                ...day,
-                profit_loss_id: profitData.id,
-                profit_loss: profitData.profit_loss,
-                current_net_value: parseFloat(profitData.current_net_value).toFixed(3),
-              };
-            }else{
-              return {
-                ...day,
-                profit_loss_id: 0,
-                profit_loss: '0.00',
-                current_net_value: '0.000',
-              };
-            }
-          });
-          console.log(calendarDays);
-          // 计算总盈亏和今日盈亏
-          let totalProfitLoss = 0;
-          let todayProfitLoss = 0;
-          let current_net_value = 0;
-          calendarDays.forEach(day => {
-            // 累加总盈亏
-            totalProfitLoss += parseFloat(day.profit_loss);
-            
-            // 获取今日盈亏
-            if(day.isToday) {
-              todayProfitLoss = parseFloat(day.profit_loss);
-              current_net_value = parseFloat(day.current_net_value);
-            }
-          });
-          console.log(calendarDays);
-          that.setData({
-            calendarDays: calendarDays,
-            totalProfitLoss: totalProfitLoss.toFixed(2),
-            todayProfitLoss: todayProfitLoss.toFixed(2),
-            current_net_value: current_net_value.toFixed(2)
-          });
-        } else {
-          wx.showToast({
-            title: res.message,
-            icon: 'none'
-          });
-        }
-      }
-    });
-  },
+  
   handleMonthChange(e) {
     var that = this;
     that.setData({
@@ -137,14 +74,130 @@ Page({
     }
     
     that.setData({ calendarDays: days });
-    that.getData();
+    that.getTodayMarket(days[0].date,days[days.length - 1].date);
   },
   
-  formatDate(date) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+  getTodayMarket(start_date,end_date) {
+    var that = this;
+    let postData = {
+      start_date: start_date,
+      end_date: end_date,
+      stock_code: that.data.fund_code
+    }
+    utils.getData({
+      url: 'stocks/tradeList',
+      params: postData,
+      success: (res) => {
+        if (res.code === 200) {
+          const list = [];
+          const keyMap = {
+            "开盘": "open",
+            "成交量": "volume",
+            "成交额": "turnover",
+            "振幅": "amplitude",
+            "换手率": "turnover_rate",
+            "收盘": "close",
+            "日期": "date",
+            "最低": "low",
+            "最高": "high",
+            "涨跌幅": "change_percentage",
+            "涨跌额": "change_amount",
+            "股票代码": "stock_code",
+            "股票名称": "stock_name"
+          };
+
+          res.data.list.forEach(item => {
+            const newItem = {};
+            for (const [key, value] of Object.entries(item)) {
+              const newKey = keyMap[key] || key;
+              newItem[newKey] = value;
+            }
+            list.push(newItem);
+          });
+          // 将价格数据合并到日历数据中
+          let calendarDays = that.data.calendarDays.map(day => {
+            const priceData = list.find(item => item.date === day.date);
+            if (priceData) {
+              return {
+                ...day,
+                market_info: priceData
+              };
+            }else{
+              return {
+                ...day,
+                market_info: null
+              };
+            }
+          });
+          that.setData({
+            calendarDays: calendarDays
+          })
+          
+          that.getData();
+        } else {
+          wx.showToast({
+            title: res.message,
+            icon: 'none'
+          });
+        }
+      }
+    });
+  },
+  getData() {
+    var that = this;
+    let postData = {
+      fund_id: that.data.fund_id,
+      transaction_date: that.data.currentMonth,
+    }
+    utils.getData({
+      url: 'fund/holdingShares/profitList',
+      params: postData,
+      success: (res) => {
+        if (res.code === 200) {
+          // 将盈亏数据合并到日历数据中
+          let calendarDays = that.data.calendarDays.map(day => {
+            // 查找当前日期是否有盈亏数据
+            const profitData = res.data.find(item => item.transaction_date === day.date);
+            if (profitData) {
+              return {
+                ...day,
+                profit_loss_id: profitData.id,
+                profit_loss: profitData.profit_loss,
+                current_net_value: parseFloat(profitData.current_net_value).toFixed(3),
+              };
+            }else{
+              return {
+                ...day,
+                profit_loss_id: 0,
+                profit_loss: '0.00',
+                current_net_value: '0.000',
+              };
+            }
+          });
+          // 计算总盈亏和今日盈亏
+          let totalProfitLoss = 0;
+          let selectedDay = {};
+          calendarDays.forEach(day => {
+            // 累加总盈亏
+            totalProfitLoss += parseFloat(day.profit_loss);
+            if(day.isToday) {
+              selectedDay = day;
+            }
+          });
+          console.log(calendarDays);
+          that.setData({
+            calendarDays: calendarDays,
+            totalProfitLoss: totalProfitLoss.toFixed(2),
+            selectedDay: selectedDay
+          });
+        } else {
+          wx.showToast({
+            title: res.message,
+            icon: 'none'
+          });
+        }
+      }
+    });
   },
   switchShowType(e) {
     const type = e.currentTarget.dataset.type;
@@ -152,7 +205,36 @@ Page({
       showType: type
     });
   },
- 
+  updateSelectedDay(e) {
+    var that = this;
+    const index = e.currentTarget.dataset.index;
+    const day = that.data.calendarDays[index];
+    if(day.profit_loss_id != 0) { // 有盈亏记录，查看/更新/删除
+      that.setData({
+        selectedDay: day,
+        updateProfitFormData: {
+          fund_id: that.data.fund_id,
+          current_net_value: day.current_net_value,
+          transaction_date: day.date,
+          fund_name: that.data.fund_name,
+          profit_loss_id: day.profit_loss_id,
+          profit_loss_addOrUpdate: 'update'
+        }
+      });
+      
+    }else{ // 没有盈亏记录，新增
+      that.setData({
+        selectedDay: day,
+        updateProfitFormData: {
+          fund_id: that.data.fund_id,
+          current_net_value: '',
+          transaction_date: day.date,
+          fund_name: that.data.fund_name,
+          profit_loss_addOrUpdate: 'add'
+        }
+      });
+    }
+  },
   showUpdateProfitDrawer(e) {
     var that = this;
     const index = e.currentTarget.dataset.index;
