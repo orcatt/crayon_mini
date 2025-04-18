@@ -1,0 +1,33 @@
+<!--pages/explore/tools/dict/index.wxml-->
+<header classTitle="center" classColor="true" isBack="true" backgroundColor="#f4f4f5">自动盈亏</header>
+<view class="mode" style="padding-top: {{tabbarRealHeight + 'px'}}; max-height: calc(100vh - {{tabbarRealHeight  + 'px'}}); overflow-y: auto;">
+  <view class="batch-header">
+    <view class="month-picker">
+      <picker mode="date" value="{{currentDate}}" bindchange="handleDateChange">
+        <view class="picker-content">
+          <text>{{currentDate}}</text>
+          <image src="/static/image/arrow-right.png" mode="widthFix"></image>
+        </view>
+      </picker>
+    </view>
+  </view>
+  <view class="list-content">
+    <view class="list-item" wx:for="{{holdingList}}" wx:key="id" wx:for-index="fundIndex" wx:for-item="fundItem">
+      <view class="omit-top">
+        <view class="fund-name">{{fundItem.fund_name}}</view>
+        <view class="form-item">
+          <view class="account-input">
+            <input type="digit" value="{{updateProfitFormData[fundIndex].current_net_value}}" data-field="current_net_value" data-fundid="{{fundItem.id}}" bindinput="handleProfitInput" placeholder="现价" />
+          </view>
+        </view>
+      </view>
+      <view class="omit-close" bindtap="removeFund" data-id="{{fundItem.id}}">
+        <image src="/static/image/my/close.png" mode="widthFix"></image>
+      </view>
+    </view>
+  </view>
+  <view style="height: 150rpx;"></view>
+    
+</view>
+<view class="wx-login-btn" bindtap="submitBatch">就这样</view>
+  

@@ -1,0 +1,163 @@
+/* pages/explore/tools/dict/index.wxss */
+page{
+  background-color: #f4f4f5;
+}
+.mode {
+	width: 90%;
+	margin: auto;
+	overflow-y: auto;
+  overflow-x: hidden;
+}
+.batch-header{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+.month-picker {
+  width: fit-content;
+  background: #ffffff;
+  padding: 12rpx 24rpx;
+  border-radius: 8rpx;
+}
+
+.picker-content {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  font-size: 28rpx;
+  color: #09090B;
+}
+
+.picker-content image {
+  width: 24rpx;
+  height: 24rpx;
+}
+
+
+.list-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.list-item {
+  padding: 30rpx 90rpx 30rpx 30rpx;
+  box-sizing: border-box;
+  background: #ffffff;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.1);
+  border-radius: 16rpx;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.omit-top{
+  height: 50rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fund-name {
+  font-size: 32rpx;
+  font-family: 'DouyinSansBold';
+  color: #09090B;
+  
+  margin-bottom: 4rpx;
+  /* 超出部分显示省略号 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 400rpx;
+}
+
+
+.form-item {
+  width: 30%;
+}
+
+
+.omit-close{
+  width: 48rpx;
+  height: 48rpx;
+  position: absolute;
+  right: 20rpx;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.omit-close image{
+  width: 100%;
+  height: 100%;
+}
+
+.omit-right {
+  display: flex;
+  height: 50rpx;
+}
+
+.omit-amount {
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 40rpx;
+  font-family: 'DouyinSansBold';
+  margin-bottom: 4rpx;
+}
+
+.omit-rate {
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 28rpx;
+  font-family: 'DouyinSansBold';
+}
+
+
+
+.account-title {
+  height: 40rpx;
+  line-height: 40rpx;
+  font-size: 24rpx;
+  color: #71717a;
+  margin-bottom: 10rpx;
+}
+
+.required {
+  color: #ef4444;
+  margin-left: 4rpx;
+}
+
+.account-input {
+  height: 80rpx;
+  padding: 0 24rpx;
+  background: #f4f4f5;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+}
+
+.account-input input {
+  height: 100%;
+  width: 100%;
+  font-size: 28rpx;
+}
+
+.account-input input:disabled {
+  color: #71717a;
+}
+
+
+.wx-login-btn {
+  width: 40%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #18181b;
+  color: #ffffff;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+  position: fixed;
+  bottom: 44rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}

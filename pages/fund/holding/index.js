@@ -768,8 +768,8 @@ Component({
 		},
 		batchUpdateProfit() {
 			var that = this;
-			that.setData({
-				showBatchUpdateProfitDrawer: true
+			wx.navigateTo({
+				url: '/pages/fund/holding/batch/profitLoss/index',
 			})
 		},
 		

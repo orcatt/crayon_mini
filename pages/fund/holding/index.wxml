@@ -136,8 +136,6 @@
                 <image src="/static/image/tools/22.png" mode="widthFix"></image>
               </view>
             </view>
-              
-            
           </view>
           <view class="bottom-detail-btn">
             <view bindtap="showBuySellDrawer" data-item="{{item}}">买入卖出</view>
@@ -174,7 +172,6 @@
         </view>
       </view>
       <view class="add-btn" bindtap="showFundDrawer" data-type="add">新增基金</view>
-
     </view>
   </view>
 </view>

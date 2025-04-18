@@ -23,7 +23,8 @@
     "pages/fund/holding/record/profitLossUser/index",
     "pages/fund/holding/analysis/index",
     "pages/user/my/slave/passport/index",
-    "pages/fund/holding/batch/buysell/index"
+    "pages/fund/holding/batch/buysell/index",
+    "pages/fund/holding/batch/profitLoss/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

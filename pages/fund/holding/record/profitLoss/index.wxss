@@ -140,22 +140,6 @@ page{
 .calendar-day.today {
   background-color: #e4e4e7;
   box-shadow: 0 0rpx 12rpx rgba(0, 0, 0, 0.2);
-	animation: pulse 5s infinite;
-}
-
-@keyframes pulse {
-	0% {
-		transform: scale(1);
-
-	}
-	50% {
-		transform: scale(1.1);
-
-	}
-	100% {
-		transform: scale(1);
-
-	}
 }
 
 
@@ -196,6 +180,32 @@ page{
   background: rgba(34, 197, 94, 0.1);
 }
 
+/* 添加选中状态样式 */
+.calendar-day.selected {
+  background-color: #fafafa;
+  box-shadow: 0 0rpx 12rpx rgba(0, 0, 0, 0.2);
+	animation: pulse 5s infinite;
+
+}
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+
+	}
+	50% {
+		transform: scale(1.1);
+
+	}
+	100% {
+		transform: scale(1);
+
+	}
+}
+
+/* 同时选中且是今天的样式 */
+.calendar-day.today.selected {
+  background-color: #e4e4e7;
+}
 
 
 /* 缩略显示 */
@@ -204,7 +214,7 @@ page{
   height: auto;
   background: #ffffff;
   border-radius: 12rpx;
-  padding: 12rpx;
+  padding: 30rpx;
   box-sizing: border-box;
   margin-top: 30rpx;
 }
@@ -214,18 +224,22 @@ page{
   justify-content: space-between;
   align-items: center;
 }
-
-.omit-right {
-  display: flex;
-  height: 50rpx;
+.omit-name{
+  font-size: 32rpx;
+  font-family: 'DouyinSansBold';
+  color: #09090B;
 }
 
 .omit-amount {
   height: 50rpx;
   line-height: 50rpx;
-  font-size: 40rpx;
+  font-size: 36rpx;
   font-family: 'DouyinSansBold';
   margin-bottom: 4rpx;
+}
+.omit-amount text{
+  font-size: 32rpx;
+  font-family: 'DouyinSansBold';
 }
 
 .omit-rate {
@@ -235,13 +249,7 @@ page{
   font-family: 'DouyinSansBold';
 }
 
-.omit-bottom{
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 10rpx;
-}
+
 .market-info{
   width: 100%;
 }
@@ -249,11 +257,18 @@ page{
   width: 100%;
   height: 70rpx;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
+  gap: 36rpx;
 }
 
 .market-info-item>view{
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.market-info-item>view>view{
   color: #71717a;
   font-size: 24rpx;
 }
@@ -263,42 +278,35 @@ page{
   font-family: 'DouyinSansBold';
 }
 
+.market-info-item-last{
+  justify-content: start;
+  gap: 40rpx;
+}
+.market-info-item-last>view{
+  width: 50%;
+}
 
-.omit-bottom-line{
+
+.bottom-detail-btn{
   width: 100%;
-  height: 90rpx;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-}
-.omit-bottom-line>view{
-  /* width: calc(100% / 3); */
-  height: 90rpx;
+  height: 70rpx;
+  line-height: 70rpx;
   text-align: center;
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+  margin: 10rpx auto;
+  gap: 20rpx;
+}
+.bottom-detail-btn>view{
+  width: 50%;
+  height: 100%;
+  background: #18181b;
+  color: #ffffff;
+  font-size: 28rpx;
+  border-radius: 12rpx;
 
 }
-.omit-bottom-line>view:nth-child(2){
-  width: 40%;
-  border-left: 2rpx solid #e0e0e0;
-  border-right: 2rpx solid #e0e0e0;
-}
-.omit-bottom-line>view>view:nth-child(1){
-  height: 40rpx;
-  line-height: 40rpx;
-  font-size: 24rpx;
-  color: #71717a;
-}
-.omit-bottom-line>view>view:nth-child(2){
-  height: 50rpx;
-  line-height: 50rpx;
-  font-size: 26rpx;
-  font-family: 'DouyinSansBold';
-  color: #09090B;
-}
-
-
-
 /* 弹窗基础样式 */
 .drawer-mask {
   position: fixed;

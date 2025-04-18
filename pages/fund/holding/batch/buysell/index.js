@@ -20,28 +20,34 @@ Page({
   },
   onLoad(options) {
     var that = this;
-    that.setData({
-      tabbarRealHeight: wx.getStorageSync('tabbarRealHeight')
-    })
-    that.getData();
-
-
-  },
-  getData() {
-    var that = this;
-
     let today = new Date();
     let year = today.getFullYear();
     let month = String(today.getMonth() + 1).padStart(2, '0');
     let day = String(today.getDate()).padStart(2, '0');
     let currentDate = `${year}-${month}-${day}`;
     that.setData({
-      currentDate: currentDate,
     })
 
+    that.setData({
+      tabbarRealHeight: wx.getStorageSync('tabbarRealHeight'),
+      currentDate: currentDate,
 
+    })
+    that.getData();
+
+
+  },
+  handleDateChange(e) {
+    var that = this;
+    that.setData({
+      currentDate: e.detail.value
+    })
+    that.getData();
+  },
+  getData() {
+    var that = this;
     let postData = {
-      transaction_date: currentDate,
+      transaction_date: that.data.currentDate,
     }
     utils.getData({
       url: 'fund/holdingShares/list',

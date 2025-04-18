@@ -12,7 +12,7 @@ Page({
     weekDays: ['日', '一', '二', '三', '四', '五', '六'],
     calendarDays: [], // 日历天数
     totalProfitLoss: 0,
-    showType: 'profit', // 显示类型：profit-盈亏，percent-盈亏率
+    showType: 'profit', // 显示类型：profit-盈亏，market-现价
     selectedDay: null,
     showUpdateProfitDrawer: false,
     updateProfitFormData: {
@@ -209,12 +209,19 @@ Page({
     var that = this;
     const index = e.currentTarget.dataset.index;
     const day = that.data.calendarDays[index];
+    if(day.market_info == null) {
+      wx.showToast({
+        title: '休市或未到交易日期',
+        icon: 'none'
+      });
+      return;
+    }
     if(day.profit_loss_id != 0) { // 有盈亏记录，查看/更新/删除
       that.setData({
         selectedDay: day,
         updateProfitFormData: {
           fund_id: that.data.fund_id,
-          current_net_value: day.current_net_value,
+          current_net_value: day.market_info.close,
           transaction_date: day.date,
           fund_name: that.data.fund_name,
           profit_loss_id: day.profit_loss_id,
@@ -227,7 +234,7 @@ Page({
         selectedDay: day,
         updateProfitFormData: {
           fund_id: that.data.fund_id,
-          current_net_value: '',
+          current_net_value: day.market_info.close,
           transaction_date: day.date,
           fund_name: that.data.fund_name,
           profit_loss_addOrUpdate: 'add'
@@ -235,38 +242,26 @@ Page({
       });
     }
   },
-  showUpdateProfitDrawer(e) {
+  showUpdateProfitDrawer() {
     var that = this;
-    const index = e.currentTarget.dataset.index;
-    const day = that.data.calendarDays[index];
-    
-    if(day.profit_loss_id != 0) { // 有盈亏记录，查看/更新/删除
-      that.setData({
-        showUpdateProfitDrawer: true,
-        selectedDay: day,
-        updateProfitFormData: {
-          fund_id: that.data.fund_id,
-          current_net_value: day.current_net_value,
-          transaction_date: day.date,
-          fund_name: that.data.fund_name,
-          profit_loss_id: day.profit_loss_id,
-          profit_loss_addOrUpdate: 'update'
+    if(that.data.selectedDay.profit_loss_id != 0) {
+      wx.showModal({
+        title: '提示',
+        content: '今日已更新盈亏，是否重新更新？',
+        showCancel: true,
+        success: (res) => {
+          if (res.confirm) {
+            that.setData({
+              showUpdateProfitDrawer: true,
+            });
+          }
         }
       });
-      
-    }else{ // 没有盈亏记录，新增
-      that.setData({
-        showUpdateProfitDrawer: true,
-        selectedDay: day,
-        updateProfitFormData: {
-          fund_id: that.data.fund_id,
-          current_net_value: '',
-          transaction_date: day.date,
-          fund_name: that.data.fund_name,
-          profit_loss_addOrUpdate: 'add'
-        }
-      });
+      return;
     }
+    that.setData({
+      showUpdateProfitDrawer: true,
+    });
   },
   closeUpdateProfitDrawer() {
     var that = this;

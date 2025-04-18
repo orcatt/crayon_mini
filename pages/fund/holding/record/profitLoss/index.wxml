@@ -18,7 +18,7 @@
       <view class="switch-container">
         <view class="switch-group">
           <view class="switch-item {{showType === 'profit' ? 'active' : ''}}" bindtap="switchShowType" data-type="profit">盈亏</view>
-          <view class="switch-item {{showType === 'percent' ? 'active' : ''}}" bindtap="switchShowType" data-type="percent">现价</view>
+          <view class="switch-item {{showType === 'market' ? 'active' : ''}}" bindtap="switchShowType" data-type="market">行情</view>
         </view>
       </view>
     </view>
@@ -36,38 +36,43 @@
         bindtap="updateSelectedDay"
         data-index="{{index}}">
         <view class="day-number ">{{item.isToday ? '今' : item.day}}</view>
-        <view class="amount {{item.profit_loss === '0.00' ? 'equal' : item.profit_loss > 0 ? 'profit' : 'loss'}}">
-          {{showType === 'profit' ? (item.profit_loss ? item.profit_loss : '0.00') : (item.current_net_value)}}
+        <view class="amount" wx:if="{{showType === 'profit'}}">
+          <view wx:if="{{item.week === 6 || item.week === 0}}">休市</view>
+          <view wx:else class="{{item.profit_loss === '0.00' ? 'equal' : item.profit_loss > 0 ? 'profit' : 'loss'}}">{{item.profit_loss ? item.profit_loss : '--'}}</view>
+        </view>
+        <view class="amount" wx:if="{{showType === 'market'}}">
+          <view wx:if="{{item.week === 6 || item.week === 0}}">休市</view>
+          <view wx:else class="equal">{{item.market_info.close ? item.market_info.close : '--'}}</view>
         </view>
       </view>
     </view>
   </view>
-  <view class="item-omit" >
+  <view class="item-omit" wx:if="{{selectedDay.market_info}}">
     <view class="omit-top">
-      <view class="fund-name">{{selectedDay.date}}行情</view>
+      <view class="omit-name">{{selectedDay.date}} 行情</view>
       <view class="omit-right">
-        <view class="omit-amount {{selectedDay.profit_loss > 0 ? 'profit' : 'loss'}}">{{selectedDay.profit_loss ? selectedDay.profit_loss : '--'}}</view>
+        <view class="omit-amount {{selectedDay.market_info.change_percentage > 0 ? 'profit' : 'loss'}}">{{selectedDay.market_info.close}}<text> / {{selectedDay.market_info.change_percentage}} %</text></view>
       </view>
     </view>
-    <view class="omit-bottom">
-      <view class="market-info">
-        <view class="market-info-item">
-          <view>开盘：<text>{{selectedDay.market_info.open}}</text></view>
-          <view>收盘：<text>{{selectedDay.market_info.close}}</text></view>
-          <view>最低：<text>{{selectedDay.market_info.low}}</text></view>
-          <view>最高：<text>{{selectedDay.market_info.high}}</text></view>
-        </view>
-        <view class="market-info-item">
-          <view>涨跌额：<text>{{selectedDay.market_info.change_amount}}</text></view>
-          <view>涨跌幅：<text>{{selectedDay.market_info.change_percentage}}</text></view>
-          <view>振幅：<text>{{selectedDay.market_info.amplitude}}</text></view>
-          <view>换手率：<text>{{selectedDay.market_info.turnover_rate}}</text></view>
-        </view>
-        <view class="market-info-item" style="justify-content: start;gap: 40rpx;">
-          <view>成交量：<text>{{selectedDay.market_info.volume}}</text></view>
-          <view>成交额：<text>{{selectedDay.market_info.turnover}}</text></view>
-        </view>
+    <view class="market-info">
+      <view class="market-info-item">
+        <view><view>最高：</view><text>{{selectedDay.market_info.high}}</text></view>
+        <view><view>开盘：</view><text>{{selectedDay.market_info.open}}</text></view>
+        <view><view>涨跌额：</view><text>{{selectedDay.market_info.change_amount}}</text></view>
       </view>
+      <view class="market-info-item">
+        <view><view>最低：</view><text>{{selectedDay.market_info.low}}</text></view>
+        <view><view>换手：</view><text>{{selectedDay.market_info.turnover_rate}} %</text></view>
+        <view><view>振幅：</view><text>{{selectedDay.market_info.amplitude}}</text></view>
+      </view>
+      <view class="market-info-item market-info-item-last" >
+        <view><view>成交量：</view><text>{{selectedDay.market_info.volume}}</text></view>
+        <view><view>成交额：</view><text>{{selectedDay.market_info.turnover}}</text></view>
+      </view>
+    </view>
+    <view class="bottom-detail-btn">
+      <view bindtap="showUpdateProfitDrawer">更新盈亏</view>
+      <view >量化模型</view>
     </view>
   </view>
     

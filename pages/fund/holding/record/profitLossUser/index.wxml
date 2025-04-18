@@ -84,7 +84,6 @@
             <input type="text" value="{{updateProfitFormData.fund_name}}" disabled placeholder="基金名称" />
           </view>
         </view>
-       
       </view>
 
       <view class="form-row">
