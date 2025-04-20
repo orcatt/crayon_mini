@@ -344,10 +344,13 @@ Page({
   calculationScore(){
     var that = this;
     let score = 0;
+
+    // 上锁+2
     if(that.data.passportData.is_locked == 1){
       score += 2;
     }
 
+    // 遵守触摸+1，否则-触摸次数
     if(that.data.passportData.touch_count == 0){
       score += 1;
     }else{
@@ -355,18 +358,46 @@ Page({
     }
     
     if(that.data.passportData.control_count == 0 ){
-      score += 10;
+      score += 1;
+    }else{
+      score -= that.data.passportData.control_count;
     }
 
+    // 汇报平常 0，燥热 1，发情 2
     if(that.data.passportData.status == '燥热'){
       score += 1;
     }else if(that.data.passportData.status == '发情'){
       score += 2;
     }
 
-    // if(that.data.passportData.control_count == 1){
-    //   score += 10;
-    // }
+    // 每日任务完成+3，否则 0
+    if(that.data.passportData.daily_task_completed){
+      score += 3;
+    }
+
+    // 额外任务完成+2，否则 -2
+    if(that.data.passportData.extra_task_completed){
+      score += 2;
+    }else{
+      score -= 1;
+    }
+
+    // 其他工具+1
+    if(that.data.passportData.other_tools){
+      score += 1;
+    }
+
+    // 其他违规-1
+    if(that.data.passportData.violation){
+      score -= 1;
+    }
+
+    if(score < 0){
+      score = 0;
+    }
+    console.log(score);
+    
+    
   },
   onReady() {},
   onShow() {},

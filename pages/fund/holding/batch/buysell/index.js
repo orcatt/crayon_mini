@@ -162,6 +162,23 @@ Page({
   },
   submitBatch(e) {
     var that = this;
+    // 检查现价数据是否完整
+    let dataCheck = true;
+    that.data.buySellFormDataList.forEach((item) => {
+      if (item.net_value === '' || !item.net_value) {
+        dataCheck = false;
+      }
+      if (item.shares === '' || !item.shares) {
+        dataCheck = false;
+      }
+    });
+    if (!dataCheck) {
+      wx.showToast({
+        title: '数据不完整',
+        icon: 'none'
+      });
+      return;
+    }
     utils.getData({
       url: 'fund/holdingTransactions/batch',
       params: that.data.buySellFormDataList,

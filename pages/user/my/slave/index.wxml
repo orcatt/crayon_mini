@@ -123,7 +123,11 @@
       </view>
     </view>
   </view>
+  <view>
   <view class="start-btn" bindtap="showDrawer">开始认证</view>
+    
+  </view>
+    
 </view>
 
 <!-- 完善信息弹窗 -->
@@ -444,7 +448,7 @@
         </view>
       </view>
       <!-- 违规行为 -->
-      <view class="form-title">违规行为</view>
+      <view class="form-title">犯错行为</view>
       <view class="form-row" >
         <view class="form-item">
           <view class="account-input">
