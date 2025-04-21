@@ -34,12 +34,12 @@ Page({
     passportData: {
       is_locked: 1,
       touch_count: 0,
-      status: '平常',
-      status_text: '奴才性欲正常，处于平常期',
+      libido_status: '平常',
+      status_text: '不传值！！',
       daily_task_title: '骨外肌训练3分钟',
       daily_task_content: '骨外肌训练3分钟，保持肌肉紧张，放松，重复，动作标准',
       daily_task_completed: false,
-      control_count: 0,
+      excretion_count: 0,
       water_intake: '2000',
       water_completed: true,
       other_tools: '',
@@ -252,13 +252,13 @@ Page({
   // 饮水
   handleWaterCountStatus(e){
     var that = this;
-    if(that.data.passportData.control_count == 0){
+    if(that.data.passportData.excretion_count == 0){
       that.setData({
-        'passportData.control_count': 1
+        'passportData.excretion_count': 1
       });
     }else{
       that.setData({
-        'passportData.control_count': 0
+        'passportData.excretion_count': 0
       });
     }
   },
@@ -266,7 +266,7 @@ Page({
     var that = this;
     const value = e.detail.value == '' ? 0 : parseInt(e.detail.value);
     that.setData({
-      'passportData.control_count': value
+      'passportData.excretion_count': value
     });
   },
   handleWaterStatus() {
@@ -281,7 +281,7 @@ Page({
     var that = this;
     let index = e.currentTarget.dataset.index;
     that.setData({
-      'passportData.status': that.data.sexStatus[index].name,
+      'passportData.libido_status': that.data.sexStatus[index].name,
       'passportData.status_text': that.data.sexStatus[index].content
     });
   },
@@ -357,16 +357,16 @@ Page({
       score -= that.data.passportData.touch_count;
     }
     
-    if(that.data.passportData.control_count == 0 ){
+    if(that.data.passportData.excretion_count == 0 ){
       score += 1;
     }else{
-      score -= that.data.passportData.control_count;
+      score -= that.data.passportData.excretion_count;
     }
 
     // 汇报平常 0，燥热 1，发情 2
-    if(that.data.passportData.status == '燥热'){
+    if(that.data.passportData.libido_status == '燥热'){
       score += 1;
-    }else if(that.data.passportData.status == '发情'){
+    }else if(that.data.passportData.libido_status == '发情'){
       score += 2;
     }
 

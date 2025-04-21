@@ -360,11 +360,11 @@
         <view class="form-item">
           <view class="account-title">是否控制排泄次数</view>
           <view class="account-select">
-            <view class="{{passportData.control_count == 0 ? 'active' : 'error'}}" bindtap="handleWaterCountStatus">
-              {{passportData.control_count == 0 ? '控制' : '违规'}}
+            <view class="{{passportData.excretion_count == 0 ? 'active' : 'error'}}" bindtap="handleWaterCountStatus">
+              {{passportData.excretion_count == 0 ? '控制' : '违规'}}
             </view>
             <view class="account-input">
-              <input type="number" disabled="{{passportData.control_count == 0}}" value="{{passportData.control_count}}" bindinput="handleWaterCountInput" />
+              <input type="number" disabled="{{passportData.excretion_count == 0}}" value="{{passportData.excretion_count}}" bindinput="handleWaterCountInput" />
             </view>
           </view>
         </view>
@@ -385,7 +385,7 @@
       <view class="form-row" style="margin-bottom: 0;">
         <view class="form-item">
           <view class="account-select-three">
-            <view wx:for="{{sexStatus}}" wx:key="name" class="{{item.name == passportData.status ? 'active' : ''}}" bindtap="handleStatusChange" data-index="{{index}}">
+            <view wx:for="{{sexStatus}}" wx:key="name" class="{{item.name == passportData.libido_status ? 'active' : ''}}" bindtap="handleStatusChange" data-index="{{index}}">
               {{item.name}}
             </view>
           </view>
