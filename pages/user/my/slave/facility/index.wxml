@@ -20,7 +20,7 @@
       <roulette></roulette>
     </swiper-item>
     <swiper-item >
-      <slotMachine style="width: 100%;"></slotMachine>
+      <slotMachine></slotMachine>
     </swiper-item>
     <swiper-item >
       <points21></points21>

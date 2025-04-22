@@ -12,8 +12,8 @@
           "name": "游戏",
           "pathName": "pages/user/my/slave/facility/index",
           "query": "",
-          "scene": null,
-          "launchMode": "default"
+          "launchMode": "default",
+          "scene": null
         },
         {
           "name": "pages/fund/index",

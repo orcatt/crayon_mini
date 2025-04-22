@@ -1,32 +1,122 @@
 /* pages/today/index.wxss */
 
+
 .mode {
-	width: 90%;
+	width: 100%;
 	margin: auto;
-	padding: 20rpx 0;
-	overflow-y: auto;
-  overflow-x: hidden;
+	padding: 20rpx;
+  box-sizing: border-box;
 }
-.modetitle{
-  font-family: 'DouyinSansBold';
-  position: relative;
-  margin-bottom: 10rpx;
+
+.container {
+  width: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx;
+  box-sizing: border-box;
+  background-color: #fff;
+  border-radius: 20rpx;
+  box-shadow: 0 0 8rpx rgba(0, 0, 0, 0.1);
+  /* border: 1rpx solid #09090B; */
+
 }
-.modetitle .top{
-  height: 65rpx;
-  font-size: 48rpx;
+
+.dealer-area,
+.player-area {
+  width: 100%;
+  padding: 20rpx;
+}
+
+.score {
   color: #09090B;
-}
-.modetitle .bottom{
-  height: 50rpx;
   font-size: 32rpx;
-  color: #71717A;
+  margin-bottom: 20rpx;
+  text-align: center;
 }
-.opt image{
-  width: 60rpx;
-  height: 60rpx;
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+
+.cards-container {
+  display: flex;
+  justify-content: center;
+  gap: 20rpx;
+  margin-bottom: 30rpx;
+}
+
+.card {
+  width: calc(100%/6);
+  height: 160rpx;
+  background-color: #ffffff;
+  border-radius: 10rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.card.filled {
+  background-color: #f8f8f8;
+  border: 2rpx solid #e0e0e0;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 80%;
+  width: 100%;
+}
+
+.card-number {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.card-suit {
+  width: 40rpx;
+  height: 40rpx;
+  margin-top: 10rpx;
+}
+
+.result {
+  color: #ffffff;
+  font-size: 40rpx;
+  font-weight: bold;
+  text-align: center;
+  margin: 20rpx 0;
+  padding: 20rpx;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10rpx;
+}
+
+.controls {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20rpx;
+  padding: 30rpx;
+  box-sizing: border-box;
+}
+
+.btn {
+  width: 100%;
+  height: 70rpx;
+  line-height: 70rpx;
+  text-align: center;
+  background: #18181b;
+  color: #ffffff;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+}
+
+.controls .active {
+  opacity: 0.8;
+}
+
+.controls .disabled {
+  background-color: #cccccc;
+  opacity: 0.6;
 }

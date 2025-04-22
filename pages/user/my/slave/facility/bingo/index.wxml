@@ -1,10 +1,40 @@
-<view class="mode" style="height: calc(100vh - {{tabbarRealHeight +90 + 'px'}});">
-  <view class="modetitle">
-		<view class="top">bingo游戏</view>
-		<view class="bottom">好事正在产生</view>
-		<view class="opt" bind:tap="addCountdown">
-			<image src="/static/image/add.png"></image>
+<view class="mode">
+  <view class="container">
+    <!-- 数字展示区域 -->
+    <view class="numbers-display">
+      <!-- 数字行 -->
+      <view class="number-row">
+        <view wx:for="{{numbers}}" wx:key="index" class="number-ball red">
+          {{item}}
+        </view>
+      </view>
+      <view class="number-row">
+        <view wx:for="{{numbers}}" wx:key="index" class="number-ball blue">
+          {{item}}
+        </view>
+      </view>
+    </view>
+		<!-- 游戏结果 -->
+		<view class="result" wx:if="{{showResult}}">
+			{{gameResult}}
 		</view>
-	</view>
-	
+    <!-- 结果展示区域 -->
+    <view class="result-area" wx:if="{{showResult}}">
+      <view class="result-balls">
+				<view>
+					<view class="big-ball red">{{dealerNumber}}</view>
+					<view class="description">庄家红球</view>
+				</view>
+				<view>
+					<view class="big-ball blue">{{playerNumber}}</view>
+					<view class="description">庄家蓝球</view>
+				</view>
+      </view>
+    </view>
+
+    <!-- 控制按钮 -->
+    <view class="controls">
+      <view class="btn" bindtap="startNewGame">新游戏</view>
+    </view>
+  </view>
 </view>

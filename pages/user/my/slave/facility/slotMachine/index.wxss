@@ -1,12 +1,13 @@
 /* pages/today/index.wxss */
 
+
 .mode {
-	width: 90%;
+	width: 100%;
 	margin: auto;
-	padding: 20rpx 0;
-	overflow-y: auto;
-  overflow-x: hidden;
+	padding: 20rpx;
+  box-sizing: border-box;
 }
+
 .container {
   width: 100%;
   padding: 40rpx;
@@ -14,9 +15,9 @@
   background-color: #fff;
   border-radius: 20rpx;
   box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
+  /* border: 1rpx solid #09090B; */
+
 }
-
-
 
 .reels {
   display: flex;
@@ -62,7 +63,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 40rpx;
+  border-radius: 10rpx;
   font-size: 32rpx;
   transition: all 0.3s;
 }

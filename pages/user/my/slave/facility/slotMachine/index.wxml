@@ -1,13 +1,15 @@
-<view class="container">
-	<view class="reels">
-		<view class="reel" wx:for="{{currentColors}}" wx:key="id" wx:for-index="reelIndex">
-			<view class="reel-item" style="background-color: {{item.color}};" animation="{{animationData[reelIndex]}}"></view>
+<view class="mode">
+	<view class="container">
+		<view class="reels">
+			<view class="reel" wx:for="{{currentColors}}" wx:key="id" wx:for-index="reelIndex">
+				<view class="reel-item" style="background-color: {{item.color}};" animation="{{animationData[reelIndex]}}"></view>
+			</view>
 		</view>
-	</view>
-	<view class="result" wx:if="{{showResult}}">
-		<view class="result-text">{{resultText}}</view>
-	</view>
-	<view class="start-btn {{isSpinning ? 'disabled' : ''}}" bindtap="startSpin">
-		<text>开始</text>
+		<view class="result" wx:if="{{showResult}}">
+			<view class="result-text">{{resultText}}</view>
+		</view>
+		<view class="start-btn {{isSpinning ? 'disabled' : ''}}" bindtap="startSpin">
+			<text>开始</text>
+		</view>
 	</view>
 </view>

@@ -1,10 +1,45 @@
-<view class="mode" style="height: calc(100vh - {{tabbarRealHeight +90 + 'px'}});">
-  <view class="modetitle">
-		<view class="top">21点</view>
-		<view class="bottom">好事正在产生</view>
-		<view class="opt" bind:tap="addCountdown">
-			<image src="/static/image/add.png"></image>
+<view class="mode">
+	<view class="container">
+		<!-- 庄家区域 -->
+		<view class="dealer-area">
+			<view class="score">庄家得分：{{dealerScore}}</view>
+			<view class="cards-container">
+				<view class="card {{item ? 'filled' : ''}}" wx:for="{{dealerCards}}" wx:key="index">
+					<block wx:if="{{item}}">
+						<view class="card-content">
+							<text class="card-number">{{item}}</text>
+							<image class="card-suit" src="/static/image/my/{{dealerSuits[index]}}.png" mode="aspectFit"></image>
+						</view>
+					</block>
+				</view>
+			</view>
+		</view>
+
+		<!-- 游戏结果 -->
+		<view class="result" wx:if="{{gameResult}}">
+			{{gameResult}}
+		</view>
+
+		<!-- 玩家区域 -->
+		<view class="player-area">
+			<view class="score">玩家得分：{{playerScore}}</view>
+			<view class="cards-container">
+				<view class="card {{item ? 'filled' : ''}}" wx:for="{{playerCards}}" wx:key="index">
+					<block wx:if="{{item}}">
+						<view class="card-content">
+							<text class="card-number">{{item}}</text>
+							<image class="card-suit" src="/static/image/my/{{playerSuits[index]}}.png" mode="aspectFit"></image>
+						</view>
+					</block>
+				</view>
+			</view>
+		</view>
+
+		<!-- 控制按钮 -->
+		<view class="controls">
+			<view class="btn {{!canDraw || gameOver ? 'disabled' : ''}}" bindtap="onDrawCard">要牌</view>
+			<view class="btn {{gameOver ? 'disabled' : ''}}" bindtap="onStand">停牌</view>
+			<view class="btn" bindtap="startNewGame">新游戏</view>
 		</view>
 	</view>
-	
 </view>
