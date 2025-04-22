@@ -1,0 +1,10 @@
+<view class="mode" style="height: calc(100vh - {{tabbarRealHeight +90 + 'px'}});">
+  <view class="modetitle">
+		<view class="top">21点</view>
+		<view class="bottom">好事正在产生</view>
+		<view class="opt" bind:tap="addCountdown">
+			<image src="/static/image/add.png"></image>
+		</view>
+	</view>
+	
+</view>

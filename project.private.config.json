@@ -9,6 +9,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "游戏",
+          "pathName": "pages/user/my/slave/facility/index",
+          "query": "",
+          "scene": null,
+          "launchMode": "default"
+        },
+        {
           "name": "pages/fund/index",
           "pathName": "pages/fund/index",
           "query": "",

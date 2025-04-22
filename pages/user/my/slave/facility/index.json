@@ -1,0 +1,11 @@
+{
+	"usingComponents": {
+		"header":"/components/Header/index",
+		"roulette":"/pages/user/my/slave/facility/roulette/index",
+		"slotMachine":"/pages/user/my/slave/facility/slotMachine/index",
+		"points21":"/pages/user/my/slave/facility/points21/index",
+		"bingo":"/pages/user/my/slave/facility/bingo/index"
+	},
+  "navigationStyle": "custom"
+	
+}

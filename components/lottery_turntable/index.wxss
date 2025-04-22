@@ -1,0 +1,90 @@
+.container {
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin: 20rpx auto;
+}
+.container .canvas-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+.container .turn {
+  position: absolute;
+  left: -200%;
+  width: 100%;
+  height: 100%;
+}
+.container .pointer {
+  position: absolute;
+  width: 185rpx;
+  height: 224rpx;
+  left: 50%;
+  top: 50%;
+  padding-top: 58rpx;
+  display: flex;
+  justify-content: center;
+  transform: translate(-50%, -59%) translateZ(100px);
+  background-size: 100% 100%;
+  box-sizing: border-box;
+}
+
+.container .pointer::before {
+  content: '';
+  position: absolute;
+  top: 20rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 20rpx solid transparent;
+  border-right: 20rpx solid transparent;
+  border-bottom: 30rpx solid #18181B;
+}
+
+.container .pointer .wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 150rpx;
+  height: 150rpx;
+  background-color: #18181B;
+  border-radius: 50%;
+  box-sizing: border-box;
+  transition: all 0.5s;
+  box-shadow: 0 0px 6rpx 0 rgba(255, 255, 255, .1), 
+  0 2rpx 2px -2rpx rgba(255, 255, 255, .3);
+}
+.container .pointer .wrapper.hover-class {
+  position: relative;
+  transform: scale(0.96);
+  transform-origin: center center;
+}
+.container .pointer .wrapper .title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32rpx;
+  font-size: 32rpx;
+  color: #fff;
+}
+.container .pointer .wrapper .count {
+  margin-top: 10rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20rpx;
+  font-size: 20rpx;
+  color: #fff;
+}
+.container .init {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #999;
+  font-size: 24rpx;
+}

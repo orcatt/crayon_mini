@@ -1,0 +1,11 @@
+<view class="mode" style=" height: calc(100vh - {{tabbarRealHeight +90 + 'px'}});">
+	<lottery-turntable
+    data="{{datas}}"
+    prize-id="{{prizeId}}"
+    count="{{5}}"
+    bindLuckDraw="onLuckDrawHandle"
+    bindNotEnough="onNotEnoughHandle"
+    bindLuckDrawFinish="onLuckDrawFinishHandle"
+  ></lottery-turntable>
+	
+</view>

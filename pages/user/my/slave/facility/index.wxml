@@ -1,0 +1,33 @@
+<!--pagesusertools/dict/index.wxml-->
+<header classTitle="center" classColor="true" isBack="true" backgroundColor="#f4f4f5">游戏</header>
+<view class="mode" style="padding-top: {{tabbarRealHeight + 'px'}}; height: calc(100vh - {{tabbarRealHeight  + 'px'}});">
+  <view class="tabsList">
+    <view 
+      class="{{activeIndex == item.id ? 'tabs_active': ''}}" 
+      wx:for="{{tabsList}}" wx:key="index" bind:tap="changeTabs" data-id="{{item.id}}"
+    >
+      {{item.title}}
+    </view>
+
+  </view>
+  <swiper 
+    class="swiper-container" 
+    current="{{activeIndex}}" 
+    bindchange="handleSwiper"
+    style="height: calc(100vh - 160rpx - {{tabbarRealHeight  + 'px'}});"
+  >
+    <swiper-item>
+      <roulette></roulette>
+    </swiper-item>
+    <swiper-item >
+      <slotMachine style="width: 100%;"></slotMachine>
+    </swiper-item>
+    <swiper-item >
+      <points21></points21>
+    </swiper-item>
+    <swiper-item >
+      <bingo></bingo>
+    </swiper-item>
+  </swiper>
+    
+</view>

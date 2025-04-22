@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+		"lottery-turntable":"/components/lottery_turntable/index"
+  }
+}
