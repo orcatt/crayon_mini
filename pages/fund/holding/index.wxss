@@ -312,16 +312,15 @@
   line-height: 80rpx;
   font-size: 48rpx;
   font-family: 'DouyinSansBold';
-  margin-bottom: 4rpx;
 }
-
-.profit-rate {
-  height: 80rpx;
-  line-height: 94rpx;
+.profit-amount>text{
 
   font-size: 28rpx;
   font-family: 'DouyinSansBold';
+  color: #71717a;
+  margin-left: 2rpx;
 }
+
 
 
 

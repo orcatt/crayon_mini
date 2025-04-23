@@ -121,6 +121,8 @@ Component({
 							
 							item.holding_profit_rate_percentage = (item.holding_profit_rate * 100).toFixed(2)
 							item.holding_shares = parseFloat(item.holding_shares).toFixed(0)
+							
+							item.total_profit_rate_percentage = ((item.total_profit / item.total_cost)*100).toFixed(3)
 							userTotalInfo.total_market_value_user += item.holding_amount*1
 							userTotalInfo.total_profit_user_today += item.dailyData.profit_loss*1
 							userTotalInfo.total_profit_user += item.holding_profit*1
@@ -527,7 +529,7 @@ Component({
 		showUpdateProfitDrawer(e) {
 			var that = this;
 			let item = e.currentTarget.dataset.item;
-			
+			console.log(item);
 			if (Object.keys(item.dailyData).length > 0) {
 				wx.showModal({
 					title: '提示',
@@ -538,14 +540,16 @@ Component({
 							that.setData({
 								showUpdateProfitDrawer: true,
 								updateProfitFormData: {
+									code: item.code,
 									fund_id: item.id,
-									current_net_value: item.dailyData.current_net_value,
+									current_net_value: '',
 									transaction_date: that.data.currentDate,
 									fund_name: item.fund_name,
 									profit_loss_id: item.dailyData.id,
 									profit_loss_addOrUpdate: 'update'
 								}
 							});
+							that.getTodayMarket(that.data.currentDate, that.data.currentDate, item.code);
 						}
 					}
 				});
@@ -555,6 +559,7 @@ Component({
 			that.setData({
 				showUpdateProfitDrawer: true,
 				updateProfitFormData: {
+					code: item.code,
 					fund_id: item.id,
 					current_net_value: '',
 					transaction_date: that.data.currentDate,
@@ -562,6 +567,7 @@ Component({
 					profit_loss_addOrUpdate: 'add'
 				}
 			});
+			that.getTodayMarket(that.data.currentDate, that.data.currentDate, item.code);
 		},
 		closeUpdateProfitDrawer() {
 			var that = this;
@@ -569,6 +575,7 @@ Component({
 			that.setData({
 				showUpdateProfitDrawer: false,
 				updateProfitFormData: {
+					code: '',
 					fund_id: '',
 					current_net_value: '',
 					transaction_date: '',
@@ -586,9 +593,11 @@ Component({
 			});
 		},
 		handleUpdateProfitDateChange(e) {
+			var that = this;
 			this.setData({
 				'updateProfitFormData.transaction_date': e.detail.value
 			});
+			that.getTodayMarket(that.data.updateProfitFormData.transaction_date, that.data.updateProfitFormData.transaction_date, that.data.updateProfitFormData.code);
 		},
 		deleteUpdateProfit() {
 			var that = this;
@@ -722,6 +731,57 @@ Component({
 				});
 			}
 			
+		},
+		getTodayMarket(start_date,end_date,stock_code) {
+			var that = this;
+			let postData = {
+				start_date: start_date,
+				end_date: end_date,
+				stock_code: stock_code
+			}
+			utils.getData({
+				url: 'stocks/tradeList',
+				params: postData,
+				success: (res) => {
+					if (res.code === 200) {
+						const list = [];
+						const keyMap = {
+							"开盘": "open",
+							"成交量": "volume",
+							"成交额": "turnover",
+							"振幅": "amplitude",
+							"换手率": "turnover_rate",
+							"收盘": "close",
+							"日期": "date",
+							"最低": "low",
+							"最高": "high",
+							"涨跌幅": "change_percentage",
+							"涨跌额": "change_amount",
+							"股票代码": "stock_code",
+							"股票名称": "stock_name"
+						};
+	
+						res.data.list.forEach(item => {
+							const newItem = {};
+							for (const [key, value] of Object.entries(item)) {
+								const newKey = keyMap[key] || key;
+								newItem[newKey] = value;
+							}
+							list.push(newItem);
+						});
+						
+						that.setData({
+							'updateProfitFormData.current_net_value': list[0].close
+						})
+						
+					} else {
+						wx.showToast({
+							title: res.message,
+							icon: 'none'
+						});
+					}
+				}
+			});
 		},
 		// ? ------ 跳转 ------
 		toBuySellRecord(e) {

@@ -79,7 +79,7 @@
               <view class="fund-code">{{item.code}}</view>
             </view>
             <view class="item-right">
-              <view class="profit-amount {{item.dailyData.profit_loss > 0 ? 'profit' : 'loss'}}">{{item.dailyData.profit_loss ? item.dailyData.profit_loss : '--'}}</view>
+              <view class="profit-amount {{item.dailyData.profit_loss > 0 ? 'profit' : 'loss'}}">{{item.dailyData.profit_loss ? item.dailyData.profit_loss : '--'}} <text>元</text></view>
             </view>
           </view>
           <view class="bottom-detail">
@@ -95,8 +95,8 @@
             </view>
             <view class="bottom-detail-line">
               <view>
-                <view> 份额 / 仓位</view>
-                <view>{{item.holding_shares}}<text>股</text> / {{item.holding_position}}<text>%</text></view>
+                <view> 份额 / 卖出盈亏</view>
+                <view>{{item.holding_shares}}<text>股</text> / {{item.sell_profit}}<text>元</text></view>
               </view>
               <view>
                 <view>持有盈亏 / 盈亏率</view>
@@ -114,12 +114,12 @@
                 </view>
               </view>
               <view class="bottom-detail-process-right">
-                <view>卖出盈亏</view>
-                <view>{{item.sell_profit}}</view>
-              </view>
-              <view class="bottom-detail-process-right">
                 <view>累计盈亏</view>
                 <view>{{item.total_profit}}</view>
+              </view>
+              <view class="bottom-detail-process-right">
+                <view>累计盈亏率</view>
+                <view>{{item.total_profit_rate_percentage}}</view>
               </view>
             </view>
             <view class="item-mode">
