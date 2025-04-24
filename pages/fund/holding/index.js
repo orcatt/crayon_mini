@@ -119,7 +119,7 @@ Component({
 							
 							item.current_net_value = ((1 + item.holding_profit_rate) * item.holding_cost).toFixed(3)
 							
-							item.holding_profit_rate_percentage = (item.holding_profit_rate * 100).toFixed(2)
+							item.holding_profit_rate_percentage = (item.holding_profit_rate * 100).toFixed(3)
 							item.holding_shares = parseFloat(item.holding_shares).toFixed(0)
 							
 							item.total_profit_rate_percentage = ((item.total_profit / item.total_cost)*100).toFixed(3)

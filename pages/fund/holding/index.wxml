@@ -113,13 +113,11 @@
                   <text>{{item.holding_position}}%</text>
                 </view>
               </view>
-              <view class="bottom-detail-process-right">
-                <view>累计盈亏</view>
-                <view>{{item.total_profit}}</view>
-              </view>
-              <view class="bottom-detail-process-right">
-                <view>累计盈亏率</view>
-                <view>{{item.total_profit_rate_percentage}}</view>
+              <view class="bottom-detail-line" style="width: 45%;">
+                <view style="width: 100%;">
+                  <view> 累计盈亏 / 盈亏率</view>
+                  <view>{{item.total_profit}}<text>元</text> / {{item.total_profit_rate_percentage}}<text>%</text></view>
+                </view>
               </view>
             </view>
             <view class="item-mode">

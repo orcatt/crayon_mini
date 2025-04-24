@@ -368,12 +368,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20rpx;
+  /* gap: 20rpx; */
   margin: 15px 0;
 
 }
 .bottom-detail-process-left{
-  width: 65% ;
+  width: 45% ;
+  margin-right: 5%;
 }
 .process-block{
   height: 20rpx;
@@ -410,6 +411,12 @@
   color: #09090B;
 }
 
+.bottom-detail-process-right>view:nth-child(2)>text{
+  font-size: 24rpx;
+  font-family: normal;
+  color: #71717a;
+  margin-left: 6rpx;
+}
 
 
 .item-mode{
