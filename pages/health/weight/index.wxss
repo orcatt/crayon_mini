@@ -225,7 +225,7 @@
   position: relative;
   width: 20rpx;
   height: 50rpx;
-  /* background-color: #09090B; */
+  /* background-color: #18181b; */
 }
 .mark>view>view:nth-child(1){
   width: 16rpx;

@@ -181,17 +181,222 @@
   margin: auto;
 } */
 
-
-.start-btn {
+.btn-sum{
   width: 100%;
-  height: 88rpx;
-  line-height: 88rpx;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 24rpx;
+}
+.start-btn {
+  width: calc(100% / 4 - 8rpx);
+  height: 70rpx;
+  line-height: 70rpx;
   text-align: center;
   background: #18181b;
   color: #ffffff;
+  font-size: 28rpx;
   border-radius: 12rpx;
   margin-top: 32rpx;
 }
+
+
+/* 戴锁信息 */
+.chastity_info{
+  width: 100%;
+  background: #fff;  
+  padding: 32rpx;
+  box-sizing: border-box;
+  border-radius: 12rpx;
+}
+
+.chastity_info_title{
+  width: 100%;
+  height: 40rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 2rpx solid #f4f4f5;
+  margin-bottom: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.chastity_info_title>view:nth-child(1){
+  font-size: 28rpx;
+  color: #71717a;
+}
+.chastity_info_title>view:nth-child(2){
+  font-size: 24rpx;
+  color: #71717a;
+}
+.chastity_info_line1{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20rpx;
+}
+.chastity_line1_left{
+  width: 30%;
+  height: 140rpx;
+  background: #f4f4f5;  
+  padding: 35rpx 30rpx;
+  box-sizing: border-box;
+  border-radius: 12rpx;
+  text-align: center;
+}
+.chastity_line1_left>view:nth-child(1){
+  font-size: 36rpx;
+  color: #09090B;
+  font-family: 'DouyinSansBold';
+}
+
+.process-bar {
+  width: 80%;
+  margin: 20rpx auto 0 auto;
+  height: 12rpx;
+  background: #fff;
+  border-radius: 999rpx;
+  overflow: hidden;
+}
+
+.process-bar-inner {
+  height: 100%;
+  background: linear-gradient(90deg, #18181b 0%, #27272a 100%);
+  border-radius: 999rpx;
+
+  transition: width 0.3s ease;
+}
+
+.chastity_line1_right{
+  width: 75%;
+  height: 140rpx;
+  background: #f4f4f5;
+  padding: 26rpx 30rpx 30rpx 30rpx;
+  box-sizing: border-box;
+  border-radius: 12rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 28rpx;
+  color: #09090B;
+}
+.chastity_line1_right>view:nth-child(1){
+  font-size: 24rpx;
+  color: #71717a;
+}
+.chastity_line1_right>view:nth-child(2){
+  font-size: 32rpx;
+  color: #09090B;
+  font-family: 'DouyinSansBold';
+}
+
+
+.chastity_info_line2{
+  width: 100%;
+  height: 130rpx;
+  background: #f4f4f5;
+  padding: 20rpx 30rpx;
+  box-sizing: border-box;
+  border-radius: 12rpx;
+  margin-top: 20rpx;
+  position: relative;
+}
+.chastity_line2_title{
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.chastity_line2_title>view:nth-child(1){
+  font-size: 28rpx;
+  color: #09090B;
+  font-family: 'DouyinSansBold';
+}
+.chastity_line2_title>view:nth-child(2){
+  font-size: 24rpx;
+  color: #71717a;
+  margin-left: 10rpx;
+}
+
+.chastity_line2_time{
+  width: 100%;
+  height: 50rpx;
+  line-height: 50rpx;
+
+  margin-top: 10rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.chastity_line2_time>view:nth-child(1){
+  font-size: 24rpx;
+  color: #71717a;
+}
+.chastity_line2_time>view:nth-child(2){
+  font-size: 28rpx;
+  color: #09090B;
+  font-family: 'DouyinSansBold';
+
+}
+.chastity_line2_img{
+  width:110rpx;
+  height:110rpx;
+  position: absolute;
+  right: 20rpx;
+  bottom: 10rpx;
+  opacity: 0.4;
+}
+
+.chastity_info_line3{
+  width: 100%;
+  margin-top: 20rpx;
+}
+.chastity_info_line3_left{
+  width: 45%;
+  height: 130rpx;
+  background: #f4f4f5;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  box-sizing: border-box;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10rpx;
+}
+.chastity_info_line3_left>view{
+  width: calc(100% - 120rpx);
+  height: 100%;
+
+  position: relative;
+  z-index: 1;
+}
+.chastity_info_line3_left>view:nth-child(2)>view:nth-child(1){
+  height: 40rpx;
+  line-height: 40rpx;
+  font-size: 28rpx;
+  color: #71717a;
+  margin-bottom: 10rpx;
+}
+.chastity_info_line3_left>view:nth-child(2)>view:nth-child(2){
+  height: 40rpx;
+  line-height: 40rpx;
+  font-size: 32rpx;
+  color: #09090B;
+  font-family: 'DouyinSansBold';
+}
+.chastity_info_line3_left>image{
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 50%;
+  /* position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%); */
+  /* opacity: 0.4; */
+}
+  /* background: #1890ff; */
+  /* background-color: #ff4d4f; */
 
 .drawer-mask {
   position: fixed;

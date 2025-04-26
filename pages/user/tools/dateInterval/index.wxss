@@ -34,7 +34,7 @@
 
 .tabsList>view.tabs_active{
   color: #fff;
-  background-color: #09090b;
+  background-color: #18181b;
   border-radius: 20rpx;
   padding: 0 10rpx;
   transform: scale(1.2);
