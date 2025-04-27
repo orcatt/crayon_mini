@@ -1,5 +1,5 @@
 <!-- pages/explore/tools/dict/index.wxml -->
-<header classTitle="center" classColor="true" isBack="true" backgroundColor="#f4f4f5">身份</header>
+<header classTitle="center" classColor="true" isBack="true" backgroundColor="#f4f4f5">开始</header>
 <view class="mode" style="padding-top: {{tabbarRealHeight + 'px'}}; height: 100vh; overflow-y: auto;">
   <!-- <view class="slaveInfo">
     <view class="slaveInfo-title">
@@ -127,43 +127,67 @@
     <view class="chastity_info_title">
       <view>状态</view>
       <view>自 2025-04-26 12:00:00 始</view>
-           
     </view>
     <view class="chastity_info_line1">
       <view class="chastity_line1_left">
-        <view>锁定中</view>
+        <view>进行中</view>
         <view class="process-bar">
           <view class="process-bar-inner" style="width: 50%"></view>
         </view>
       </view>
       <view class="chastity_line1_right">
-        <view>任务剩余时间</view>
+        <view>剩余时间</view>
         <view>10 天 12 小时 44 分钟 15 秒</view>
       </view>
     </view>
     <view class="chastity_info_line2">
       <view class="chastity_line2_title">
-        <view>验证状态</view>
-        <view>验证频率：12 小时</view>
+        <view>验证完成！</view>
+        <view>频率：12 小时</view>
       </view>
-      <view class="chastity_line2_time">
-        <view>下次验证</view>
-        <view>1 天 12 小时 44 分钟 15 秒</view>
-      </view>
-      <image class="chastity_line2_img" src="/static/image/incomplete.png" mode="aspectFill"></image>
+      <view class="chastity_line2_time">1 天 12 小时 44 分钟 15 秒</view>
+      <image class="chastity_line2_img" src="/static/image/wearer.png" mode="aspectFill"></image>
     </view>
     <view class="chastity_info_line3">
       <view class="chastity_info_line3_left">
-        <image src="/static/image/incomplete.png" mode="aspectFill"></image>
+        <image src="/static/image/manger.png" mode="aspectFill"></image>
         <view>
-          <view>管理者</view>
+          <view>持有人</view>
           <view>大风向野</view>
         </view>
-        
+      </view>
+      <view class="chastity_info_line3_right">
+        <view>最少游戏数</view>
+        <view>0 / 2</view>
+      </view>
+      <view class="chastity_info_line3_right">
+        <view>最多游戏数</view>
+        <view>0 / 5</view>
       </view>
     </view>
+    <view class="chastity_info_line4">
+      <view class="chastity_info_line4_left">
+        <view>友情链接</view>
+        <view>
+          <view>赌注</view>
+          <view>3小时</view>
+        </view>
+      </view>
+      <view class="chastity_info_line4_right">
+        <view>
+          <view>充电开启</view>
+          <view>3小时</view>
+        </view>
+        <view>1 天 12 小时 44 分钟 15 秒</view>
+        <image class="chastity_line4_img" src="/static/image/shizhong.png" mode="aspectFill"></image>
+      </view>
+      <!-- <view class="chastity_info_line4_middle">
+        <view>可以</view>
+        <view>清洁</view>
+
+      </view> -->
+    </view>
   </view>
-    
   <!-- <view class="btn-sum">
     <view class="start-btn" bindtap="showClosePassportDrawer">每日汇报</view>
     <view class="start-btn" bindtap="toFacility">每日游戏</view>
