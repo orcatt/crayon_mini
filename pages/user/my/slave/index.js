@@ -30,6 +30,8 @@ Page({
       avg_masturbation_duration: '',
       semen_volume: ''
     },
+    showContentBottom: false,
+
     passportStep: 1,
     passportData: {
       is_locked: 1,
@@ -96,6 +98,14 @@ Page({
     });
   },
 
+  showContentBottom(){
+    var that = this;
+    console.log(that.data.showContentBottom);
+    
+    that.setData({
+      showContentBottom: !that.data.showContentBottom
+    });
+  },
 
   showDrawer() {
     this.setData({

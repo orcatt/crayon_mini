@@ -1,12 +1,12 @@
 <!-- pages/explore/tools/dict/index.wxml -->
 <header classTitle="center" classColor="true" isBack="true" backgroundColor="#f4f4f5">开始</header>
 <view class="mode" style="padding-top: {{tabbarRealHeight + 'px'}}; height: 100vh; overflow-y: auto;">
-  <!-- <view class="slaveInfo">
+  <view class="slaveInfo">
     <view class="slaveInfo-title">
       <view>编号：{{formData.number}}</view>
       <view bindtap="showDrawer">更新资料</view>
     </view>
-    <view class="slaveInfo-content">
+    <view class="slaveInfo-content" bindtap="showContentBottom">
       <view class="content-top">
         <view class="content-top-left">
           <image src="https://crayonapi.orcatt.one/static/avatar/avatar_1741226563317.jpg" mode="aspectFill"></image>
@@ -18,28 +18,16 @@
             <view>{{formData.role_recognition ? formData.role_recognition : ''}}</view>
           </view>
           <view class="content-top-right-line2" style="margin-top: 20rpx;">
-            <view>
-              年龄
-              <text>{{formData.age ? formData.age : ''}}</text>
-            </view>
-            <view>
-              鞋码
-              <text>{{formData.shoe_size ? formData.shoe_size : '0'}}</text>
-            </view>
+            <view>年龄<text>{{formData.age ? formData.age : ''}}</text></view>
+            <view>鞋码<text>{{formData.shoe_size ? formData.shoe_size : '0'}}</text></view>
           </view>
           <view class="content-top-right-line2">
-            <view>
-              身高
-              <text>{{formData.height ? formData.height : '0'}}</text>
-            </view>
-            <view>
-              体重
-              <text>{{formData.weight ? formData.weight : '0'}}</text>
-            </view>
+            <view>身高<text>{{formData.height ? formData.height : '0'}}</text></view>
+            <view>体重<text>{{formData.weight ? formData.weight : '0'}}</text></view>
           </view>
         </view>
       </view>
-      <view class="content-bottom">
+      <view class="content-bottom" wx:if="{{showContentBottom}}">
         <view class="content-bottom-line">
           <view>
             <view>圈龄</view>
@@ -122,10 +110,17 @@
         </view>
       </view>
     </view>
-  </view> -->
+  </view>
+  <view class="activity_info">
+    <view>汇报</view>
+    <view>游戏</view>
+    <view>任务</view>
+    <view>事件</view>
+    
+  </view>
   <view class="chastity_info">
     <view class="chastity_info_title">
-      <view>状态</view>
+      <view>戴锁计划</view>
       <view>自 2025-04-26 12:00:00 始</view>
     </view>
     <view class="chastity_info_line1">
@@ -136,17 +131,27 @@
         </view>
       </view>
       <view class="chastity_line1_right">
-        <view>剩余时间</view>
+        <view>
+          <image src="/static/image/my/countdown.png" mode="aspectFill"></image>
+          <view>剩余时间</view>
+            
+        </view>
         <view>10 天 12 小时 44 分钟 15 秒</view>
       </view>
     </view>
     <view class="chastity_info_line2">
-      <view class="chastity_line2_title">
-        <view>验证完成！</view>
-        <view>频率：12 小时</view>
+      <view class="chastity_info_line2_left">
+        <view class="chastity_line2_title">
+          <view>验证完成！</view>
+          <view>每 12 小时</view>
+        </view>
+        <view class="chastity_line2_time">1 天 12 小时 44 分钟 15 秒</view>
+        <image class="chastity_line2_img" src="/static/image/wearer.png" mode="aspectFill"></image>
       </view>
-      <view class="chastity_line2_time">1 天 12 小时 44 分钟 15 秒</view>
-      <image class="chastity_line2_img" src="/static/image/wearer.png" mode="aspectFill"></image>
+      <view class="chastity_info_line2_right">
+        <view>清洁倒计时</view>
+        <view>3 天</view>
+      </view>
     </view>
     <view class="chastity_info_line3">
       <view class="chastity_info_line3_left">
@@ -167,7 +172,10 @@
     </view>
     <view class="chastity_info_line4">
       <view class="chastity_info_line4_left">
-        <view>友情链接</view>
+        <view>
+          <image src="/static/image/my/share.png" mode="aspectFill"></image>
+          <view>友情链接</view>
+        </view>
         <view>
           <view>赌注</view>
           <view>3小时</view>
@@ -176,18 +184,15 @@
       <view class="chastity_info_line4_right">
         <view>
           <view>充电开启</view>
-          <view>3小时</view>
+          <view>每 3 小时</view>
         </view>
         <view>1 天 12 小时 44 分钟 15 秒</view>
         <image class="chastity_line4_img" src="/static/image/shizhong.png" mode="aspectFill"></image>
       </view>
-      <!-- <view class="chastity_info_line4_middle">
-        <view>可以</view>
-        <view>清洁</view>
-
-      </view> -->
     </view>
   </view>
+  
+    
   <!-- <view class="btn-sum">
     <view class="start-btn" bindtap="showClosePassportDrawer">每日汇报</view>
     <view class="start-btn" bindtap="toFacility">每日游戏</view>
