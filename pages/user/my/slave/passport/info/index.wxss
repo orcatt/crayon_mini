@@ -1,0 +1,145 @@
+/* pages/user/my/slave/passport/info/index.wxss */
+.drawer-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+}
+
+.drawer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: 501;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.drawer.drawer-show {
+  transform: translateY(0);
+}
+
+.drawer-header {
+  padding: 32rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2rpx solid #f4f4f5;
+}
+
+.drawer-title {
+  font-size: 36rpx;
+  color: #09090B;
+  font-weight: 600;
+}
+
+.drawer-close {
+  font-size: 40rpx;
+  color: #71717a;
+  padding: 0 20rpx;
+}
+
+.drawer-content {
+  padding: 32rpx;
+}
+
+.form-group {
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  gap: 24rpx;
+  margin-bottom: 32rpx;
+}
+
+.form-item {
+  flex: 1;
+  position: relative;
+}
+
+.account-title {
+  font-size: 28rpx;
+  color: #09090B;
+  margin-bottom: 12rpx;
+}
+
+.required {
+  color: #ef4444;
+  margin-left: 4rpx;
+}
+
+.account-input {
+  height: 80rpx;
+  padding: 0 24rpx;
+  background: #f4f4f5;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+}
+
+.account-input input,
+.account-input picker {
+  height: 100%;
+  width: 100%;
+  font-size: 28rpx;
+}
+
+.account-input picker view {
+  height: 80rpx;
+  line-height: 80rpx;
+}
+
+.switch-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholderClass {
+  color: #71717a;
+  font-size: 28rpx;
+}
+
+.btn-group {
+  margin-top: 48rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.wx-login-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #18181b;
+  color: #ffffff;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+}
+
+.prev-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #f4f4f5;
+  color: #09090B;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+}
+
+.otherlogin {
+  color: #71717a;
+  font-size: 28rpx;
+  text-align: right;
+}

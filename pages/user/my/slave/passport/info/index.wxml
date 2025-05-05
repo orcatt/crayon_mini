@@ -1,0 +1,188 @@
+<!--pages/user/my/slave/passport/info/index.wxml-->
+<view class="drawer-mask" wx:if="{{showSupplementDrawer}}" bindtap="closeSupplementDrawer"></view>
+<view class="drawer {{showSupplementDrawer ? 'drawer-show' : ''}}">
+  <view class="drawer-header">
+    <view class="drawer-title">
+      {{supplementStep === 1 ? '基本信息' : supplementStep === 2 ? '身体信息' : '习惯信息'}}
+    </view>
+    <view class="drawer-close" bindtap="closeSupplementDrawer">×</view>
+  </view>
+  <!-- 步骤1 -->
+  <view class="drawer-content" wx:if="{{supplementStep === 1}}">
+    <view class="form-group">
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">
+            姓名
+            <text class="required">*</text>
+          </view>
+          <view class="account-input">
+            <input type="text" value="{{tempFormData.name}}" data-field="name" bindinput="handleInput" placeholder="请输入姓名" />
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">出生年月</view>
+          <view class="account-input">
+            <picker mode="date" value="{{tempFormData.birthday}}" bindchange="handleBirthdayChange">
+              <view class="{{tempFormData.birthday ? '' : 'placeholderClass'}}">
+                {{tempFormData.birthday || '请选择日期'}}
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">身高(cm)</view>
+          <view class="account-input">
+            <input type="digit" value="{{tempFormData.height}}" data-field="height" bindinput="handleInput" placeholder="请输入身高" />
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">体重(kg)</view>
+          <view class="account-input">
+            <input type="digit" value="{{tempFormData.weight}}" data-field="weight" bindinput="handleInput" placeholder="请输入体重" />
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">鞋码</view>
+          <view class="account-input">
+            <input type="digit" value="{{tempFormData.shoe_size}}" data-field="shoe_size" bindinput="handleInput" placeholder="请输入鞋码" />
+          </view>
+        </view>
+      </view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">性取向</view>
+          <view class="account-input">
+            <picker mode="selector" range="{{orientationTypes}}" bindchange="handleOrientationChange">
+              <view class="{{tempFormData.sexual_orientation ? '' : 'placeholderClass'}}">
+                {{tempFormData.sexual_orientation || '请选择性取向'}}
+              </view>
+            </picker>
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">角色认知</view>
+          <view class="account-input">
+            <picker mode="selector" range="{{roleTypes}}" bindchange="handleRoleChange">
+              <view class="{{tempFormData.role_recognition ? '' : 'placeholderClass'}}">
+                {{tempFormData.role_recognition || '请选择角色'}}
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">圈龄(年)</view>
+          <view class="account-input">
+            <input type="number" value="{{tempFormData.experience_years}}" data-field="experience_years" bindinput="handleInput" placeholder="请输入圈龄" />
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">侍主人数</view>
+          <view class="account-input">
+            <input type="number" value="{{tempFormData.submissive_count}}" data-field="submissive_count" bindinput="handleInput" placeholder="请输入数量" />
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="btn-group">
+      <view class="wx-login-btn" bindtap="nextStep">下一步</view>
+      <view class="otherlogin" bindtap="closeSupplementDrawer">取消</view>
+    </view>
+  </view>
+  <!-- 步骤2 -->
+  <view class="drawer-content" wx:if="{{supplementStep === 2}}">
+    <view class="form-group">
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">未充血尺寸(cm)</view>
+          <view class="account-input">
+            <input type="digit" value="{{tempFormData.dick_unerected_size}}" data-field="dick_unerected_size" bindinput="handleInput" placeholder="请输入尺寸" />
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">充血尺寸(cm)</view>
+          <view class="account-input">
+            <input type="digit" value="{{tempFormData.dick_erected_size}}" data-field="dick_erected_size" bindinput="handleInput" placeholder="请输入尺寸" />
+          </view>
+        </view>
+      </view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">粗度(cm)</view>
+          <view class="account-input">
+            <input type="digit" value="{{tempFormData.dick_coarse}}" data-field="dick_coarse" bindinput="handleInput" placeholder="请输入粗度" />
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">是否割包皮</view>
+          <view class="account-input switch-container">
+            <switch checked="{{tempFormData.dick_circumcised}}" bindchange="handleCircumcisedChange" color="#18181b" />
+          </view>
+        </view>
+      </view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">肛门扩张直径(cm)</view>
+          <view class="account-input">
+            <input type="digit" value="{{tempFormData.anal_diameter}}" data-field="anal_diameter" bindinput="handleInput" placeholder="请输入直径" />
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="btn-group">
+      <view class="wx-login-btn" bindtap="nextStep">下一步</view>
+      <view class="prev-btn" bindtap="prevStep">上一步</view>
+      <view class="otherlogin" bindtap="closeSupplementDrawer">取消</view>
+    </view>
+  </view>
+  <!-- 步骤3 -->
+  <view class="drawer-content" wx:if="{{supplementStep === 3}}">
+    <view class="form-group">
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">最长禁欲时间(天)</view>
+          <view class="account-input">
+            <input type="number" value="{{tempFormData.longest_abstinence}}" data-field="longest_abstinence" bindinput="handleInput" placeholder="请输入天数" />
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">最大射精频率(次/天)</view>
+          <view class="account-input">
+            <input type="number" value="{{tempFormData.max_ejaculation_frequency}}" data-field="max_ejaculation_frequency" bindinput="handleInput" placeholder="请输入频率" />
+          </view>
+        </view>
+      </view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">平均自慰频率(次/周)</view>
+          <view class="account-input">
+            <input type="number" value="{{tempFormData.avg_masturbation_frequency}}" data-field="avg_masturbation_frequency" bindinput="handleInput" placeholder="请输入频率" />
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">平均自慰时间(分钟)</view>
+          <view class="account-input">
+            <input type="digit" value="{{tempFormData.avg_masturbation_duration}}" data-field="avg_masturbation_duration" bindinput="handleInput" placeholder="请输入时间" />
+          </view>
+        </view>
+      </view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">精液量(ml)</view>
+          <view class="account-input">
+            <input type="digit" value="{{tempFormData.semen_volume}}" data-field="semen_volume" bindinput="handleInput" placeholder="请输入量" />
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="btn-group">
+      <view class="wx-login-btn" bindtap="submitForm">提交</view>
+      <view class="prev-btn" bindtap="prevStep">上一步</view>
+      <view class="otherlogin" bindtap="closeSupplementDrawer">取消</view>
+    </view>
+  </view>
+</view>

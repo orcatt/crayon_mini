@@ -4,14 +4,15 @@ var utils = require('../../../../api/util.js');
 Page({
   data: {
 		tabbarRealHeight: 0,
-    showSupplementDrawer: false,
-    showPassportDrawer: false,
-    supplementStep: 1,
-    orientationTypes: ['异性恋', '同性恋', '双性恋', '泛性恋', '无性恋'],
-    roleTypes: ['S', 'M', '双向'],
+    currentDate: '',
+    showContentBottom: false,
+
+    showSupplementDrawer: false, // 完善信息
+    transferData: {}, // 传递数据
     formData: {
+      number: '',
       name: '',
-			birthday: "2000-01-01",
+      age: '',
       height: '',
       weight: '',
       shoe_size: '',
@@ -30,43 +31,45 @@ Page({
       avg_masturbation_duration: '',
       semen_volume: ''
     },
-    showContentBottom: false,
-
-    passportStep: 1,
+    
+    showPassportDrawer: false, // 通行证
+    isHasDailyRules: false, // 是否存在通行证
     passportData: {
+      kowtow: 1,
       is_locked: 1,
       touch_count: 0,
       libido_status: '平常',
-      status_text: '不传值！！',
-      daily_task_title: '骨外肌训练3分钟',
-      daily_task_content: '骨外肌训练3分钟，保持肌肉紧张，放松，重复，动作标准',
-      daily_task_completed: false,
+      status_text: '奴才性欲正常，处于平常期',
+
       excretion_count: 0,
+      excretion_count_allowed: 0,
       water_intake: '2000',
       water_completed: true,
       other_tools: '',
-      extra_task_title: '额外任务1',
-      extra_task_content: '额外任务1内容额外任务1内容额外任务1内容额外任务1内容额外任务1内容额外任务1内容',
+      daily_task_title: '',
+      daily_task_content: '',
+      daily_task_completed: false,
+      extra_task_title: '',
+      extra_task_content: '',
       extra_task_completed: false,
-      violation: ''
+      violation: '',
+      score: 0
     },
-    sexStatus: [{
-      name: '平常',
-      content: '奴才性欲正常，处于平常期'
-    },{
-      name: '燥热',
-      content: '奴才性欲燥热寻求发泄，处于燥热期'
-    },{
-      name: '发情',
-      content: '奴才性欲旺盛无处发泄，处于发情期'
-    }],
-    toolsList: ['工具1', '工具2', '工具3'],
+
+    showTaskDrawer: false, // 任务抽取弹窗
+    taskUserType: 0, // 抽取任务类型 0: 今日任务 1: 额外任务 2: 月度任务
 
   },
   onLoad(options) {
 		var that = this;
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = String(today.getMonth() + 1).padStart(2, '0');
+    let day = String(today.getDate()).padStart(2, '0');
+    let currentDate = `${year}-${month}-${day}`;
 		that.setData({
-			tabbarRealHeight: wx.getStorageSync('tabbarRealHeight')
+			tabbarRealHeight: wx.getStorageSync('tabbarRealHeight'),
+      currentDate: currentDate
 		})
     that.getData();
 
@@ -86,8 +89,9 @@ Page({
           that.setData({
             formData: res.data,
           })
+          that.getDailyRules();
         }else if(res.code === 404){
-          that.showDrawer();
+          that.showCloseSupplementDrawer();
         }else{
           wx.showToast({
             title: res.message,
@@ -97,317 +101,140 @@ Page({
       }
     });
   },
-
+  getDailyRules(){
+    var that = this;
+    let postData = {
+      date: that.data.currentDate
+    }
+    utils.getData({
+      url: 'slave/dailyRules/day',
+      params: postData,
+      success: (res) => {
+        if (res.code === 200) {
+          that.setData({
+            passportData: res.data,
+            isHasDailyRules: true,
+          })
+        }else if(res.code === 404){
+          that.setData({
+            isHasDailyRules: false,
+          })
+        }else{
+          wx.showToast({
+            title: res.message,
+            icon: 'none'
+          });
+        }
+      }
+    });
+  },
   showContentBottom(){
     var that = this;
-    console.log(that.data.showContentBottom);
-    
     that.setData({
       showContentBottom: !that.data.showContentBottom
     });
   },
 
-  showDrawer() {
-    this.setData({
-      showSupplementDrawer: true,
-      supplementStep: 1
-    });
-  },
 
-  closeSupplementDrawer() {
+
+  // ! -------------- 完善信息 -------------- start
+
+  showCloseSupplementDrawer() {
     var that = this;
     that.setData({
-      showSupplementDrawer: false,
-      formData: {
-        name: '',			
-        birthday: "2000-01-01",
-        height: '',
-        weight: '',
-        shoe_size: '',
-        sexual_orientation: '',
-        role_recognition: '',
-        experience_years: '',
-        submissive_count: '',
-        dick_unerected_size: '',
-        dick_erected_size: '',
-        dick_coarse: '',
-        dick_circumcised: 0,
-        anal_diameter: '',
-        longest_abstinence: '',
-        max_ejaculation_frequency: '',
-        avg_masturbation_frequency: '',
-        avg_masturbation_duration: '',
-        semen_volume: ''
-      }
+      showSupplementDrawer: !that.data.showSupplementDrawer,
+      formData: that.data.formData
     });
-    that.getData();
-  },
-
-  handleInput(e) {
-    const field = e.currentTarget.dataset.field;
-    const value = e.detail.value;
-    this.setData({
-      [`formData.${field}`]: value
-    });
-  },
-
-  handleBirthdayChange(e) {
-    this.setData({
-      'formData.birthday': e.detail.value
-    });
-  },
-
-  handleOrientationChange(e) {
-    this.setData({
-      'formData.sexual_orientation': this.data.orientationTypes[e.detail.value]
-    });
-  },
-
-  handleRoleChange(e) {
-    this.setData({
-      'formData.role_recognition': this.data.roleTypes[e.detail.value]
-    });
-  },
-
-  handleCircumcisedChange(e) {
-    
-    this.setData({
-      'formData.dick_circumcised': e.detail.value? 1 : 0
-    });
-  },
-
-  nextStep() {
-    const currentStep = this.data.supplementStep;
-    if (currentStep < 3) {
-      this.setData({
-        supplementStep: currentStep + 1
-      });
-    }
-  },
-
-  prevStep() {
-    const currentStep = this.data.supplementStep;
-    if (currentStep > 1) {
-      this.setData({
-        supplementStep: currentStep - 1
-      });
-    }
   },
 
   submitForm() {
     var that = this;
-    if (that.data.formData.name == '') {
-      wx.showToast({
-        title: '请输入姓名',
-        icon: 'none'
-      });
-      return;
-    }
-    utils.getData({
-      url: 'slave/info/addOrUpdate',
-      params: that.data.formData,
-      success: (res) => {
-        if (res.code === 200) {
-          console.log(res);
-          that.closeSupplementDrawer();
-          that.getData();
-        }else{
-          wx.showToast({
-            title: res.message,
-            icon: 'none'
-          });
-        }
-      }
+    that.setData({
+      showSupplementDrawer: false
     });
+    that.getData();
   },
+  // ! -------------- 完善信息 -------------- end
 
-  // ! -------------- 通行证 --------------
+
+
+  // ! -------------- 通行证 -------------- start
   showClosePassportDrawer(){
     var that = this;
     that.setData({
       showPassportDrawer: !that.data.showPassportDrawer,
-      passportStep: 1
-    });
-  },
-  // 上锁
-  handleLockChange(e) {
-    var that = this;
-    that.setData({
-      'passportData.is_locked': e.currentTarget.dataset.value
-    });
-    
-  },
-
-  // 触摸状态、次数
-  changeTouchCountStatus(e){
-    var that = this;
-    if(that.data.passportData.touch_count == 0){
-      that.setData({
-        'passportData.touch_count': 1
-      });
-    }else{
-      that.setData({
-        'passportData.touch_count': 0
-      });
-    }
-  },
-  handleTouchInput(e) {
-    var that = this;
-    const value = e.detail.value == '' ? 0 : parseInt(e.detail.value);
-    that.setData({
-      'passportData.touch_count': value
+      passportData: that.data.passportData,
+      isHasDailyRules: that.data.isHasDailyRules
     });
   },
 
-  // 饮水
-  handleWaterCountStatus(e){
-    var that = this;
-    if(that.data.passportData.excretion_count == 0){
-      that.setData({
-        'passportData.excretion_count': 1
-      });
-    }else{
-      that.setData({
-        'passportData.excretion_count': 0
-      });
-    }
-  },
-  handleWaterCountInput(e) {
-    var that = this;
-    const value = e.detail.value == '' ? 0 : parseInt(e.detail.value);
-    that.setData({
-      'passportData.excretion_count': value
-    });
-  },
-  handleWaterStatus() {
-    var that = this;
-    that.setData({
-      'passportData.water_completed': !that.data.passportData.water_completed
-    });
-  },
-
-  // 汇报
-  handleStatusChange(e) {
-    var that = this;
-    let index = e.currentTarget.dataset.index;
-    that.setData({
-      'passportData.libido_status': that.data.sexStatus[index].name,
-      'passportData.status_text': that.data.sexStatus[index].content
-    });
-  },
-
-  // 任务
-  handleDailyTaskChange() {
-    var that = this;
-    that.setData({
-      'passportData.daily_task_completed': !that.data.passportData.daily_task_completed
-    });
-  },
-  handleExtraTaskChange() {
-    var that = this;
-    that.setData({
-      'passportData.extra_task_completed': !that.data.passportData.extra_task_completed
-    });
-  },
-
-  // 其他工具
-  handleToolsChange(e) {
+  // 处理通行证提交
+  handlePassportSubmit(e) {
+    const { passportData, score } = e.detail;
+    console.log('通行证数据：', passportData);
+    console.log('得分：', score);
+    // 这里可以添加提交到服务器的逻辑
     this.setData({
-      'passportData.other_tools': this.data.toolsList[e.detail.value]
+      showPassportDrawer: false,
     });
   },
+  // ! -------------- 通行证 -------------- end
 
-
-  // 其他违规
-  handleViolationInput(e) {
-    this.setData({
-      'passportData.violation': e.detail.value
-    });
-  },
-
-  toNextSteps() {
+  // ! -------------- 任务 -------------- start
+  showTaskDrawer() {
     var that = this;
-    if(that.data.passportStep < 3 && that.data.passportStep >= 1){
+    if(!that.data.isHasDailyRules){
       that.setData({
-        passportStep: that.data.passportStep + 1
+        showTaskDrawer: true,
+        taskUserType: 0
       });
-      return;
+    }else{
+      wx.showModal({
+        title: '提示',
+        content: '您已经抽取今日任务，是否抽取额外任务？',
+        confirmText: '继续抽取',
+        cancelText: '返回',
+        success: (res) => {
+          if (res.confirm) {
+            that.setData({
+              showTaskDrawer: true,
+              taskUserType: 1
+            });
+          }
+        }
+      });
     }
-    console.log(that.data.passportData);
-
-    that.calculationScore();
-    // utils.getData({
-    //   url: 'slave/passport/update',
-    //   params: that.data.passportData,
-    //   success: (res) => {
-    //     if (res.code === 200) {
-    //       that.closePassportDrawer();
-    //     } else {
-    //       wx.showToast({
-    //         title: res.message,
-    //         icon: 'none'
-    //       });
-    //     }
-    //   }
-    // });
   },
-  calculationScore(){
-    var that = this;
-    let score = 0;
+  closeTaskDrawer() {
+    this.setData({
+      showTaskDrawer: false
+    });
+  },
+  handleTaskDrawComplete(e) {
+    const task = e.detail;
+    console.log('抽取到的任务：', task);
+    // 这里可以添加处理抽取结果的逻辑
+    this.setData({
+      showTaskDrawer: false
+    });
+  },
+  // ! -------------- 任务 -------------- end
 
-    // 上锁+2
-    if(that.data.passportData.is_locked == 1){
-      score += 2;
-    }
 
-    // 遵守触摸+1，否则-触摸次数
-    if(that.data.passportData.touch_count == 0){
-      score += 1;
-    }else{
-      score -= that.data.passportData.touch_count;
-    }
-    
-    if(that.data.passportData.excretion_count == 0 ){
-      score += 1;
-    }else{
-      score -= that.data.passportData.excretion_count;
-    }
 
-    // 汇报平常 0，燥热 1，发情 2
-    if(that.data.passportData.libido_status == '燥热'){
-      score += 1;
-    }else if(that.data.passportData.libido_status == '发情'){
-      score += 2;
-    }
+  // ! -------------- 游戏 -------------- start
 
-    // 每日任务完成+3，否则 0
-    if(that.data.passportData.daily_task_completed){
-      score += 3;
-    }
-
-    // 额外任务完成+2，否则 -2
-    if(that.data.passportData.extra_task_completed){
-      score += 2;
-    }else{
-      score -= 1;
-    }
-
-    // 其他工具+1
-    if(that.data.passportData.other_tools){
-      score += 1;
-    }
-
-    // 其他违规-1
-    if(that.data.passportData.violation){
-      score -= 1;
-    }
-
-    if(score < 0){
-      score = 0;
-    }
-    console.log(score);
-    
-    
+  toGame(){
+    wx.navigateTo({
+      url: '/pages/user/my/slave/facility/index',
+    })
+  },
+  // ! -------------- 游戏 -------------- end
+  
+  toEvent(){
+    wx.navigateTo({
+      url: '/pages/user/my/slave/event/index',
+    })
   },
   onReady() {},
   onShow() {},

@@ -4,7 +4,7 @@
   <view class="slaveInfo">
     <view class="slaveInfo-title">
       <view>编号：{{formData.number}}</view>
-      <view bindtap="showDrawer">更新资料</view>
+      <view bindtap="showCloseSupplementDrawer">更新资料</view>
     </view>
     <view class="slaveInfo-content" bindtap="showContentBottom">
       <view class="content-top">
@@ -14,16 +14,16 @@
         <view class="content-top-right">
           <view class="content-top-right-line1">
             <view>{{formData.name}}</view>
-            <view>{{formData.sexual_orientation ? formData.sexual_orientation : ''}}</view>
-            <view>{{formData.role_recognition ? formData.role_recognition : ''}}</view>
+            <view wx:if="{{formData.sexual_orientation}}">{{formData.sexual_orientation}}</view>
+            <view wx:if="{{formData.role_recognition}}">{{formData.role_recognition}}</view>
           </view>
           <view class="content-top-right-line2" style="margin-top: 20rpx;">
             <view>年龄<text>{{formData.age ? formData.age : ''}}</text></view>
-            <view>鞋码<text>{{formData.shoe_size ? formData.shoe_size : '0'}}</text></view>
+            <view>鞋码<text>{{formData.shoe_size ? formData.shoe_size : '未设置'}}</text></view>
           </view>
           <view class="content-top-right-line2">
-            <view>身高<text>{{formData.height ? formData.height : '0'}}</text></view>
-            <view>体重<text>{{formData.weight ? formData.weight : '0'}}</text></view>
+            <view>身高<text>{{formData.height ? formData.height : '未设置'}}</text></view>
+            <view>体重<text>{{formData.weight ? formData.weight : '未设置'}}</text></view>
           </view>
         </view>
       </view>
@@ -112,11 +112,10 @@
     </view>
   </view>
   <view class="activity_info">
-    <view>汇报</view>
-    <view>游戏</view>
-    <view>任务</view>
-    <view>事件</view>
-    
+    <view bindtap="showClosePassportDrawer">汇报</view>
+    <view bindtap="toGame">游戏</view>
+    <view bindtap="showTaskDrawer">任务</view>
+    <view bindtap="toEvent">事件</view>
   </view>
   <view class="chastity_info">
     <view class="chastity_info_title">
@@ -191,349 +190,13 @@
       </view>
     </view>
   </view>
-  
-    
-  <!-- <view class="btn-sum">
-    <view class="start-btn" bindtap="showClosePassportDrawer">每日汇报</view>
-    <view class="start-btn" bindtap="toFacility">每日游戏</view>
-    <view class="start-btn" bindtap="toDailyTask">每日任务</view>
-    <view class="start-btn" bindtap="toDailyEvent">每日事件</view>
-  </view> -->
-    
 </view>
 
-<!-- 完善信息弹窗 -->
-<view class="drawer-mask" wx:if="{{showSupplementDrawer}}" bindtap="closeSupplementDrawer"></view>
-<view class="drawer {{showSupplementDrawer ? 'drawer-show' : ''}}">
-  <view class="drawer-header">
-    <view class="drawer-title">
-      {{supplementStep === 1 ? '基本信息' : supplementStep === 2 ? '身体信息' : '习惯信息'}}
-    </view>
-    <view class="drawer-close" bindtap="closeSupplementDrawer">×</view>
-  </view>
-  <!-- 步骤1 -->
-  <view class="drawer-content" wx:if="{{supplementStep === 1}}">
-    <view class="form-group">
-      <view class="form-row">
-        <view class="form-item">
-          <view class="account-title">
-            姓名
-            <text class="required">*</text>
-          </view>
-          <view class="account-input">
-            <input type="text" value="{{formData.name}}" data-field="name" bindinput="handleInput" placeholder="请输入姓名" />
-          </view>
-        </view>
-        <view class="form-item">
-          <view class="account-title">出生年月</view>
-          <view class="account-input">
-            <picker mode="date" value="{{formData.birthday}}" bindchange="handleBirthdayChange">
-              <view class="{{formData.birthday ? '' : 'placeholderClass'}}">
-                {{formData.birthday || '请选择日期'}}
-              </view>
-            </picker>
-          </view>
-        </view>
-      </view>
-      <view class="form-row">
-        <view class="form-item">
-          <view class="account-title">身高(cm)</view>
-          <view class="account-input">
-            <input type="digit" value="{{formData.height}}" data-field="height" bindinput="handleInput" placeholder="请输入身高" />
-          </view>
-        </view>
-        <view class="form-item">
-          <view class="account-title">体重(kg)</view>
-          <view class="account-input">
-            <input type="digit" value="{{formData.weight}}" data-field="weight" bindinput="handleInput" placeholder="请输入体重" />
-          </view>
-        </view>
-        <view class="form-item">
-          <view class="account-title">鞋码</view>
-          <view class="account-input">
-            <input type="digit" value="{{formData.shoe_size}}" data-field="shoe_size" bindinput="handleInput" placeholder="请输入鞋码" />
-          </view>
-        </view>
-      </view>
-      <view class="form-row">
-        <view class="form-item">
-          <view class="account-title">性取向</view>
-          <view class="account-input">
-            <picker mode="selector" range="{{orientationTypes}}" bindchange="handleOrientationChange">
-              <view class="{{formData.sexual_orientation ? '' : 'placeholderClass'}}">
-                {{formData.sexual_orientation || '请选择性取向'}}
-              </view>
-            </picker>
-          </view>
-        </view>
-        <view class="form-item">
-          <view class="account-title">角色认知</view>
-          <view class="account-input">
-            <picker mode="selector" range="{{roleTypes}}" bindchange="handleRoleChange">
-              <view class="{{formData.role_recognition ? '' : 'placeholderClass'}}">
-                {{formData.role_recognition || '请选择角色'}}
-              </view>
-            </picker>
-          </view>
-        </view>
-      </view>
-      <view class="form-row">
-        <view class="form-item">
-          <view class="account-title">圈龄(年)</view>
-          <view class="account-input">
-            <input type="number" value="{{formData.experience_years}}" data-field="experience_years" bindinput="handleInput" placeholder="请输入圈龄" />
-          </view>
-        </view>
-        <view class="form-item">
-          <view class="account-title">侍主人数</view>
-          <view class="account-input">
-            <input type="number" value="{{formData.submissive_count}}" data-field="submissive_count" bindinput="handleInput" placeholder="请输入数量" />
-          </view>
-        </view>
-      </view>
-    </view>
-    <view class="btn-group">
-      <view class="wx-login-btn" bindtap="nextStep">下一步</view>
-      <view class="otherlogin" bindtap="closeSupplementDrawer">取消</view>
-    </view>
-  </view>
-  <!-- 步骤2 -->
-  <view class="drawer-content" wx:if="{{supplementStep === 2}}">
-    <view class="form-group">
-      <view class="form-row">
-        <view class="form-item">
-          <view class="account-title">未充血尺寸(cm)</view>
-          <view class="account-input">
-            <input type="digit" value="{{formData.dick_unerected_size}}" data-field="dick_unerected_size" bindinput="handleInput" placeholder="请输入尺寸" />
-          </view>
-        </view>
-        <view class="form-item">
-          <view class="account-title">充血尺寸(cm)</view>
-          <view class="account-input">
-            <input type="digit" value="{{formData.dick_erected_size}}" data-field="dick_erected_size" bindinput="handleInput" placeholder="请输入尺寸" />
-          </view>
-        </view>
-      </view>
-      <view class="form-row">
-        <view class="form-item">
-          <view class="account-title">粗度(cm)</view>
-          <view class="account-input">
-            <input type="digit" value="{{formData.dick_coarse}}" data-field="dick_coarse" bindinput="handleInput" placeholder="请输入粗度" />
-          </view>
-        </view>
-        <view class="form-item">
-          <view class="account-title">是否割包皮</view>
-          <view class="account-input switch-container">
-            <switch checked="{{formData.dick_circumcised}}" bindchange="handleCircumcisedChange" color="#18181b" />
-          </view>
-        </view>
-      </view>
-      <view class="form-row">
-        <view class="form-item">
-          <view class="account-title">肛门扩张直径(cm)</view>
-          <view class="account-input">
-            <input type="digit" value="{{formData.anal_diameter}}" data-field="anal_diameter" bindinput="handleInput" placeholder="请输入直径" />
-          </view>
-        </view>
-      </view>
-    </view>
-    <view class="btn-group">
-      <view class="wx-login-btn" bindtap="nextStep">下一步</view>
-      <view class="prev-btn" bindtap="prevStep">上一步</view>
-      <view class="otherlogin" bindtap="closeSupplementDrawer">取消</view>
-    </view>
-  </view>
-  <!-- 步骤3 -->
-  <view class="drawer-content" wx:if="{{supplementStep === 3}}">
-    <view class="form-group">
-      <view class="form-row">
-        <view class="form-item">
-          <view class="account-title">最长禁欲时间(天)</view>
-          <view class="account-input">
-            <input type="number" value="{{formData.longest_abstinence}}" data-field="longest_abstinence" bindinput="handleInput" placeholder="请输入天数" />
-          </view>
-        </view>
-        <view class="form-item">
-          <view class="account-title">最大射精频率(次/天)</view>
-          <view class="account-input">
-            <input type="number" value="{{formData.max_ejaculation_frequency}}" data-field="max_ejaculation_frequency" bindinput="handleInput" placeholder="请输入频率" />
-          </view>
-        </view>
-      </view>
-      <view class="form-row">
-        <view class="form-item">
-          <view class="account-title">平均自慰频率(次/周)</view>
-          <view class="account-input">
-            <input type="number" value="{{formData.avg_masturbation_frequency}}" data-field="avg_masturbation_frequency" bindinput="handleInput" placeholder="请输入频率" />
-          </view>
-        </view>
-        <view class="form-item">
-          <view class="account-title">平均自慰时间(分钟)</view>
-          <view class="account-input">
-            <input type="digit" value="{{formData.avg_masturbation_duration}}" data-field="avg_masturbation_duration" bindinput="handleInput" placeholder="请输入时间" />
-          </view>
-        </view>
-      </view>
-      <view class="form-row">
-        <view class="form-item">
-          <view class="account-title">精液量(ml)</view>
-          <view class="account-input">
-            <input type="digit" value="{{formData.semen_volume}}" data-field="semen_volume" bindinput="handleInput" placeholder="请输入量" />
-          </view>
-        </view>
-      </view>
-    </view>
-    <view class="btn-group">
-      <view class="wx-login-btn" bindtap="submitForm">提交</view>
-      <view class="prev-btn" bindtap="prevStep">上一步</view>
-      <view class="otherlogin" bindtap="closeSupplementDrawer">取消</view>
-    </view>
-  </view>
-</view>
+<!-- 完善信息组件 -->
+<supplement-info showSupplementDrawer="{{showSupplementDrawer}}" formData="{{formData}}" bind:close="closeSupplementDrawer" bind:submit="submitForm" />
 
-<!-- 通行证 -->
-<view class="drawer-mask" wx:if="{{showPassportDrawer}}" bindtap="showClosePassportDrawer"></view>
-<view class="drawer {{showPassportDrawer ? 'drawer-show' : ''}}">
-  <view class="drawer-header">
-    <view class="drawer-title">通行证</view>
-    <view class="drawer-close" bindtap="showClosePassportDrawer">×</view>
-  </view>
-  <view class="drawer-content" wx:if="{{passportStep === 1}}">
-    <view class="form-group">
-      <!-- 严管 -->
-      <view class="form-title" style="margin-top: 0;">阳具管理</view>
-      <view class="form-row">
-        <view class="form-item">
-          <view class="account-title">是否佩戴太监锁</view>
-          <view class="account-select">
-            <view class="{{passportData.is_locked == 1 ? 'active' : ''}}" bindtap="handleLockChange" data-value="1">
-              是
-            </view>
-            <view class="{{passportData.is_locked == 0 ? 'active' : ''}}" bindtap="handleLockChange" data-value="0">
-              否
-            </view>
-          </view>
-        </view>
-        <view class="form-item">
-          <view class="account-title">是否遵守触碰条例</view>
-          <view class="account-select">
-            <view class="{{passportData.touch_count == 0 ? 'active' : 'error'}}" bindtap="changeTouchCountStatus">
-              {{passportData.touch_count == 0 ? '遵守' : '违反'}}
-            </view>
-            <view class="account-input">
-              <input type="number" disabled="{{passportData.touch_count == 0}}" value="{{passportData.touch_count}}" bindinput="handleTouchInput" />
-            </view>
-          </view>
-        </view>
-      </view>
-      <!-- 管控 -->
-      <view class="form-title">排泄管控</view>
-      <view class="form-row">
-        <view class="form-item">
-          <view class="account-title">是否控制排泄次数</view>
-          <view class="account-select">
-            <view class="{{passportData.excretion_count == 0 ? 'active' : 'error'}}" bindtap="handleWaterCountStatus">
-              {{passportData.excretion_count == 0 ? '控制' : '违规'}}
-            </view>
-            <view class="account-input">
-              <input type="number" disabled="{{passportData.excretion_count == 0}}" value="{{passportData.excretion_count}}" bindinput="handleWaterCountInput" />
-            </view>
-          </view>
-        </view>
-        <view class="form-item">
-          <view class="account-title">饮水量</view>
-          <view class="account-select">
-            <view class="{{passportData.water_completed? 'active' : 'error'}}" bindtap="handleWaterStatus">
-              {{passportData.water_completed ? '合格' : '不合格'}}
-            </view>
-            <view class="account-input">
-              <input type="number" disabled value="{{passportData.water_intake}}" />
-            </view>
-          </view>
-        </view>
-      </view>
-      <!-- 汇报 -->
-      <view class="form-title">汇报性欲</view>
-      <view class="form-row" style="margin-bottom: 0;">
-        <view class="form-item">
-          <view class="account-select-three">
-            <view wx:for="{{sexStatus}}" wx:key="name" class="{{item.name == passportData.libido_status ? 'active' : ''}}" bindtap="handleStatusChange" data-index="{{index}}">
-              {{item.name}}
-            </view>
-          </view>
-          <view class="account-input status-text">
-            <view>{{passportData.status_text}}</view>
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
-  <view class="drawer-content" wx:if="{{passportStep === 2}}">
-    <view class="form-group">
-      <!-- 每日任务 -->
-      <view class="form-title" style="margin-top: 0;">每日任务</view>
-      <view class="form-row">
-        <view class="form-item" bindtap="handleDailyTaskChange">
-          <view class="account-input" style="border-radius: 12rpx 12rpx 0 0 ;border-bottom: 2rpx #71717a solid;">
-            <view style="font-size: 32rpx;">{{passportData.daily_task_title}}</view>
-          </view>
-          <view class="account-textarea">
-            <view>{{passportData.daily_task_content}}</view>
-          </view>
-          <view class="status-emoji">
-            <image wx:if="{{!passportData.daily_task_completed}}" src="/static/image/incomplete.png" mode="aspectFill"></image>
-            <image wx:else src="/static/image/complete.png" mode="aspectFill"></image>
-          </view>
-        </view>
-      </view>
-      <!-- 额外任务 -->
-      <view class="form-title">额外任务</view>
-      <view class="form-row">
-        <view class="form-item" bindtap="handleExtraTaskChange">
-          <view class="account-input" style="border-radius: 12rpx 12rpx 0 0 ;border-bottom: 2rpx #71717a solid;">
-            <view style="font-size: 32rpx;">{{passportData.extra_task_title}}</view>
-          </view>
-          <view class="account-textarea">
-            <view>{{passportData.extra_task_content}}</view>
-          </view>
-          <view class="status-emoji">
-            <image wx:if="{{!passportData.extra_task_completed}}" src="/static/image/incomplete.png" mode="aspectFill"></image>
-            <image wx:else src="/static/image/complete.png" mode="aspectFill"></image>
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
-  <view class="drawer-content" wx:if="{{passportStep === 3}}">
-    <view class="form-group">
-      <!-- 其他工具 -->
-      <view class="form-title" style="margin-top: 0;">其他工具</view>
-      <view class="form-row">
-        <view class="form-item">
-          <view class="account-input">
-            <picker mode="selector" range="{{toolsList}}" bindchange="handleToolsChange">
-              <view class="{{passportData.other_tools ? '' : 'placeholderClass'}}">
-                {{passportData.other_tools || '无'}}
-              </view>
-            </picker>
-          </view>
-        </view>
-      </view>
-      <!-- 违规行为 -->
-      <view class="form-title">犯错行为</view>
-      <view class="form-row" >
-        <view class="form-item">
-          <view class="account-input">
-            <input type="text" value="{{passportData.violation}}" bindinput="handleViolationInput" placeholder="无" />
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
-  <view class="btn-group" style="padding: 32rpx;margin-top: 0;">
-    <view class="wx-login-btn" bindtap="toNextSteps">
-      {{passportStep !== 3 ? '下一步' : '提交并关闭'}}
-    </view>
-    <view class="otherlogin" bindtap="showClosePassportDrawer">取消</view>
-  </view>
-</view>
+<!-- 通行证组件 -->
+<daily-rules  showPassportDrawer="{{showPassportDrawer}}" passportData="{{passportData}}" isHasDailyRules="{{isHasDailyRules}}" bind:close="showClosePassportDrawer" bind:submit="handlePassportSubmit" />
+
+<!-- 任务抽取组件 -->
+<task-drawer showTaskDrawer="{{showTaskDrawer}}" taskUserType="{{taskUserType}}" bind:close="closeTaskDrawer" bind:drawComplete="handleTaskDrawComplete" />

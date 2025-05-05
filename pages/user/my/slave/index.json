@@ -1,6 +1,9 @@
 {
 	"usingComponents": {
-		"header":"/components/Header/index"
+		"header":"/components/Header/index",
+		"supplement-info": "/pages/user/my/slave/passport/info/index",
+		"daily-rules": "/pages/user/my/slave/passport/dailyRules/index",
+		"task-drawer": "/pages/user/my/slave/passport/task/index"
 	},
   "navigationStyle": "custom"
 	

@@ -1,0 +1,146 @@
+/* pages/user/my/slave/passport/task/list/index.wxss */
+.mode {
+  width: 100%;
+  margin: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #f4f4f5;
+  
+}
+.container {
+  width: 90%;
+  margin: auto;
+}
+/* 筛选条件样式 */
+.filter-section {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  margin-bottom: 32rpx;
+}
+
+.filter-item {
+  margin-bottom: 32rpx;
+}
+
+.filter-item:last-child {
+  margin-bottom: 0;
+}
+
+.filter-title {
+  font-size: 28rpx;
+  color: #09090B;
+  font-weight: 600;
+  margin-bottom: 16rpx;
+}
+
+.filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.option {
+  padding: 12rpx 20rpx;
+  background: #f4f4f5;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  color: #71717a;
+}
+
+.option.active {
+  background: #18181b;
+  color: #ffffff;
+}
+
+/* 列表样式 */
+.list-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.list-item {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 32rpx;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.item-title {
+  font-size: 32rpx;
+  color: #09090B;
+  font-weight: 600;
+}
+
+.item-type {
+  font-size: 24rpx;
+  color: #ffffff;
+  background: #18181b;
+  padding: 8rpx 16rpx;
+  border-radius: 8rpx;
+}
+
+.item-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.item-description {
+  font-size: 28rpx;
+  color: #71717a;
+  line-height: 1.6;
+}
+
+.item-info {
+  display: flex;
+  gap: 16rpx;
+}
+
+.info-tag {
+  font-size: 24rpx;
+  padding: 8rpx 16rpx;
+  border-radius: 8rpx;
+}
+
+.difficulty-1 {
+  background: #22c55e;
+  color: #ffffff;
+}
+
+.difficulty-2 {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+.difficulty-3 {
+  background: #f59e0b;
+  color: #ffffff;
+}
+
+.difficulty-4 {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.difficulty-5 {
+  background: #7c3aed;
+  color: #ffffff;
+}
+
+.reward {
+  background: #22c55e;
+  color: #ffffff;
+}
+
+.punishment {
+  background: #ef4444;
+  color: #ffffff;
+}

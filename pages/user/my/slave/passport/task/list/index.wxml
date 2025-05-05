@@ -1,0 +1,55 @@
+<!--pages/user/my/slave/passport/task/list/index.wxml-->
+<header classTitle="center" classColor="true" isBack="true" backgroundColor="#f4f4f5">任务列表</header>
+<view class="mode" style="padding-top: {{tabbarRealHeight + 20 + 'px'}}; max-height: calc(100vh - {{tabbarRealHeight  + 'px'}}); overflow-y: auto;">
+  <view class="container">
+    <!-- 筛选条件 -->
+    <view class="filter-section">
+      <view class="filter-item">
+        <view class="filter-title">类型</view>
+        <view class="filter-options">
+          <view class="option {{selectedType === item.value ? 'active' : ''}}" 
+                wx:for="{{typeList}}" 
+                wx:key="value"
+                bindtap="selectType" 
+                data-type="{{item.value}}">
+            {{item.label}}
+          </view>
+        </view>
+      </view>
+      <view class="filter-item">
+        <view class="filter-title">难度</view>
+        <view class="filter-options">
+          <view class="option {{selectedDifficulty === item.value ? 'active' : ''}}" 
+                wx:for="{{difficultyList}}" 
+                wx:key="value"
+                bindtap="selectDifficulty" 
+                data-difficulty="{{item.value}}">
+            {{item.label}}
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 任务列表 -->
+    <view class="list-section">
+      <view class="list-item" wx:for="{{taskList}}" wx:key="id">
+        <view class="item-header">
+          <view class="item-title">{{item.name}}</view>
+          <view class="item-type">{{item.type}}</view>
+        </view>
+        <view class="item-content">
+          <view class="item-description">{{item.description}}</view>
+          <view class="item-info">
+            <view class="info-tag difficulty-{{item.difficulty_level}}">难度: {{item.difficulty_level}}</view>
+            <view class="info-tag {{item.reward_punishment === 'REWARD' ? 'reward' : 'punishment'}}">
+              {{item.reward_punishment === 'REWARD' ? '奖励' : '惩罚'}}
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view style="height: 100rpx;"></view>
+      
+  </view>
+
+</view>

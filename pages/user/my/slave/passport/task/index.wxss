@@ -1,0 +1,180 @@
+/* pages/user/my/slave/passport/task/index.wxss */
+
+.drawer-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+}
+
+.drawer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: 501;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.drawer.drawer-show {
+  transform: translateY(0);
+}
+
+.drawer-header {
+  padding: 32rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2rpx solid #f4f4f5;
+}
+
+.drawer-title {
+  font-size: 36rpx;
+  color: #09090B;
+  font-weight: 600;
+}
+
+.drawer-close {
+  font-size: 40rpx;
+  color: #71717a;
+  padding: 0 20rpx;
+}
+
+.drawer-content {
+  padding: 32rpx;
+}
+
+.task-relevant {
+  font-size: 24rpx;
+  color: #71717a;
+  margin-bottom: 20rpx;
+  text-align: right;
+}
+
+.task-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300rpx;
+}
+
+.task-tip {
+  width: 100%;
+  height: 300rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32rpx;
+  color: #71717a;
+  background: #f4f4f5;
+  border-radius: 24rpx;
+}
+
+.task-card {
+  width: 100%;
+  background: #f4f4f5;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  min-height: 400rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.task-name {
+  font-size: 32rpx;
+  color: #09090B;
+  font-family: 'DouyinSansBold';
+  text-align: center;
+  margin-bottom: 20rpx;
+
+}
+
+.task-redi {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 30rpx;
+  gap: 30rpx;
+}
+
+
+.task-reward {
+  font-size: 24rpx;
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.task-type {
+  color: #09090B;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.task-difficulty {
+  font-size: 24rpx;
+  color: #71717a;
+}
+.task-difficulty text {
+  font-size: 24rpx;
+  color: #09090B;
+  font-family: 'DouyinSansBold';
+}
+
+.task-description {
+  width: 100%;
+  text-align: justify;
+  font-size: 28rpx;
+  color: #09090B;
+  line-height: 44rpx;
+}
+.btn-group {
+  margin-top: 48rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+  padding: 0 32rpx 56rpx;
+}
+
+.wx-login-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #18181b;
+  color: #ffffff;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+}
+
+.confirm-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #ef4444;
+  color: #ffffff;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+}
+
+.otherlogin {
+  color: #71717a;
+  font-size: 28rpx;
+  text-align: right;
+}
