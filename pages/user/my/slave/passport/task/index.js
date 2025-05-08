@@ -65,9 +65,17 @@ Component({
         params: postData,
         success: (res) => {
           if (res.code === 200) {
-            that.setData({
-              sampleTasks: res.data.list,
-            })
+            if (that.data.taskUserType === 0 || that.data.taskUserType === 1) {
+              that.setData({
+                sampleTasks: res.data.list.filter(item => item.difficulty_level === '1' || item.difficulty_level === '2'),
+              })
+              console.log('今日任务/额外任务',that.data.sampleTasks);
+            }else if (that.data.taskUserType === 2) {
+              that.setData({
+                sampleTasks: res.data.list.filter(item => item.difficulty_level !== '1' && item.difficulty_level !== '2'),
+              })
+              console.log('月度任务',that.data.sampleTasks);
+            }
           }else{
             wx.showToast({
               title: res.message,
@@ -136,6 +144,13 @@ Component({
     },
 
     toTaskList() {
+      if (this.data.extractStatus) {
+        wx.showToast({
+          title: '任务确认后才能关闭',
+          icon: 'none'
+        });
+        return;
+      }
       wx.navigateTo({
         url: '/pages/user/my/slave/passport/task/list/index'
       });
