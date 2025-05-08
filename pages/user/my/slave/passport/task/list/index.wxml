@@ -4,6 +4,7 @@
   <view class="container">
     <!-- 筛选条件 -->
     <view class="filter-section">
+      <image class="add-btn" bindtap="addTask" src="/static/image/add.png" mode="aspectFill"></image>
       <view class="filter-item">
         <view class="filter-title">类型</view>
         <view class="filter-options">
@@ -34,15 +35,20 @@
     <view class="list-section">
       <view class="list-item" wx:for="{{taskList}}" wx:key="id">
         <view class="item-header">
-          <view class="item-title">{{item.name}}</view>
-          <view class="item-type">{{item.type}}</view>
+          <view class="item-title" bindtap="editTask" data-item="{{item}}">{{item.name}}</view>
         </view>
         <view class="item-content">
-          <view class="item-description">{{item.description}}</view>
+          <view class="item-description" bindtap="editTask" data-item="{{item}}">{{item.description}}</view>
           <view class="item-info">
-            <view class="info-tag difficulty-{{item.difficulty_level}}">难度: {{item.difficulty_level}}</view>
-            <view class="info-tag {{item.reward_punishment === 'REWARD' ? 'reward' : 'punishment'}}">
-              {{item.reward_punishment === 'REWARD' ? '奖励' : '惩罚'}}
+            <view>
+              <view class="info-tag difficulty-{{item.difficulty_level}}">难度: {{item.difficulty_level}}</view>
+              <view class="info-tag {{item.reward_punishment === 'REWARD' ? 'reward' : 'punishment'}}">
+                {{item.reward_punishment === 'REWARD' ? '奖励' : '惩罚'}}
+              </view>
+              <view class="info-tag info-type">{{item.type}}</view>
+            </view>
+            <view>
+              <image bindtap="deleteTask" data-item="{{item}}" src="/static/image/delete08.png" mode="aspectFill"></image>
             </view>
           </view>
         </view>
@@ -52,4 +58,70 @@
       
   </view>
 
+</view>
+
+<view class="drawer-mask" wx:if="{{showAddTaskDrawer}}" bindtap="closeAddTaskDrawer"></view>
+<view class="drawer {{showAddTaskDrawer ? 'drawer-show' : ''}}">
+  <view class="drawer-header">
+    <view class="drawer-title">添加任务</view>
+    <view class="drawer-close" bindtap="closeAddTaskDrawer">×</view>
+  </view>
+  <view class="drawer-content">
+    <view class="form-group">
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">名称<text class="required">*</text></view>
+          <view class="account-input">
+            <input type="text" value="{{taskForm.name}}" data-field="name" bindinput="handleTaskInput" placeholder="请输入任务名称" />
+          </view>
+        </view>
+      </view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">描述<text class="required">*</text></view>
+          <view class="account-input">
+            <textarea value="{{taskForm.description}}" data-field="description" bindinput="handleTaskInput" placeholder="请输入任务描述" />
+          </view>
+        </view>
+      </view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">类型<text class="required">*</text></view>
+          <view class="account-input">
+            <picker mode="selector" range="{{addTypeList}}" range-key="label" bindchange="handleTypeChange">
+              <view class="{{taskForm.type ? '' : 'placeholderClass'}}">
+                {{taskForm.type || '请选择类型'}}
+              </view>
+            </picker>
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">赏罚类型<text class="required">*</text></view>
+          <view class="account-input toggle-input {{taskForm.reward_punishment ? 'active' : ''}}" bindtap="handleRewardPunishmentChange">
+            {{taskForm.reward_punishment === 'REWARD' ? '奖励' : taskForm.reward_punishment === 'PUNISHMENT' ? '惩罚' : '请选择赏罚类型'}}
+          </view>
+        </view>
+      </view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">难度级别<text class="required">*</text></view>
+          <view class="account-input shares-input" style="padding-right: 0;">
+            <image src="/static/image/reduce.png" mode="widthFix" bindtap="handleDifficultyChange" data-type="reduce" />
+            <input type="number" value="{{taskForm.difficulty_level}}" data-field="difficulty_level" bindinput="handleTaskInput" placeholder="难度级别" />
+            <image src="/static/image/add.png" mode="widthFix" bindtap="handleDifficultyChange" data-type="add" />
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">是否公开显示</view>
+          <view class="account-input toggle-input {{taskForm.public_display === 1 ? 'active' : ''}}" bindtap="handlePublicDisplayChange">
+            {{taskForm.public_display === 1 ? '是' : '否'}}
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="btn-group">
+      <view class="wx-login-btn" bindtap="submitTask">提交</view>
+      <view class="otherlogin" bindtap="closeAddTaskDrawer">取消</view>
+    </view>
+  </view>
 </view>

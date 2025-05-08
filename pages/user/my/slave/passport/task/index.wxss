@@ -53,10 +53,18 @@
 }
 
 .task-relevant {
-  font-size: 24rpx;
+  font-size: 28rpx;
   color: #71717a;
   margin-bottom: 20rpx;
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.task-relevant image {
+  width: 32rpx;
+  height: 32rpx;
 }
 
 .task-container {

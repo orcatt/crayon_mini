@@ -6,7 +6,11 @@
     <view class="drawer-close" bindtap="closeTaskDrawer">×</view>
   </view>
   <view class="drawer-content">
-    <view class="task-relevant" bindtap="toTaskList">管理任务列表 ></view>
+    <view class="task-relevant" bindtap="toTaskList">
+      <image src="/static/image/todo.png" mode="aspectFill"></image>
+      
+      <view>管理任务列表</view>
+    </view>
     <view class="task-container">
       <view class="task-tip" wx:if="{{!extractStatus}}">请点击“开始抽取”，获得{{taskUserType === 0 ? '今日' : taskUserType === 1 ? '额外' : '月度'}}任务</view>
       <view class="task-card" wx:else>

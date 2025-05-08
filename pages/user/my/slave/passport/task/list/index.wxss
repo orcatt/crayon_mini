@@ -17,6 +17,14 @@
   border-radius: 24rpx;
   padding: 32rpx;
   margin-bottom: 32rpx;
+  position: relative;
+}
+.add-btn {
+  width: 44rpx;
+  height: 44rpx;
+  position: absolute;
+  right: 32rpx;
+  top: 32rpx;
 }
 
 .filter-item {
@@ -101,15 +109,33 @@
 
 .item-info {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.item-info>view:nth-child(1){
+  display: flex;
+  align-items: center;
   gap: 16rpx;
 }
-
+.item-info>view:nth-child(2){
+  width: 44rpx;
+  height: 44rpx;
+}
+.item-info>view:nth-child(2)>image{
+  width: 100%;
+  height: 100%;
+}
 .info-tag {
   font-size: 24rpx;
   padding: 8rpx 16rpx;
   border-radius: 8rpx;
 }
+.info-type {
+  background: #f4f4f5;
+  color: #09090B;
+  box-shadow: inset 0 0 4rpx #E4E4E7;
 
+}
 .difficulty-1 {
   background: #22c55e;
   color: #ffffff;
@@ -143,4 +169,159 @@
 .punishment {
   background: #ef4444;
   color: #ffffff;
+}
+
+/* 弹窗样式 */
+.drawer-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.drawer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-out;
+  z-index: 1001;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.drawer-show {
+  transform: translateY(0);
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.drawer-title {
+  font-size: 32rpx;
+  font-weight: 500;
+}
+
+.drawer-close {
+  font-size: 40rpx;
+  color: #999;
+  padding: 10rpx;
+}
+
+.drawer-content {
+  padding: 30rpx;
+}
+
+.form-group {
+  margin-bottom: 30rpx;
+}
+
+.form-row {
+  margin-bottom: 20rpx;
+  display: flex;
+  gap: 20rpx;
+}
+
+.form-item {
+  margin-bottom: 20rpx;
+  flex: 1;
+}
+
+.account-title {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.required {
+  color: #ff4d4f;
+  margin-left: 4rpx;
+}
+
+.account-input {
+  background: #f5f5f5;
+  border-radius: 8rpx;
+  padding: 20rpx;
+}
+
+.account-input input,
+.account-input textarea {
+  width: 100%;
+  font-size: 28rpx;
+}
+
+.account-input textarea {
+  height: 160rpx;
+}
+
+.placeholderClass {
+  color: #999;
+}
+
+.switch-container {
+  display: flex;
+  align-items: center;
+}
+
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+  margin-top: 40rpx;
+}
+
+.wx-login-btn {
+  background: #18181b;
+  color: #fff;
+  text-align: center;
+  padding: 20rpx;
+  border-radius: 8rpx;
+  font-size: 32rpx;
+}
+
+.otherlogin {
+  color: #71717A;
+  font-size: 28rpx;
+  text-align: right;
+}
+
+.toggle-input {
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggle-input.active {
+  background: #18181b;
+  color: #ffffff;
+}
+
+.shares-input {
+  display: flex;
+  align-items: center;
+  padding: 0 !important;
+}
+
+.shares-input image {
+  width: 44rpx;
+  height: 44rpx;
+  padding: 20rpx;
+}
+
+.shares-input input {
+  flex: 1;
+  text-align: center;
+  border-left: 1rpx solid #eee;
+  border-right: 1rpx solid #eee;
 }
