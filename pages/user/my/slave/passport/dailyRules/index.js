@@ -193,32 +193,57 @@ Component({
         score = 0;
       }
       console.log(that.data.passportData);
-      
-      // utils.getData({
-      //   url: 'slave/dailyRules/save',
-      //   params: that.data.tempFormData,
-      //   success: (res) => {
-      //     if (res.code === 200) {
-      //       console.log(res);
-      //       that.setData({
-      //         showSupplementDrawer: false,
-      //         supplementStep: 1
-      //       });
-      //       that.triggerEvent('submit');
-      //     }else{
-      //       wx.showToast({
-      //         title: res.message,
-      //         icon: 'none'
-      //       });
-      //     }
-      //   }
-      // });
-      // 触发提交事件
-      that.triggerEvent('submit', { 
-        passportData: that.data.passportData,
-        passportStep: 1,
-        score: score
+      let postData = {
+        date: that.data.passportData.date,
+        kowtow: 1,
+        is_locked: that.data.passportData.is_locked,
+        touch_count: that.data.passportData.touch_count,
+        excretion_count: that.data.passportData.excretion_count,
+        water_completed: that.data.passportData.water_completed,
+        libido_status: that.data.passportData.libido_status,
+        daily_task_completed: that.data.passportData.daily_task_completed,
+        extra_task_completed: that.data.passportData.extra_task_completed,
+        other_tools: that.data.passportData.other_tools,
+        violation: that.data.passportData.violation
+      }
+      utils.getData({
+        url: 'slave/dailyRules/save',
+        params: postData,
+        success: (res) => {
+          if (res.code === 200) {
+            wx.showToast({
+              title: '通行证已提交',
+              icon: 'success'
+            });
+            that.setData({
+              showPassportDrawer: false,
+              passportStep: 1,
+            });
+            // 触发提交事件
+            that.triggerEvent('submit', { 
+              // passportData: that.data.passportData,
+              // passportStep: 1,
+              // score: score
+            });
+          }else{
+            wx.showToast({
+              title: res.message,
+              icon: 'none'
+            });
+          }
+        }
       });
+     
+    }
+  },
+  lifetimes: {
+    // 页面加载时确定顶部导航高度
+    attached: function () {
+      var that = this;
+      that.setData({
+        
+			})
+      
     }
   }
 })

@@ -1,4 +1,6 @@
 /* pages/user/my/slave/passport/dailyRules/index.wxss */
+
+/* 抽屉基础样式 */
 .drawer-mask {
   position: fixed;
   top: 0;
@@ -51,6 +53,7 @@
   padding: 32rpx;
 }
 
+/* 表单基础样式 */
 .form-group {
   width: 100%;
 }
@@ -70,9 +73,10 @@
   font-size: 32rpx;
   color: #09090B;
   font-weight: 600;
-  margin: 32rpx 0 16rpx;
+  margin: 30rpx 0 20rpx;
 }
 
+/* 阳具管理样式 */
 .account-title {
   font-size: 28rpx;
   color: #09090B;
@@ -116,6 +120,7 @@
   color: #fff;
 }
 
+/* 汇报性欲样式 */
 .account-select-three {
   width: 100%;
   height: 80rpx;
@@ -153,32 +158,90 @@
   color: #71717a;
 }
 
-.status-emoji {
-  width: 180rpx;
-  height: 180rpx;
-  position: absolute;
-  right: 20rpx;
-  bottom: 20rpx;
-}
-
-.status-emoji > image {
+/* 任务卡片样式 */
+.task-container {
   width: 100%;
-  height: 100%;
-  opacity: 0.4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20rpx;
 }
 
-.account-textarea {
+.task-card {
   width: 100%;
   height: auto;
-  line-height: 44rpx;
-  padding: 24rpx;
-  box-sizing: border-box;
   background: #f4f4f5;
-  border-radius: 12rpx;
-  font-size: 28rpx;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-name {
+  font-size: 32rpx;
+  color: #09090B;
+  font-family: 'DouyinSansBold';
+  text-align: center;
+  margin-bottom: 20rpx;
+}
+
+.task-redi {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 30rpx;
+  gap: 30rpx;
+}
+
+.task-reward {
+  font-size: 24rpx;
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.task-type {
+  color: #09090B;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.task-difficulty {
+  font-size: 24rpx;
   color: #71717a;
 }
 
+.task-difficulty text {
+  font-size: 24rpx;
+  color: #09090B;
+  font-family: 'DouyinSansBold';
+}
+
+.task-description {
+  width: 100%;
+  text-align: justify;
+  font-size: 28rpx;
+  color: #09090B;
+  line-height: 44rpx;
+}
+
+.status-emoji {
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+}
+
+.status-emoji image {
+  width: 110rpx;
+  height: 110rpx;
+}
+
+/* 其他工具样式 */
 .account-input {
   height: 80rpx;
   padding: 0 24rpx;
@@ -205,11 +268,13 @@
   font-size: 28rpx;
 }
 
+/* 按钮组样式 */
 .btn-group {
   margin-top: 48rpx;
   display: flex;
   flex-direction: column;
   gap: 24rpx;
+  padding: 32rpx;
 }
 
 .wx-login-btn {

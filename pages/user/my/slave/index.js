@@ -161,22 +161,40 @@ Page({
   // ! -------------- 通行证 -------------- start
   showClosePassportDrawer(){
     var that = this;
-    that.setData({
-      showPassportDrawer: !that.data.showPassportDrawer,
-      passportData: that.data.passportData,
-      isHasDailyRules: that.data.isHasDailyRules
-    });
+    if(that.data.isHasDailyRules){
+      if (that.data.passportData.score) {
+        wx.showToast({
+          title: '今日已提交',
+          icon: 'none'
+        })
+        return;
+      }
+      that.setData({
+        showPassportDrawer: !that.data.showPassportDrawer,
+        passportData: that.data.passportData,
+        isHasDailyRules: that.data.isHasDailyRules
+      });
+      console.log('通行证数据：', that.data.passportData);
+      
+    }else{
+      wx.showToast({
+        title: '先抽取任务',
+        icon: 'none'
+      });
+      that.showTaskDrawer();
+    }
   },
 
   // 处理通行证提交
   handlePassportSubmit(e) {
-    const { passportData, score } = e.detail;
-    console.log('通行证数据：', passportData);
-    console.log('得分：', score);
-    // 这里可以添加提交到服务器的逻辑
-    this.setData({
+    var that = this;
+    // const { passportData, score } = e.detail;
+    // console.log('通行证数据：', passportData);
+    // console.log('得分：', score);
+    that.setData({
       showPassportDrawer: false,
     });
+    that.getDailyRules();
   },
   // ! -------------- 通行证 -------------- end
 
@@ -189,6 +207,13 @@ Page({
         taskUserType: 0
       });
     }else{
+      if (that.data.passportData.extra_task_id) {
+        wx.showToast({
+          title: '今日已达上限',
+          icon: 'none'
+        })
+        return;
+      }
       wx.showModal({
         title: '提示',
         content: '您已经抽取今日任务，是否抽取额外任务？',
@@ -211,9 +236,10 @@ Page({
     });
   },
   handleTaskDrawComplete(e) {
+    var that = this;
     const task = e.detail;
-    console.log('抽取到的任务：', task);
-    // 这里可以添加处理抽取结果的逻辑
+    that.getDailyRules();
+
     this.setData({
       showTaskDrawer: false
     });

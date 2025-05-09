@@ -8,11 +8,10 @@
   <view class="drawer-content">
     <view class="task-relevant" bindtap="toTaskList">
       <image src="/static/image/todo.png" mode="aspectFill"></image>
-      
       <view>管理任务列表</view>
     </view>
     <view class="task-container">
-      <view class="task-tip" wx:if="{{!extractStatus}}">请点击“开始抽取”，获得{{taskUserType === 0 ? '今日' : taskUserType === 1 ? '额外' : '月度'}}任务</view>
+      <view class="task-tip" wx:if="{{!extractStatus}}">请点击"开始抽取"，获得{{taskUserType === 0 ? '今日' : taskUserType === 1 ? '额外' : '月度'}}任务</view>
       <view class="task-card" wx:else>
         <view class="task-name">{{currentTask.name}}</view>
         <view class="task-redi">
@@ -21,6 +20,15 @@
           <view class="task-difficulty">难度 <text>{{currentTask.difficulty_level}}</text></view>
         </view>
         <view class="task-description">{{currentTask.description}}</view>
+      </view>
+    </view>
+    <view class="task-container water" wx:if="{{taskUserType === 0 && extractStatus}}">
+      <view class="task-card">
+        <view class="task-name">今日指标</view>
+        <view class="task-redi">
+          <view class="task-reward">饮水量: {{waterAmount}}ml</view>
+          <view class="task-type">排泄次数: {{excretionCount}}次</view>
+        </view>
       </view>
     </view>
   </view>

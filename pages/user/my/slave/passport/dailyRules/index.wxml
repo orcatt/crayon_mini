@@ -69,7 +69,7 @@
             </view>
           </view>
           <view class="account-input status-text">
-            <view>{{passportData.status_text}}</view>
+            <view>{{passportData.libido_status === '平常' ? sexStatus[0].content : passportData.libido_status === '燥热' ? sexStatus[1].content : sexStatus[2].content}}</view>
           </view>
         </view>
       </view>
@@ -79,36 +79,41 @@
     <view class="form-group">
       <!-- 每日任务 -->
       <view class="form-title" style="margin-top: 0;">每日任务</view>
-      <view class="form-row">
-        <view class="form-item" bindtap="handleDailyTaskChange">
-          <view class="account-input" style="border-radius: 12rpx 12rpx 0 0 ;border-bottom: 2rpx #71717a solid;">
-            <view style="font-size: 32rpx;">{{passportData.daily_task_title}}</view>
+      <view class="task-container">
+        <view class="task-card" bindtap="handleDailyTaskChange">
+          <view class="task-name">{{passportData.daily_task.name}}</view>
+          <view class="task-redi">
+            <view class="task-reward">{{passportData.daily_task.reward_punishment === 'REWARD' ? '奖励' : '惩罚'}}</view>
+            <view class="task-type">{{passportData.daily_task.type}}</view>
+            <view class="task-difficulty">难度 <text>{{passportData.daily_task.difficulty_level}}</text></view>
           </view>
-          <view class="account-textarea">
-            <view>{{passportData.daily_task_content}}</view>
-          </view>
+          <view class="task-description">{{passportData.daily_task.description}}</view>
           <view class="status-emoji">
             <image wx:if="{{!passportData.daily_task_completed}}" src="/static/image/incomplete.png" mode="aspectFill"></image>
             <image wx:else src="/static/image/complete.png" mode="aspectFill"></image>
           </view>
         </view>
       </view>
+
       <!-- 额外任务 -->
       <view class="form-title">额外任务</view>
-      <view class="form-row">
-        <view class="form-item" bindtap="handleExtraTaskChange">
-          <view class="account-input" style="border-radius: 12rpx 12rpx 0 0 ;border-bottom: 2rpx #71717a solid;">
-            <view style="font-size: 32rpx;">{{passportData.extra_task_title}}</view>
+      <view class="task-container">
+        <view class="task-card" bindtap="handleExtraTaskChange">
+          <view class="task-name">{{passportData.extra_task.name}}</view>
+          <view class="task-redi">
+            <view class="task-reward">{{passportData.extra_task.reward_punishment === 'REWARD' ? '奖励' : '惩罚'}}</view>
+            <view class="task-type">{{passportData.extra_task.type}}</view>
+            <view class="task-difficulty">难度 <text>{{passportData.extra_task.difficulty_level}}</text></view>
           </view>
-          <view class="account-textarea">
-            <view>{{passportData.extra_task_content}}</view>
-          </view>
+          <view class="task-description">{{passportData.extra_task.description}}</view>
           <view class="status-emoji">
             <image wx:if="{{!passportData.extra_task_completed}}" src="/static/image/incomplete.png" mode="aspectFill"></image>
             <image wx:else src="/static/image/complete.png" mode="aspectFill"></image>
           </view>
         </view>
       </view>
+
+     
     </view>
   </view>
   <view class="drawer-content" wx:if="{{passportStep === 3}}">

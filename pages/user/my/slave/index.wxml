@@ -133,7 +133,6 @@
         <view>
           <image src="/static/image/my/countdown.png" mode="aspectFill"></image>
           <view>剩余时间</view>
-            
         </view>
         <view>10 天 12 小时 44 分钟 15 秒</view>
       </view>
