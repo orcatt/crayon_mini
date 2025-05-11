@@ -1,0 +1,184 @@
+<!--pages/user/my/slave/passport/temalock/index.wxml-->
+<view class="drawer-mask" wx:if="{{showTemaLockDrawer}}" bindtap="showCloseTemaLockDrawer"></view>
+<view class="drawer {{showTemaLockDrawer ? 'drawer-show' : ''}}">
+  <view class="drawer-header">
+    <view class="drawer-title">戴锁计划</view>
+    <view class="drawer-close" bindtap="showCloseTemaLockDrawer">×</view>
+  </view>
+  <view class="drawer-content" wx:if="{{temaLockStep === 1}}">
+    <view class="form-group">
+      <!-- 基本信息 -->
+      <view class="form-title" style="margin-top: 0;">基本信息</view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">开始时间</view>
+          <view class="account-input">
+            <picker mode="multiSelector" value="{{startDateIndex}}" range="{{startDateArray}}" bindchange="handleStartDateChange">
+              <view class="{{formData.start_date ? '' : 'placeholderClass'}}">
+                {{formData.start_date || '请选择开始时间'}}
+              </view>
+            </picker>
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">默认结束时间</view>
+          <view class="account-input">
+            <picker mode="multiSelector" value="{{endDateIndex}}" range="{{endDateArray}}" bindchange="handleEndDateChange">
+              <view class="{{formData.default_end_date ? '' : 'placeholderClass'}}">
+                {{formData.default_end_date || '请选择结束时间'}}
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">验证频率（小时）</view>
+          <view class="account-input">
+            <input type="number" value="{{formData.frequency}}" bindinput="handleFrequencyInput" placeholder="请输入验证频率" />
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">模板共享</view>
+          <view class="account-select">
+            <view class="{{formData.share_template == 1 ? 'active' : ''}}" bindtap="handleShareTemplateChange" data-value="1">
+              是
+            </view>
+            <view class="{{formData.share_template == 0 ? 'active' : ''}}" bindtap="handleShareTemplateChange" data-value="0">
+              否
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">描述简介</view>
+          <view class="account-textarea">
+            <textarea value="{{formData.description}}" bindinput="handleDescriptionInput" placeholder="请输入描述简介" />
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="drawer-content" wx:if="{{temaLockStep === 2}}">
+    <view class="form-group">
+      <!-- 游戏设置 -->
+      <view class="form-title" style="margin-top: 0;">游戏设置</view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">每日最少游戏次数</view>
+          <view class="account-input">
+            <input type="number" value="{{formData.min_game_times}}" bindinput="handleMinGameTimesInput" placeholder="请输入最少游戏次数" />
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">每日最多游戏次数</view>
+          <view class="account-input">
+            <input type="number" value="{{formData.max_game_times}}" bindinput="handleMaxGameTimesInput" placeholder="请输入最多游戏次数" />
+          </view>
+        </view>
+      </view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">游戏赌注（分钟）</view>
+          <view class="account-input">
+            <input type="number" value="{{formData.game_bet}}" bindinput="handleGameBetInput" placeholder="请输入游戏赌注" />
+          </view>
+        </view>
+      </view>
+      <!-- 清洗设置 -->
+      <view class="form-title">清洗设置</view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">定期清洗</view>
+          <view class="account-select">
+            <view class="{{formData.regular_cleaning_status == 1 ? 'active' : ''}}" bindtap="handleCleaningStatusChange" data-value="1">
+              开启
+            </view>
+            <view class="{{formData.regular_cleaning_status == 0 ? 'active' : ''}}" bindtap="handleCleaningStatusChange" data-value="0">
+              关闭
+            </view>
+          </view>
+        </view>
+        <view class="form-item" wx:if="{{formData.regular_cleaning_status == 1}}">
+          <view class="account-title">清洗频率（小时）</view>
+          <view class="account-input">
+            <input type="number" value="{{formData.regular_cleaning_frequency}}" bindinput="handleCleaningFrequencyInput" placeholder="请输入清洗频率" />
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="drawer-content" wx:if="{{temaLockStep === 3}}">
+    <view class="form-group">
+      <!-- 倒计时设置 -->
+      <view class="form-title" style="margin-top: 0;">倒计时设置</view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">倒计时显示</view>
+          <view class="account-select-three">
+            <view wx:for="{{countdownStatusList}}" wx:key="value" class="{{item.value == formData.display_countdown_status ? 'active' : ''}}" bindtap="handleCountdownStatusChange" data-value="{{item.value}}">
+              {{item.name}}
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="form-row" wx:if="{{formData.display_countdown_status == 'visible_with_random'}}">
+        <view class="form-item">
+          <view class="account-title">倒计时赌注（分钟，惩罚 1-5 倍）</view>
+          <view class="account-input">
+            <input type="number" value="{{formData.display_countdown_max_bet}}" bindinput="handleCountdownBetInput" placeholder="请输入倒计时赌注" />
+          </view>
+        </view>
+      </view>
+      <!-- 友情链接 -->
+      <view class="form-title">友情链接</view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">友情链接</view>
+          <view class="account-select">
+            <view class="{{formData.share_link_status == 1 ? 'active' : ''}}" bindtap="handleShareLinkStatusChange" data-value="1">
+              开启
+            </view>
+            <view class="{{formData.share_link_status == 0 ? 'active' : ''}}" bindtap="handleShareLinkStatusChange" data-value="0">
+              关闭
+            </view>
+          </view>
+        </view>
+        <view class="form-item" wx:if="{{formData.share_link_status == 1}}">
+          <view class="account-title">友情链接赌注（小时）</view>
+          <view class="account-input">
+            <input type="number" value="{{formData.share_link_bet}}" bindinput="handleShareLinkBetInput" placeholder="请输入友情链接赌注" />
+          </view>
+        </view>
+      </view>
+      <!-- 示众设置 -->
+      <view class="form-title">示众设置</view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">示众状态</view>
+          <view class="account-select">
+            <view class="{{formData.public_everyone_status == 1 ? 'active' : ''}}" bindtap="handlePublicStatusChange" data-value="1">
+              开启
+            </view>
+            <view class="{{formData.public_everyone_status == 0 ? 'active' : ''}}" bindtap="handlePublicStatusChange" data-value="0">
+              关闭
+            </view>
+          </view>
+        </view>
+        <view class="form-item" wx:if="{{formData.public_everyone_status == 1}}">
+          <view class="account-title">示众赌注（分钟）</view>
+          <view class="account-input">
+            <input type="number" value="{{formData.public_everyone_bet}}" bindinput="handlePublicBetInput" placeholder="请输入示众赌注" />
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="btn-group">
+    <view wx:if="{{temaLockStep !== 1}}" class="prev-btn" bindtap="prevStep">上一步</view>
+    <view class="wx-login-btn" bindtap="nextStep">
+      {{temaLockStep !== 3 ? '下一步' : '提交'}}
+    </view>
+  </view>
+</view>

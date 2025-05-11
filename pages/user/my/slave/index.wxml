@@ -118,76 +118,96 @@
     <view bindtap="toEvent">事件</view>
   </view>
   <view class="chastity_info">
-    <view class="chastity_info_title">
-      <view>戴锁计划</view>
-      <view>自 2025-04-26 12:00:00 始</view>
-    </view>
-    <view class="chastity_info_line1">
-      <view class="chastity_line1_left">
-        <view>进行中</view>
-        <view class="process-bar">
-          <view class="process-bar-inner" style="width: 50%"></view>
+    <block wx:if="{{temaLockData}}">
+      <view class="chastity_info_title">
+        <view>戴锁计划</view>
+        <view>{{temaLockData.start_date}} <text wx:if="{{temaLockData.display_countdown_status == 'visible'}}">至 {{temaLockData.update_end_date}}</text></view>
+        
+      </view>
+      <view class="chastity_info_line1">
+        <view class="chastity_line1_left">
+          <view>进行中</view>
+          <view class="process-bar">
+            <view class="process-bar-inner" style="width: {{temaLockData.process}}%"></view>
+          </view>
+        </view>
+        <view class="chastity_line1_right">
+          <view>
+            <image src="/static/image/my/countdown.png" mode="aspectFill"></image>
+            <view>剩余时长</view>
+          </view>
+          <view wx:if="{{temaLockData.display_countdown_status == 'visible'}}">{{temaLockData.time_remaining}}</view>
+          <view wx:elif="{{temaLockData.display_countdown_status == 'visible_with_random'}}" bindtap="seeTimeRemaining">随机奖惩以查看</view>
+          <view wx:else>此计划不予展示剩余时间</view>
         </view>
       </view>
-      <view class="chastity_line1_right">
+      <view class="chastity_info_line2">
+        <view class="chastity_info_line2_left">
+          <view class="chastity_line2_title">
+            <view>验证完成！</view>
+            <view>每 12 小时</view>
+          </view>
+          <view class="chastity_line2_time">1 天 12 小时 44 分钟 15 秒</view>
+          <image class="chastity_line2_img" src="/static/image/wearer.png" mode="aspectFill"></image>
+        </view>
+        <view class="chastity_info_line2_right">
+          <view>清洁倒计时</view>
+          <view>3 天</view>
+        </view>
+      </view>
+      <view class="chastity_info_line3">
+        <view class="chastity_info_line3_left">
+          <image src="/static/image/manger.png" mode="aspectFill"></image>
+          <view>
+            <view>管理者</view>
+            <view wx:if="{{temaLockData.manager_user_name}}">{{temaLockData.manager_user_name}}</view>
+            <view wx:else bindtap="setManagerUser">前去绑定</view>
+          </view>
+        </view>
+        <view class="chastity_info_line3_right">
+          <view>最少游戏数</view>
+          <view>0 / 2</view>
+        </view>
+        <view class="chastity_info_line3_right">
+          <view>最多游戏数</view>
+          <view>0 / 5</view>
+        </view>
+      </view>
+      <view class="chastity_info_line4">
+        <view class="chastity_info_line4_left">
+          <view>
+            <image src="/static/image/my/share.png" mode="aspectFill"></image>
+            <view>友情链接</view>
+          </view>
+          <view>
+            <view>赌注</view>
+            <view>3小时</view>
+          </view>
+        </view>
+        <view class="chastity_info_line4_right">
+          <view>
+            <view>充电开启</view>
+            <view>每 3 小时</view>
+          </view>
+          <view>1 天 12 小时 44 分钟 15 秒</view>
+          <image class="chastity_line4_img" src="/static/image/shizhong.png" mode="aspectFill"></image>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="chastity_info_title">
+        <view>戴锁计划</view>
+        <view></view>
+      </view>
+      <view class="chastity_info_none" bindtap="showTemaLockDrawer">
+        <image src="/static/image/wearer.png" mode="aspectFill"></image>
         <view>
-          <image src="/static/image/my/countdown.png" mode="aspectFill"></image>
-          <view>剩余时间</view>
-        </view>
-        <view>10 天 12 小时 44 分钟 15 秒</view>
-      </view>
-    </view>
-    <view class="chastity_info_line2">
-      <view class="chastity_info_line2_left">
-        <view class="chastity_line2_title">
-          <view>验证完成！</view>
-          <view>每 12 小时</view>
-        </view>
-        <view class="chastity_line2_time">1 天 12 小时 44 分钟 15 秒</view>
-        <image class="chastity_line2_img" src="/static/image/wearer.png" mode="aspectFill"></image>
-      </view>
-      <view class="chastity_info_line2_right">
-        <view>清洁倒计时</view>
-        <view>3 天</view>
-      </view>
-    </view>
-    <view class="chastity_info_line3">
-      <view class="chastity_info_line3_left">
-        <image src="/static/image/manger.png" mode="aspectFill"></image>
-        <view>
-          <view>持有人</view>
-          <view>大风向野</view>
+          <image src="/static/image/start.png" mode="aspectFill"></image>
+          <text>开启你的戴锁计划</text>
         </view>
       </view>
-      <view class="chastity_info_line3_right">
-        <view>最少游戏数</view>
-        <view>0 / 2</view>
-      </view>
-      <view class="chastity_info_line3_right">
-        <view>最多游戏数</view>
-        <view>0 / 5</view>
-      </view>
-    </view>
-    <view class="chastity_info_line4">
-      <view class="chastity_info_line4_left">
-        <view>
-          <image src="/static/image/my/share.png" mode="aspectFill"></image>
-          <view>友情链接</view>
-        </view>
-        <view>
-          <view>赌注</view>
-          <view>3小时</view>
-        </view>
-      </view>
-      <view class="chastity_info_line4_right">
-        <view>
-          <view>充电开启</view>
-          <view>每 3 小时</view>
-        </view>
-        <view>1 天 12 小时 44 分钟 15 秒</view>
-        <image class="chastity_line4_img" src="/static/image/shizhong.png" mode="aspectFill"></image>
-      </view>
-    </view>
+        
+    </block>
   </view>
 </view>
 
@@ -199,3 +219,9 @@
 
 <!-- 任务抽取组件 -->
 <task-drawer showTaskDrawer="{{showTaskDrawer}}" taskUserType="{{taskUserType}}" bind:close="closeTaskDrawer" bind:drawComplete="handleTaskDrawComplete" />
+
+<!-- 戴锁计划组件 -->
+<tema-lock showTemaLockDrawer="{{showTemaLockDrawer}}" bind:close="showTemaLockDrawer" bind:submit="handleTemaLockSubmit" />
+
+<!-- 管理者绑定组件 -->
+<link-manager showLinkManagerDrawer="{{showLinkManagerDrawer}}" bind:close="showCloseLinkManagerDrawer" bind:bind="handleBindManager" />

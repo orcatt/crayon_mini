@@ -59,6 +59,9 @@ Page({
     showTaskDrawer: false, // 任务抽取弹窗
     taskUserType: 0, // 抽取任务类型 0: 今日任务 1: 额外任务 2: 月度任务
 
+    temaLockData: {}, // 戴锁计划
+    showTemaLockDrawer: false, // 戴锁计划弹窗
+    showLinkManagerDrawer: false, // 管理者绑定弹窗
   },
   onLoad(options) {
 		var that = this;
@@ -72,7 +75,6 @@ Page({
       currentDate: currentDate
 		})
     that.getData();
-
   },
   getData(){
     var that = this;
@@ -90,6 +92,7 @@ Page({
             formData: res.data,
           })
           that.getDailyRules();
+          that.getTemaLock();
         }else if(res.code === 404){
           that.showCloseSupplementDrawer();
         }else{
@@ -128,14 +131,132 @@ Page({
       }
     });
   },
+  // 将秒数转换为天时分秒格式
+  formatTimeRemaining(seconds) {
+    const days = Math.floor(seconds / (24 * 3600));
+    const hours = Math.floor((seconds % (24 * 3600)) / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = Math.floor(seconds % 60);
+    
+    let timeStr = '';
+    if (days > 0) timeStr += `${days} 天 `;
+    if (hours > 0) timeStr += `${hours} 小时 `;
+    if (minutes > 0) timeStr += `${minutes} 分钟 `;
+    if (secs > 0 || timeStr === '') timeStr += `${secs} 秒`;
+    
+    return timeStr;
+  },
+  // 获得 yyyy-mm-dd hh:mm:ss 格式的时间
+  getCurrentTime(){
+    var that = this;
+    let now = new Date();
+    
+    // 获取年月日时分秒
+    let year = now.getFullYear();
+    let month = String(now.getMonth() + 1).padStart(2, '0');
+    let day = String(now.getDate()).padStart(2, '0');
+    let hours = String(now.getHours()).padStart(2, '0');
+    let minutes = String(now.getMinutes()).padStart(2, '0');
+    let seconds = String(now.getSeconds()).padStart(2, '0');
+    
+    // 拼接成 yyyy-mm-dd hh:mm:ss 格式
+    let currentTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    return currentTime;
+  },
+  getTemaLock(type){
+    var that = this;
+    let postData = {
+      type: "wearer",
+      date: that.data.currentDate
+    }
+    utils.getData({
+      url: 'slave/temalock/list',
+      params: postData,
+      success: (res) => {
+        if (res.code === 200) {
+          let thisTemaLockObj = res.data.list[0]
+          
+          // 将日期字符串转换为时间戳（秒）
+          let startTimestamp = new Date(thisTemaLockObj.start_date.replace(/-/g, '/')).getTime() / 1000
+          let endTimestamp = new Date(thisTemaLockObj.update_end_date.replace(/-/g, '/')).getTime() / 1000
+          let currentTimestamp = new Date().getTime() / 1000
+          
+          // 计算总时长和已过时间
+          let total_duration = endTimestamp - startTimestamp
+          let time_passed = currentTimestamp - startTimestamp
+          
+          // 计算实际剩余时间
+          let time_remaining = endTimestamp - currentTimestamp
+          
+          // 计算进度值：(已过时间/总时长) * 100
+          thisTemaLockObj.process = (time_passed / total_duration * 100).toFixed(2)
+          thisTemaLockObj.time_remaining = that.formatTimeRemaining(time_remaining)
+          console.log('thisTemaLockObj', thisTemaLockObj);
+          if (type && type === 'unlock') {
+            thisTemaLockObj.display_countdown_status = 'visible'
+          }
+          that.setData({
+            temaLockData: thisTemaLockObj,
+          })
+        }else{
+          wx.showToast({
+            title: res.message,
+            icon: 'none'
+          });
+        }
+      }
+    });
+  },
   showContentBottom(){
     var that = this;
     that.setData({
       showContentBottom: !that.data.showContentBottom
     });
   },
+  seeTimeRemaining(){
+    var that = this;
+    let bet = that.data.temaLockData.display_countdown_max_bet * 5
+    let currentTime = that.getCurrentTime();
+    let randomBet = Math.floor(Math.random() * bet) + 1
+    let isReward = Math.random() < 0.5 ? 'REWARD' : 'PUNISHMENT' // 随机决定奖惩（0为奖励，1为惩罚）
+    
+    
+    console.log('随机赌注:', randomBet, '奖惩类型:' ,isReward, '时间:' ,currentTime);
+    
+    let postData = {
+      temalock_id: that.data.temaLockData.id,
+      title: '查看剩余时间：' + (isReward === 'REWARD' ? '奖励' : '惩罚'),
+      occur_time: currentTime,
+      minute: randomBet,
+      reward_punishment: isReward,
+      reason: '在' + currentTime + ' 查看剩余时间，' + '结束时间' + (isReward === 'REWARD' ? '减少 ' : '增加 ') + randomBet + ' 分钟'
+    }
+    utils.getData({
+      url: 'slave/temalock/record/add',
+      params: postData,
+      success: (res) => {
+        if (res.code === 200) {
+          wx.showToast({
+            title: '剩余时间' + (isReward === 'REWARD' ? '减少 ' : '增加 ') + randomBet + ' 分钟',
+            icon: 'none'
+          });
+          that.getTemaLock('unlock');
+        }else{
+          wx.showToast({
+            title: res.message,
+            icon: 'none'
+          });
+        }
+      }
+    });
+  },
 
-
+  setManagerUser(){
+    var that = this;
+    that.setData({
+      showLinkManagerDrawer: true,
+    });
+  },
 
   // ! -------------- 完善信息 -------------- start
 
@@ -246,7 +367,24 @@ Page({
   },
   // ! -------------- 任务 -------------- end
 
+  // ! -------------- 戴锁计划 -------------- start
+  showTemaLockDrawer(){
+    var that = this;
+    that.setData({
+      showTemaLockDrawer: !that.data.showTemaLockDrawer,
+    });
+  },
 
+  handleTemaLockSubmit(e) {
+    var that = this;
+    // const temaLockData = e.detail;
+    // console.log('戴锁计划数据：', temaLockData);
+    that.setData({
+      showTemaLockDrawer: false,
+    });
+    that.getTemaLock();
+  },
+  // ! -------------- 戴锁计划 -------------- end
 
   // ! -------------- 游戏 -------------- start
 
@@ -269,4 +407,42 @@ Page({
   onPullDownRefresh() {},
   onReachBottom() {},
   onShareAppMessage() {},
+
+  // 关闭管理者绑定弹窗
+  showCloseLinkManagerDrawer() {
+    this.setData({
+      showLinkManagerDrawer: false
+    });
+  },
+
+  // 处理管理者绑定
+  handleBindManager(e) {
+    var that = this;
+    const { manager_user_id } = e.detail;
+    
+    // 这里可以调用API进行绑定操作
+    utils.getData({
+      url: 'slave/temalock/bind',
+      params: {
+        manager_user_id: manager_user_id
+      },
+      success: (res) => {
+        if (res.code === 200) {
+          wx.showToast({
+            title: '绑定成功',
+            icon: 'success'
+          });
+          that.setData({
+            showLinkManagerDrawer: false
+          });
+          that.getTemaLock(); // 刷新戴锁计划数据
+        } else {
+          wx.showToast({
+            title: res.message,
+            icon: 'none'
+          });
+        }
+      }
+    });
+  },
 })

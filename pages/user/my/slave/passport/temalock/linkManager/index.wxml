@@ -1,0 +1,38 @@
+<!--pages/user/my/slave/passport/temalock/linkManager/index.wxml-->
+<view class="drawer-mask" wx:if="{{showLinkManagerDrawer}}" bindtap="showCloseLinkManagerDrawer"></view>
+<view class="drawer {{showLinkManagerDrawer ? 'drawer-show' : ''}}">
+  <view class="drawer-header">
+    <view class="drawer-title">管理者绑定</view>
+    <view class="drawer-close" bindtap="showCloseLinkManagerDrawer">×</view>
+  </view>
+  <view class="drawer-content">
+    <view class="form-group">
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">
+            <view>管理者ID</view>
+            <view>输入管理者 ID 直接绑定</view>
+          </view>
+          <view class="account-input">
+            <input type="number" value="{{managerUserId}}" bindinput="handleManagerUserIdInput" placeholder="请输入管理者ID" />
+          </view>
+        </view>
+      </view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">
+            <view>绑定链接</view>
+            <view>通过发送链接，完成绑定</view>
+          </view>
+          <view class="account-input link-input" bindtap="copyLink">
+            <view class="link-text">此处是测试地址</view>
+            <view class="copy-icon">复制</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="btn-group">
+    <view class="wx-login-btn" bindtap="handleBindManager">完成绑定</view>
+  </view>
+</view>

@@ -3,7 +3,9 @@
 		"header":"/components/Header/index",
 		"supplement-info": "/pages/user/my/slave/passport/info/index",
 		"daily-rules": "/pages/user/my/slave/passport/dailyRules/index",
-		"task-drawer": "/pages/user/my/slave/passport/task/index"
+		"task-drawer": "/pages/user/my/slave/passport/task/index",
+		"tema-lock": "/pages/user/my/slave/passport/temalock/index",
+		"link-manager": "/pages/user/my/slave/passport/temalock/linkManager/index"
 	},
   "navigationStyle": "custom"
 	

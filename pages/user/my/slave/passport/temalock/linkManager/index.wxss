@@ -1,0 +1,142 @@
+/* pages/user/my/slave/passport/temalock/linkManager/index.wxss */
+
+/* 抽屉基础样式 */
+.drawer-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+}
+
+.drawer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: 501;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.drawer.drawer-show {
+  transform: translateY(0);
+}
+
+.drawer-header {
+  padding: 32rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2rpx solid #f4f4f5;
+}
+
+.drawer-title {
+  font-size: 36rpx;
+  color: #09090B;
+  font-weight: 600;
+}
+
+.drawer-close {
+  font-size: 40rpx;
+  color: #71717a;
+  padding: 0 20rpx;
+}
+
+.drawer-content {
+  padding: 32rpx;
+}
+
+/* 表单基础样式 */
+.form-group {
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  gap: 24rpx;
+  margin-bottom: 32rpx;
+}
+
+.form-item {
+  flex: 1;
+  position: relative;
+}
+
+.account-title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+.account-title>view:nth-child(1){
+  font-size: 28rpx;
+  color: #09090B;
+}
+.account-title>view:nth-child(2){
+  font-size: 24rpx;
+  color: #71717a;
+}
+
+/* 输入框样式 */
+.account-input {
+  height: 80rpx;
+  padding: 0 24rpx;
+  background: #f4f4f5;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+}
+
+.account-input input {
+  height: 100%;
+  width: 100%;
+  font-size: 28rpx;
+}
+
+/* 链接输入框特殊样式 */
+.link-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.link-text {
+  flex: 1;
+  font-size: 28rpx;
+  color: #71717a;
+}
+
+.copy-icon {
+  font-size: 28rpx;
+  color: #18181b;
+  padding: 8rpx 16rpx;
+  background: #e4e4e7;
+  border-radius: 8rpx;
+}
+
+/* 按钮组样式 */
+.btn-group {
+  margin-top: 48rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+  padding: 0 32rpx 56rpx;
+}
+
+.wx-login-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #18181b;
+  color: #ffffff;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+}
