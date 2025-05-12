@@ -62,6 +62,8 @@ Page({
     temaLockData: {}, // 戴锁计划
     showTemaLockDrawer: false, // 戴锁计划弹窗
     showLinkManagerDrawer: false, // 管理者绑定弹窗
+
+    temalockCheckData: [], // 戴锁计划检查数据
   },
   onLoad(options) {
 		var that = this;
@@ -104,6 +106,7 @@ Page({
       }
     });
   },
+
   getDailyRules(){
     var that = this;
     let postData = {
@@ -131,38 +134,7 @@ Page({
       }
     });
   },
-  // 将秒数转换为天时分秒格式
-  formatTimeRemaining(seconds) {
-    const days = Math.floor(seconds / (24 * 3600));
-    const hours = Math.floor((seconds % (24 * 3600)) / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = Math.floor(seconds % 60);
-    
-    let timeStr = '';
-    if (days > 0) timeStr += `${days} 天 `;
-    if (hours > 0) timeStr += `${hours} 小时 `;
-    if (minutes > 0) timeStr += `${minutes} 分钟 `;
-    if (secs > 0 || timeStr === '') timeStr += `${secs} 秒`;
-    
-    return timeStr;
-  },
-  // 获得 yyyy-mm-dd hh:mm:ss 格式的时间
-  getCurrentTime(){
-    var that = this;
-    let now = new Date();
-    
-    // 获取年月日时分秒
-    let year = now.getFullYear();
-    let month = String(now.getMonth() + 1).padStart(2, '0');
-    let day = String(now.getDate()).padStart(2, '0');
-    let hours = String(now.getHours()).padStart(2, '0');
-    let minutes = String(now.getMinutes()).padStart(2, '0');
-    let seconds = String(now.getSeconds()).padStart(2, '0');
-    
-    // 拼接成 yyyy-mm-dd hh:mm:ss 格式
-    let currentTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-    return currentTime;
-  },
+  
   getTemaLock(type){
     var that = this;
     let postData = {
@@ -198,6 +170,7 @@ Page({
           that.setData({
             temaLockData: thisTemaLockObj,
           })
+          that.getTemaLockCheckData();
         }else{
           wx.showToast({
             title: res.message,
@@ -207,6 +180,29 @@ Page({
       }
     });
   },
+  getTemaLockCheckData(){
+    var that = this;
+    let postData = {
+      temalock_id: that.data.temaLockData.id
+    }
+    utils.getData({
+      url: 'slave/temalock/check/list',
+      params: postData,
+      success: (res) => {
+        if (res.code === 200) {
+          that.setData({
+            temalockCheckData: res.data
+          })          
+        }else{
+          wx.showToast({
+            title: res.message,
+            icon: 'none'
+          });
+        }
+      }
+    });
+  },
+  // 显示内容详情
   showContentBottom(){
     var that = this;
     that.setData({
@@ -251,12 +247,7 @@ Page({
     });
   },
 
-  setManagerUser(){
-    var that = this;
-    that.setData({
-      showLinkManagerDrawer: true,
-    });
-  },
+
 
   // ! -------------- 完善信息 -------------- start
 
@@ -386,6 +377,32 @@ Page({
   },
   // ! -------------- 戴锁计划 -------------- end
 
+
+
+  // ! -------------- 绑定管理者 -------------- start
+  setManagerUser(){
+    var that = this;
+    that.setData({
+      showLinkManagerDrawer: true,
+    });
+  },
+  // 关闭管理者绑定弹窗
+  showCloseLinkManagerDrawer() {
+    this.setData({
+      showLinkManagerDrawer: false
+    });
+  },
+  // 绑定管理者
+  handleBindManager(e){
+    var that = this;
+    that.setData({
+      showLinkManagerDrawer: false
+    });
+    that.getTemaLock();
+
+  },
+  // ! -------------- 绑定管理者 -------------- end
+
   // ! -------------- 游戏 -------------- start
 
   toGame(){
@@ -400,6 +417,38 @@ Page({
       url: '/pages/user/my/slave/event/index',
     })
   },
+  // 将秒数转换为天时分秒格式
+  formatTimeRemaining(seconds) {
+    const days = Math.floor(seconds / (24 * 3600));
+    const hours = Math.floor((seconds % (24 * 3600)) / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = Math.floor(seconds % 60);
+    
+    let timeStr = '';
+    if (days > 0) timeStr += `${days} 天 `;
+    if (hours > 0) timeStr += `${hours} 小时 `;
+    if (minutes > 0) timeStr += `${minutes} 分钟 `;
+    if (secs > 0 || timeStr === '') timeStr += `${secs} 秒`;
+    
+    return timeStr;
+  },
+  // 获得 yyyy-mm-dd hh:mm:ss 格式的时间
+  getCurrentTime(){
+    var that = this;
+    let now = new Date();
+    
+    // 获取年月日时分秒
+    let year = now.getFullYear();
+    let month = String(now.getMonth() + 1).padStart(2, '0');
+    let day = String(now.getDate()).padStart(2, '0');
+    let hours = String(now.getHours()).padStart(2, '0');
+    let minutes = String(now.getMinutes()).padStart(2, '0');
+    let seconds = String(now.getSeconds()).padStart(2, '0');
+    
+    // 拼接成 yyyy-mm-dd hh:mm:ss 格式
+    let currentTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    return currentTime;
+  },
   onReady() {},
   onShow() {},
   onHide() {},
@@ -408,41 +457,5 @@ Page({
   onReachBottom() {},
   onShareAppMessage() {},
 
-  // 关闭管理者绑定弹窗
-  showCloseLinkManagerDrawer() {
-    this.setData({
-      showLinkManagerDrawer: false
-    });
-  },
 
-  // 处理管理者绑定
-  handleBindManager(e) {
-    var that = this;
-    const { manager_user_id } = e.detail;
-    
-    // 这里可以调用API进行绑定操作
-    utils.getData({
-      url: 'slave/temalock/bind',
-      params: {
-        manager_user_id: manager_user_id
-      },
-      success: (res) => {
-        if (res.code === 200) {
-          wx.showToast({
-            title: '绑定成功',
-            icon: 'success'
-          });
-          that.setData({
-            showLinkManagerDrawer: false
-          });
-          that.getTemaLock(); // 刷新戴锁计划数据
-        } else {
-          wx.showToast({
-            title: res.message,
-            icon: 'none'
-          });
-        }
-      }
-    });
-  },
 })

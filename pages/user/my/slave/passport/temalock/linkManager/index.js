@@ -1,4 +1,6 @@
 // pages/user/my/slave/passport/temalock/linkManager/index.js
+var utils = require('../../../../../../../api/util.js');
+
 Component({
 
   properties: {
@@ -13,7 +15,11 @@ Component({
           });
         }
       }
-    }
+    },
+    temaLockDataId: {
+      type: String,
+      value: '',
+    },
   },
   data: {
     managerUserId: '',
@@ -48,17 +54,39 @@ Component({
 
     // 处理绑定管理者
     handleBindManager() {
-      if (!this.data.managerUserId) {
+      var that = this;
+      if (!that.data.managerUserId) {
         wx.showToast({
           title: '请输入管理者ID',
           icon: 'none'
         });
         return;
       }
-
-      // 触发绑定事件，将管理者ID传递给父组件
-      this.triggerEvent('bind', {
-        manager_user_id: this.data.managerUserId
+      
+      // 这里可以调用API进行绑定操作
+      utils.getData({
+        url: 'slave/temalock/bind/manager',
+        params: {
+          manager_user_id: that.data.managerUserId,
+          temalock_id: that.data.temaLockDataId
+        },
+        success: (res) => {
+          if (res.code === 200) {
+            wx.showToast({
+              title: '绑定成功',
+              icon: 'success'
+            });
+            that.setData({
+              showLinkManagerDrawer: false
+            });
+            that.triggerEvent('bindManager');
+          } else {
+            wx.showToast({
+              title: res.message,
+              icon: 'none'
+            });
+          }
+        }
       });
     }
   }

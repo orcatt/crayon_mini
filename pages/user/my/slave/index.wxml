@@ -145,14 +145,14 @@
         <view class="chastity_info_line2_left">
           <view class="chastity_line2_title">
             <view>验证完成！</view>
-            <view>每 12 小时</view>
+            <view>每 {{temaLockData.frequency}} 小时</view>
           </view>
           <view class="chastity_line2_time">1 天 12 小时 44 分钟 15 秒</view>
           <image class="chastity_line2_img" src="/static/image/wearer.png" mode="aspectFill"></image>
         </view>
         <view class="chastity_info_line2_right">
           <view>清洁倒计时</view>
-          <view>3 天</view>
+          <view>{{temaLockData.regular_cleaning_status == 0 ? '关闭' : '每' + temaLockData.regular_cleaning_frequency + '小时'}}</view>
         </view>
       </view>
       <view class="chastity_info_line3">
@@ -166,11 +166,11 @@
         </view>
         <view class="chastity_info_line3_right">
           <view>最少游戏数</view>
-          <view>0 / 2</view>
+          <view>0 / {{temaLockData.min_game_times}}</view>
         </view>
         <view class="chastity_info_line3_right">
           <view>最多游戏数</view>
-          <view>0 / 5</view>
+          <view>0 / {{temaLockData.max_game_times}}</view>
         </view>
       </view>
       <view class="chastity_info_line4">
@@ -181,13 +181,13 @@
           </view>
           <view>
             <view>赌注</view>
-            <view>3小时</view>
+            <view>{{temaLockData.game_bet}} 小时</view>
           </view>
         </view>
         <view class="chastity_info_line4_right">
           <view>
-            <view>充电开启</view>
-            <view>每 3 小时</view>
+            <view>示众「{{temaLockData.public_everyone_status == 1 ? '开启' : '关闭'}}」</view>
+            <view wx:if="{{temaLockData.public_everyone_status == 1}}">每 {{temaLockData.public_everyone_bet}} 小时</view>
           </view>
           <view>1 天 12 小时 44 分钟 15 秒</view>
           <image class="chastity_line4_img" src="/static/image/shizhong.png" mode="aspectFill"></image>
@@ -206,7 +206,6 @@
           <text>开启你的戴锁计划</text>
         </view>
       </view>
-        
     </block>
   </view>
 </view>
@@ -224,4 +223,4 @@
 <tema-lock showTemaLockDrawer="{{showTemaLockDrawer}}" bind:close="showTemaLockDrawer" bind:submit="handleTemaLockSubmit" />
 
 <!-- 管理者绑定组件 -->
-<link-manager showLinkManagerDrawer="{{showLinkManagerDrawer}}" bind:close="showCloseLinkManagerDrawer" bind:bind="handleBindManager" />
+<link-manager showLinkManagerDrawer="{{showLinkManagerDrawer}}" temaLockDataId="{{temaLockData.id}}" bind:close="showCloseLinkManagerDrawer" bind:bindManager="handleBindManager" />
