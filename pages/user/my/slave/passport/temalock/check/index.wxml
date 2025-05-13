@@ -1,0 +1,63 @@
+<view class="drawer-mask" wx:if="{{showTemaLockCheckDrawer}}" bindtap="closeDrawer"></view>
+<view class="drawer {{showTemaLockCheckDrawer ? 'drawer-show' : ''}}">
+  <view class="drawer-header">
+    <view class="drawer-title">验证戴锁计划</view>
+    <view class="drawer-close" bindtap="closeDrawer">×</view>
+  </view>
+  <view class="drawer-content">
+    <view class="form-group">
+      <view class="form-title" style="margin-top: 0;">验证信息</view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">原定验证时间</view>
+          <view class="account-input">
+            <input type="text" value="{{checkOriginalTime}}" disabled />
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">实际验证时间</view>
+          <view class="account-input">
+            <input type="text" value="{{checkActualTime}}" disabled />
+          </view>
+        </view>
+      </view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">验证码</view>
+          <view class="account-input">
+            <input type="text" value="{{checkNumber}}" disabled="true" />
+          </view>
+        </view>
+        <view class="form-item">
+          <view class="account-title">是否公开验证</view>
+          <view class="account-select">
+            <view class="{{publicCheck == '1' ? 'active' : ''}}" bindtap="handlePublicCheckChange" data-value="1">
+              是
+            </view>
+            <view class="{{publicCheck == '0' ? 'active' : ''}}" bindtap="handlePublicCheckChange" data-value="0">
+              否
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">
+            <view>验证图片</view>
+            <image src="/static/image/my/close.png" mode="widthFix" bindtap="deleteImage"></image>
+          </view>
+          <view class="form-upload" bindtap="chooseImage">
+            <image wx:if="{{checkPicUrl}}" src="https://crayonapi.orcatt.one/{{checkPicUrl}}" mode="aspectFill"></image>
+            <view wx:else class="upload-placeholder">
+              <image src="/static/image/upload.png" mode="aspectFill"></image>
+              <text>点击上传图片</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="btn-group">
+    <view class="wx-login-btn" bindtap="handleSubmit">提交验证</view>
+  </view>
+</view>

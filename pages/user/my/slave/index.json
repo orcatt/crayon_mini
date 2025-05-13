@@ -5,7 +5,8 @@
 		"daily-rules": "/pages/user/my/slave/passport/dailyRules/index",
 		"task-drawer": "/pages/user/my/slave/passport/task/index",
 		"tema-lock": "/pages/user/my/slave/passport/temalock/index",
-		"link-manager": "/pages/user/my/slave/passport/temalock/linkManager/index"
+		"link-manager": "/pages/user/my/slave/passport/temalock/linkManager/index",
+		"tema-lock-check": "/pages/user/my/slave/passport/temalock/check/index"
 	},
   "navigationStyle": "custom"
 	

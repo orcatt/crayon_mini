@@ -1,0 +1,222 @@
+/* pages/today/index.wxss */
+
+/* 抽屉基础样式 */
+.drawer-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+}
+
+.drawer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: 501;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.drawer.drawer-show {
+  transform: translateY(0);
+}
+
+.drawer-header {
+  padding: 32rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2rpx solid #f4f4f5;
+}
+
+.drawer-title {
+  font-size: 36rpx;
+  color: #09090B;
+  font-weight: 600;
+}
+
+.drawer-close {
+  font-size: 40rpx;
+  color: #71717a;
+  padding: 0 20rpx;
+}
+
+.drawer-content {
+  padding: 32rpx;
+}
+
+/* 表单基础样式 */
+.form-group {
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  gap: 24rpx;
+  margin-bottom: 32rpx;
+}
+
+.form-item {
+  flex: 1;
+  position: relative;
+}
+
+.form-title {
+  font-size: 32rpx;
+  color: #09090B;
+  font-weight: 600;
+  margin: 30rpx 0 20rpx;
+}
+
+.account-title {
+  font-size: 28rpx;
+  color: #09090B;
+  margin-bottom: 12rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.account-title image {
+  width: 44rpx;
+  height: 44rpx;
+}
+
+/* 输入框样式 */
+.account-input {
+  height: 80rpx;
+  padding: 0 24rpx;
+  background: #f4f4f5;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+}
+
+.account-input input,
+.account-input picker {
+  height: 100%;
+  width: 100%;
+  font-size: 28rpx;
+}
+
+.account-input input[disabled] {
+  color: #09090B;
+  background: transparent;
+}
+
+.account-input picker view {
+  height: 80rpx;
+  line-height: 80rpx;
+}
+
+.placeholderClass {
+  color: #71717a;
+  font-size: 28rpx;
+}
+
+/* 图片上传样式 */
+.form-upload {
+  width: 100%;
+  height: 300rpx;
+  background: #f4f4f5;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+
+.form-upload image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.upload-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.upload-placeholder image {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.upload-placeholder text {
+  font-size: 28rpx;
+  color: #71717a;
+}
+
+/* 选择器样式 */
+.account-select {
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 28rpx;
+  background: #f4f4f5;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.account-select > view {
+  width: calc(100% / 2);
+  height: 100%;
+  text-align: center;
+}
+
+.account-select > view:nth-child(1) {
+  border-right: 1rpx solid #e0e0e0;
+  border-radius: 12rpx 0 0 12rpx;
+}
+
+.account-select > view:nth-child(2) {
+  border-radius: 0 12rpx 12rpx 0;
+}
+
+.account-select > view.active {
+  background: #18181b;
+  color: #ffffff;
+}
+
+/* 按钮组样式 */
+.btn-group {
+  margin-top: 48rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+  padding: 0 32rpx 56rpx;
+}
+
+.wx-login-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #18181b;
+  color: #ffffff;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+}
+
+.prev-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #f4f4f5;
+  color: #09090B;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+}

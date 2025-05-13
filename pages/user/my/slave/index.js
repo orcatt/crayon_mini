@@ -64,6 +64,8 @@ Page({
     showLinkManagerDrawer: false, // 管理者绑定弹窗
 
     temalockCheckData: [], // 戴锁计划检查数据
+    temalockCheckStatus: {}, // 戴锁计划检查状态
+    showTemaLockCheckDrawer: false, // 戴锁计划检查弹窗
   },
   onLoad(options) {
 		var that = this;
@@ -85,7 +87,6 @@ Page({
       params: {},
       success: (res) => {
         if (res.code === 200) {
-          console.log(res);
           // 根据yyyy-mm-dd计算年龄
           var birthday = res.data.birthday;
           var age = new Date().getFullYear() - new Date(birthday).getFullYear();
@@ -180,6 +181,28 @@ Page({
       }
     });
   },
+  // 计算时间差
+  calculateTimeDiff(targetTimeStr) {
+    // 使用Date对象直接计算时间差
+    let targetDate = new Date(targetTimeStr.replace(/-/g, '/'));
+    let currentDate = new Date();
+    
+    // 计算时间差（毫秒）
+    let timeDiff = targetDate.getTime() - currentDate.getTime();
+    
+    // 转换为秒
+    timeDiff = timeDiff / 1000;
+    
+    // 判断时间状态（目标时间在当前时间之前还是之后）
+    let compareStatus = timeDiff > 0 ? 'after' : 'before';
+    
+    return {
+      timeDiff: Math.abs(timeDiff),
+      compareStatus: compareStatus,
+      formattedTime: this.formatTimeRemaining(Math.abs(timeDiff))
+    };
+  },
+
   getTemaLockCheckData(){
     var that = this;
     let postData = {
@@ -190,8 +213,47 @@ Page({
       params: postData,
       success: (res) => {
         if (res.code === 200) {
+          // 使用新的时间差计算函数
+          let timeResult = that.calculateTimeDiff(res.data.check_status.nextCheckTime);
+          console.log('时间差（秒）:', timeResult.timeDiff, '时间状态:', timeResult.compareStatus, '格式化时间:', timeResult.formattedTime);
+
+
+          if (res.data.check_status.state == 'next') {
+            // 等待验证
+            timeResult.timeDiff = timeResult.timeDiff - 3600;
+            res.data.check_status.display_time = '等待 ' + that.formatTimeRemaining(timeResult.timeDiff);
+            if (timeResult.timeDiff<3600) {
+              res.data.check_status.toCheck = true;
+            }else{
+              res.data.check_status.toCheck = false;
+            }
+          }
+          else if(res.data.check_status.state == 'late'){
+            // 超时，之前验证过，随时验证
+            res.data.check_status.display_time = '超时 ' + that.formatTimeRemaining(timeResult.timeDiff);
+            res.data.check_status.toCheck = true;
+          }
+          else if(res.data.check_status.state == 'lateNever'){
+            // 超时，从未验证，随时验证
+            res.data.check_status.display_time = '超时 ' + that.formatTimeRemaining(timeResult.timeDiff);
+            res.data.check_status.toCheck = true;
+          }
+          else if(res.data.check_status.state == 'first'){
+            // 不需要验证/还没到首次验证
+            timeResult.timeDiff = timeResult.timeDiff - 3600;
+            res.data.check_status.display_time = '在 ' + that.formatTimeRemaining(timeResult.timeDiff);
+            if (timeResult.timeDiff<3600) {
+              res.data.check_status.toCheck = true;
+            }else{
+              res.data.check_status.toCheck = false;
+            }
+          }
+
+
+          console.log('结果', res.data.check_status );
           that.setData({
-            temalockCheckData: res.data
+            temalockCheckData: res.data,
+            temalockCheckStatus: res.data.check_status
           })          
         }else{
           wx.showToast({
@@ -202,6 +264,7 @@ Page({
       }
     });
   },
+
   // 显示内容详情
   showContentBottom(){
     var that = this;
@@ -246,7 +309,6 @@ Page({
       }
     });
   },
-
 
 
   // ! -------------- 完善信息 -------------- start
@@ -358,7 +420,7 @@ Page({
   },
   // ! -------------- 任务 -------------- end
 
-  // ! -------------- 戴锁计划 -------------- start
+  // ! -------------- 新建戴锁计划 -------------- start
   showTemaLockDrawer(){
     var that = this;
     that.setData({
@@ -375,9 +437,33 @@ Page({
     });
     that.getTemaLock();
   },
-  // ! -------------- 戴锁计划 -------------- end
+  // ! -------------- 新建戴锁计划 -------------- end
 
+  // ! -------------- 验证戴锁计划 -------------- start
+  // 戴锁计划验证
+  handleTemaLockCheck(){
+    var that = this;
+    if (!that.data.temalockCheckStatus.toCheck) {
+      wx.showToast({
+        title: '未到验证时间',
+        icon: 'none'
+      })
+      return;
+    }
+    that.setData({
+      showTemaLockCheckDrawer: !that.data.showTemaLockCheckDrawer,
+    });
+  },
 
+  // 处理戴锁计划验证提交
+  handleTemaLockCheckSubmit(e) {
+    var that = this;
+    that.setData({
+      showTemaLockCheckDrawer: false,
+    });
+    that.getTemaLockCheckData();
+  },
+  // ! -------------- 验证戴锁计划 -------------- end
 
   // ! -------------- 绑定管理者 -------------- start
   setManagerUser(){

@@ -63,7 +63,6 @@ Component({
         return;
       }
       
-      // 这里可以调用API进行绑定操作
       utils.getData({
         url: 'slave/temalock/bind/manager',
         params: {

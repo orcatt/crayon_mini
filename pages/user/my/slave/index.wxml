@@ -7,7 +7,7 @@
       <view bindtap="showCloseSupplementDrawer">更新资料</view>
     </view>
     <view class="slaveInfo-content" bindtap="showContentBottom">
-      <view class="content-top">
+      <!-- <view class="content-top">
         <view class="content-top-left">
           <image src="https://crayonapi.orcatt.one/static/avatar/avatar_1741226563317.jpg" mode="aspectFill"></image>
         </view>
@@ -26,7 +26,7 @@
             <view>体重<text>{{formData.weight ? formData.weight : '未设置'}}</text></view>
           </view>
         </view>
-      </view>
+      </view> -->
       <view class="content-bottom" wx:if="{{showContentBottom}}">
         <view class="content-bottom-line">
           <view>
@@ -142,12 +142,12 @@
         </view>
       </view>
       <view class="chastity_info_line2">
-        <view class="chastity_info_line2_left">
+        <view class="chastity_info_line2_left" bindtap="handleTemaLockCheck">
           <view class="chastity_line2_title">
-            <view>验证完成！</view>
-            <view>每 {{temaLockData.frequency}} 小时</view>
+            <view>{{temalockCheckStatus.title}}</view>
+            <view>每 {{temalockCheckStatus.frequency}} 小时</view>
           </view>
-          <view class="chastity_line2_time">1 天 12 小时 44 分钟 15 秒</view>
+          <view class="chastity_line2_time">{{temalockCheckStatus.display_time}}</view>
           <image class="chastity_line2_img" src="/static/image/wearer.png" mode="aspectFill"></image>
         </view>
         <view class="chastity_info_line2_right">
@@ -224,3 +224,6 @@
 
 <!-- 管理者绑定组件 -->
 <link-manager showLinkManagerDrawer="{{showLinkManagerDrawer}}" temaLockDataId="{{temaLockData.id}}" bind:close="showCloseLinkManagerDrawer" bind:bindManager="handleBindManager" />
+
+<!-- 戴锁计划检查组件 -->
+<tema-lock-check showTemaLockCheckDrawer="{{showTemaLockCheckDrawer}}" temalockId="{{temaLockData.id}}" temalockCheckStatus="{{temalockCheckStatus}}" bind:close="handleTemaLockCheck" bind:submit="handleTemaLockCheckSubmit" />
