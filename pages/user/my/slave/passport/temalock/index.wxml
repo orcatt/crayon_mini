@@ -173,6 +173,21 @@
           </view>
         </view>
       </view>
+      <view class="form-title">结束设置</view>
+      <view class="form-row">
+        <view class="form-item">
+          <view class="account-title">结束条件</view>
+          <view class="account-select">
+            <view class="{{formData.end_condition == 1 ? 'active' : ''}}" bindtap="handleEndConditionChange" data-value="1">
+              直接结束
+            </view>
+            <view class="{{formData.end_condition == 0 ? 'active' : ''}}" bindtap="handleEndConditionChange" data-value="0">
+              随机时长
+            </view>
+          </view>
+        </view>
+      </view>
+      
     </view>
   </view>
   <view class="btn-group">

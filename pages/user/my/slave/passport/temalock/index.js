@@ -245,7 +245,7 @@ Component({
         public_everyone_bet: formData.public_everyone_bet,
        
  
-        end_condition: 0,
+        end_condition: formData.end_condition,
         end_status: 0
       }
 
@@ -407,6 +407,14 @@ Component({
     handlePublicBetInput(e) {
       this.setData({
         'formData.public_everyone_bet': e.detail.value
+      });
+    },
+
+    // 处理结束条件切换
+    handleEndConditionChange(e) {
+      const value = parseInt(e.currentTarget.dataset.value);
+      this.setData({
+        'formData.end_condition': value
       });
     }
   }

@@ -10,16 +10,16 @@ Component({
           var that = this;
           that.generateCheckNumber();
           const currentTime = that.getCurrentTime();
-          console.log(that.properties.temalockCheckStatus.nextCheckTime);
           
           let timeResult = that.calculateTimeDiff(that.properties.temalockCheckStatus.nextCheckTime);
-          
+          console.log(timeResult);
           that.setData({
             checkPicUrl: '',
             publicCheck: '1',
             checkResult: timeResult.compareStatus == 'after' ? 'ontime' : 'late',
             checkActualTime: currentTime,
-            checkOriginalTime: that.properties.temalockCheckStatus.nextCheckTime
+            checkOriginalTime: that.properties.temalockCheckStatus.nextCheckTime,
+            checkPenalty: parseInt(timeResult.timeDiff/60)
           });
         }
       }
@@ -41,6 +41,7 @@ Component({
     checkActualTime: '',
     checkOriginalTime: '',
     checkResult: 'ontime',
+    checkPenalty: 0,
   },
 
   lifetimes: {
@@ -171,7 +172,7 @@ Component({
     // 提交验证
     handleSubmit() {
       var that = this;
-      const { checkNumber, checkPicUrl, publicCheck, checkActualTime, checkOriginalTime, checkResult } = that.data;
+      const { checkNumber, checkPicUrl, publicCheck, checkActualTime, checkOriginalTime, checkResult, checkPenalty } = that.data;
       
       if (!checkPicUrl) {
         wx.showToast({
@@ -187,8 +188,9 @@ Component({
         check_original_time: checkOriginalTime,
         check_pic_url: checkPicUrl,
         check_result: checkResult,
+        check_penalty: checkPenalty,
         public_check: publicCheck,
-        temalock_id: that.properties.temalockId
+        temalock_id: that.properties.temalockId,
       }
       console.log('postData', postData);
 
