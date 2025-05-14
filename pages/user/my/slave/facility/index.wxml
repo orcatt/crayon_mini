@@ -17,7 +17,7 @@
     style="height: calc(100vh - 160rpx - {{tabbarRealHeight  + 'px'}});"
   >
     <swiper-item>
-      <roulette></roulette>
+      <roulette showRoulette="{{showRoulette}}" rouletteData="{{rouletteData}}"></roulette>
     </swiper-item>
     <swiper-item >
       <slotMachine></slotMachine>

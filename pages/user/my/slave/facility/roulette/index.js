@@ -3,43 +3,23 @@ var utils = require('../../../../../../api/util.js');
 
 Component({
   properties: {
-
+    showRoulette: {
+      type: Boolean,
+      value: false,
+      observer(newVal) {
+        if(newVal){
+          this.getRouletteData();
+        }
+      }
+    },
+    rouletteData: {
+      type: Array,
+      value: []
+    }
   },
   data: {
     tabbarRealHeight: 0,
-    datas: [{
-      "id": "792085712309854208",
-      "imgUrl": "/static/image/incomplete.png",
-      "title": "迅雷月卡 - 1"
-    }, {
-      "id": "766410261029724160",
-      "imgUrl": "/static/image/incomplete.png",
-      "title": "迅雷月卡 - 2"
-    }, {
-      "id": "770719340921364480",
-      "imgUrl": "/static/image/incomplete.png",
-      "title": "迅雷月卡 - 3"
-    }, {
-      "id": "770946438416048128",
-      "imgUrl": "/static/image/incomplete.png",
-      "title": "迅雷月卡 - 4"
-    }, {
-      "id": "781950121802735616",
-      "imgUrl": "/static/image/incomplete.png",
-      "title": "迅雷月卡 - 5"
-    }, {
-      "id": "766411654436233216",
-      "imgUrl": "/static/image/incomplete.png",
-      "title": "迅雷月卡 - 6"
-    }, {
-      "id": "770716883860332544",
-      "imgUrl": "/static/image/incomplete.png",
-      "title": "迅雷月卡 - 7"
-    }, {
-      "id": "796879308510732288",
-      "imgUrl": "/static/image/incomplete.png",
-      "title": "迅雷月卡 - 8"
-    }], // 数据 
+    datas: [], // 数据 
     prizeId: '',  // 抽中结果id，通过属性方式传入组件
   },
   methods: {
@@ -72,7 +52,27 @@ Component({
 				prizeId: ''
 			});
 		},
-		
+    getRouletteData(){
+      var that = this;
+      // 在当前投注的10倍之内随机生成一个数字
+      for(let i = 0; i < 10; i++){
+        const randomNum = Math.floor(Math.random() * (10 * 10));
+        // 随机取是否延长/缩短时间
+        const reward_punishment = Math.random() > 0.5 ? 'REWARD' : 'PUNISHMENT';
+        
+        console.log('随机数字：', randomNum);
+        let rouletteDataObj = {
+          id: randomNum.toString(),
+          // reward_punishment: reward_punishment,
+          title: reward_punishment === 'REWARD' ? '时间缩短' + randomNum + '分钟' : '时间延长' + randomNum + '分钟',
+          imgUrl: reward_punishment === 'REWARD' ? '/static/image/complete.png' : '/static/image/incomplete.png'
+        }
+        that.setData({
+          datas: [...that.data.datas, rouletteDataObj]
+        })
+      }
+      console.log('随机数字：', that.data.datas);
+    },
   },
   lifetimes: {
 		attached: function () {

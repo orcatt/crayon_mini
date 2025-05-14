@@ -164,13 +164,13 @@
             <view wx:else bindtap="setManagerUser">前去绑定</view>
           </view>
         </view>
-        <view class="chastity_info_line3_right">
+        <view class="chastity_info_line3_right" bindtap="toGame">
           <view>最少游戏数</view>
-          <view>0 / {{temaLockData.min_game_times}}</view>
+          <view>{{todayGameData.game_count}} / {{temaLockData.min_game_times}}</view>
         </view>
-        <view class="chastity_info_line3_right">
+        <view class="chastity_info_line3_right" bindtap="toGame">
           <view>最多游戏数</view>
-          <view>0 / {{temaLockData.max_game_times}}</view>
+          <view>{{todayGameData.game_count}} / {{temaLockData.max_game_times}}</view>
         </view>
       </view>
       <view class="chastity_info_line4">

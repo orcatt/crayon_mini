@@ -2,7 +2,7 @@
 	<lottery-turntable
     data="{{datas}}"
     prize-id="{{prizeId}}"
-    count="{{5}}"
+    count="{{10}}"
     bindLuckDraw="onLuckDrawHandle"
     bindNotEnough="onNotEnoughHandle"
     bindLuckDrawFinish="onLuckDrawFinishHandle"

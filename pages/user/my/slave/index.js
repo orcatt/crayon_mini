@@ -66,6 +66,8 @@ Page({
     temalockCheckData: [], // 戴锁计划检查数据
     temalockCheckStatus: {}, // 戴锁计划检查状态
     showTemaLockCheckDrawer: false, // 戴锁计划检查弹窗
+
+    todayGameData: {}, // 今日游戏数据
   },
   onLoad(options) {
 		var that = this;
@@ -172,6 +174,7 @@ Page({
             temaLockData: thisTemaLockObj,
           })
           that.getTemaLockCheckData();
+          that.getGameData();
         }else{
           wx.showToast({
             title: res.message,
@@ -181,27 +184,7 @@ Page({
       }
     });
   },
-  // 计算时间差
-  calculateTimeDiff(targetTimeStr) {
-    // 使用Date对象直接计算时间差
-    let targetDate = new Date(targetTimeStr.replace(/-/g, '/'));
-    let currentDate = new Date();
-    
-    // 计算时间差（毫秒）
-    let timeDiff = targetDate.getTime() - currentDate.getTime();
-    
-    // 转换为秒
-    timeDiff = timeDiff / 1000;
-    
-    // 判断时间状态（目标时间在当前时间之前还是之后）
-    let compareStatus = timeDiff > 0 ? 'after' : 'before';
-    
-    return {
-      timeDiff: Math.abs(timeDiff),
-      compareStatus: compareStatus,
-      formattedTime: this.formatTimeRemaining(Math.abs(timeDiff))
-    };
-  },
+  
 
   getTemaLockCheckData(){
     var that = this;
@@ -255,6 +238,32 @@ Page({
             temalockCheckData: res.data,
             temalockCheckStatus: res.data.check_status
           })          
+        }else{
+          wx.showToast({
+            title: res.message,
+            icon: 'none'
+          });
+        }
+      }
+    });
+  },
+  getGameData(){
+    var that = this;
+    let postData = {
+      temalock_id: that.data.temaLockData.id,
+      start_date: that.data.currentDate,
+      end_date: ''
+    }
+    utils.getData({
+      url: 'slave/temalock/game/list',
+      params: postData,
+      success: (res) => {
+        if (res.code === 200) {
+          that.setData({
+            todayGameData: res.data.list[0],
+          })
+          console.log('今日游戏数据：', that.data.todayGameData);
+          
         }else{
           wx.showToast({
             title: res.message,
@@ -492,8 +501,9 @@ Page({
   // ! -------------- 游戏 -------------- start
 
   toGame(){
+    var that = this;
     wx.navigateTo({
-      url: '/pages/user/my/slave/facility/index',
+      url: '/pages/user/my/slave/facility/index?temalock_id=' + that.data.temaLockData.id + '&game_bet=' + that.data.temaLockData.game_bet + '&current_date=' + that.data.currentDate,
     })
   },
   // ! -------------- 游戏 -------------- end
@@ -534,6 +544,27 @@ Page({
     // 拼接成 yyyy-mm-dd hh:mm:ss 格式
     let currentTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     return currentTime;
+  },
+  // 计算时间差
+  calculateTimeDiff(targetTimeStr) {
+    // 使用Date对象直接计算时间差
+    let targetDate = new Date(targetTimeStr.replace(/-/g, '/'));
+    let currentDate = new Date();
+    
+    // 计算时间差（毫秒）
+    let timeDiff = targetDate.getTime() - currentDate.getTime();
+    
+    // 转换为秒
+    timeDiff = timeDiff / 1000;
+    
+    // 判断时间状态（目标时间在当前时间之前还是之后）
+    let compareStatus = timeDiff > 0 ? 'after' : 'before';
+    
+    return {
+      timeDiff: Math.abs(timeDiff),
+      compareStatus: compareStatus,
+      formattedTime: this.formatTimeRemaining(Math.abs(timeDiff))
+    };
   },
   onReady() {},
   onShow() {},
